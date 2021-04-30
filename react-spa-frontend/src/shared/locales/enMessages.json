@@ -1,0 +1,9 @@
+{
+    "main.header": "Main page",
+    "about.header": "About us",
+    "links.main": "Main",
+    "links.about": "About",
+    "authentication.login": "Log in",
+    "authentication.logout": "Log out",
+    "authentication.signup": "Sign up"
+}

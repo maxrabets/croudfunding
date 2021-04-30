@@ -1,0 +1,9 @@
+{
+    "main.header": "Главная страница",
+    "about.header": "О нас",    
+    "links.main": "Главная",
+    "links.about": "О нас",    
+    "authentication.login": "Войти",
+    "authentication.logout": "Выход",
+    "authentication.signup": "Зарегистрироваться"
+}
