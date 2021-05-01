@@ -1,5 +1,6 @@
 const localStorageKeys = {
-    LOCALE: "app.locale"
+    LOCALE: "app.locale",
+    THEME: "app.theme"
 }
 
 export default localStorageKeys
