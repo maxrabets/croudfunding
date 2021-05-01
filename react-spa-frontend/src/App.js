@@ -15,6 +15,8 @@ import {
   selectTheme
 } from './shared/slices/themeSlice';
 import { createMuiTheme } from '@material-ui/core/styles';
+import ProtectedRoute from './authentication/ProtectedRoute'
+import Profile from './profile/Profile'
 
 const messages = {
   [locales.EN]: enMessages,
@@ -32,12 +34,9 @@ function App() {
           <Paper styles={{height: "100vh"}}>
             <NavigationPanel/>
             <Switch>
-              <Route path="/about">
-                <About></About>
-              </Route>
-              <Route path="/">
-                <Main/>
-              </Route>
+              <Route path="/about" component={About} />
+              <ProtectedRoute path="/profile" component={Profile} />
+              <Route path="/" component={Main} />
             </Switch>
           </Paper> 
         </ThemeProvider>
