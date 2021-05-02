@@ -1,6 +1,6 @@
 import React from "react";
 import { useAuth0 } from "@auth0/auth0-react";
-import TextField from '@material-ui/core/TextField';
+import {TextField, Button} from '@material-ui/core';
 import {FormattedMessage} from "react-intl"
 
 const Profile = () => {
@@ -14,6 +14,9 @@ if(isAuthenticated) {
                 src={picture}
                 alt="Profile"
             />
+            <Button variant="contained" color="primary" href="profile/companies">
+                <FormattedMessage id="profile.mycompanies" />
+            </Button>
             <form  noValidate autoComplete="off">
                 <div>
                     <TextField 
@@ -35,7 +38,7 @@ if(isAuthenticated) {
                         label={<FormattedMessage id="profile.email" />}
                         value={email} 
                     />
-                </div>                
+                </div>
             </form>
             <pre>
                 {JSON.stringify(user, null, 2)}
