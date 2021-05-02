@@ -3,7 +3,10 @@
     "about.header": "О нас",    
     "links.main": "Главная",
     "links.about": "О нас", 
-    "links.profile": "Профиль",
+    "links.profile": "Профиль",    
+    "profile.name": "Имя",
+    "profile.surname": "Фамилия",
+    "profile.email": "Электронная почта",
     "authentication.login": "Войти",
     "authentication.logout": "Выход",
     "authentication.signup": "Зарегистрироваться"

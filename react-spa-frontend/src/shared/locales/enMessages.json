@@ -4,6 +4,9 @@
     "links.main": "Main",
     "links.about": "About",
     "links.profile": "Profile",
+    "profile.name": "Name",
+    "profile.surname": "Surname",
+    "profile.email": "Email",
     "authentication.login": "Log in",
     "authentication.logout": "Log out",
     "authentication.signup": "Sign up"
