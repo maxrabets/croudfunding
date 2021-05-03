@@ -1,4 +1,5 @@
 import React from "react";
+import {NavLink} from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import {TextField, Button} from '@material-ui/core';
 import {FormattedMessage} from "react-intl"
@@ -14,8 +15,10 @@ if(isAuthenticated) {
                 src={picture}
                 alt="Profile"
             />
-            <Button variant="contained" color="primary" href="profile/companies">
-                <FormattedMessage id="profile.mycompanies" />
+            <Button variant="contained" color="primary">
+                <NavLink to="profile/companies">
+                    <FormattedMessage id="links.mycompanies" />
+                </NavLink>
             </Button>
             <form  noValidate autoComplete="off">
                 <div>
