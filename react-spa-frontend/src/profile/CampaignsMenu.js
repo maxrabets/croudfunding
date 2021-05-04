@@ -5,7 +5,7 @@ import {Button, TableContainer, Table, TableHead, Typography,
     TableRow, TableCell, TableBody, Paper, Breadcrumbs} from '@material-ui/core';
 import {FormattedMessage} from "react-intl"
 
-const CompaniesMenu = () => {
+const CampaignsMenu = () => {
     const { isAuthenticated } = useAuth0();  
 
     if(isAuthenticated) {
@@ -16,31 +16,29 @@ const CompaniesMenu = () => {
                         <FormattedMessage id="links.profile" />
                     </NavLink>
                     <Typography color="textPrimary">
-                        <FormattedMessage id="links.mycompanies" />
+                        <FormattedMessage id="links.myCampaigns" />
                     </Typography>
                 </Breadcrumbs>
-                <Button variant="contained" 
-                    color="primary"
-                >
-                    <NavLink to="companies/create">
-                        <FormattedMessage id="companies.create" />
-                    </NavLink>
-                </Button>
+                <NavLink to="campaigns/create">
+                    <Button variant="contained" color="primary">                        
+                        <FormattedMessage id="campaigns.create" />                        
+                    </Button>
+                </NavLink>
                 <TableContainer component={Paper}>
                     <Table>
                         <TableHead>
                             <TableRow>
                                 <TableCell>
-                                    <FormattedMessage id="companies.name" />
+                                    <FormattedMessage id="campaigns.name" />
                                 </TableCell>
                                 <TableCell>
-                                    <FormattedMessage id="companies.category" />
+                                    <FormattedMessage id="campaigns.category" />
                                 </TableCell>
                                 <TableCell>
-                                    <FormattedMessage id="companies.delete" />
+                                    <FormattedMessage id="campaigns.delete" />
                                 </TableCell>
                                 <TableCell>
-                                    <FormattedMessage id="companies.update" />
+                                    <FormattedMessage id="campaigns.update" />
                                 </TableCell>
                             </TableRow>
                         </TableHead>
@@ -55,4 +53,4 @@ const CompaniesMenu = () => {
     return <></>
 };
 
-export default CompaniesMenu;
+export default CampaignsMenu;

@@ -17,8 +17,8 @@ import {
 import { createMuiTheme } from '@material-ui/core/styles';
 import ProtectedRoute from './authentication/ProtectedRoute'
 import Profile from './profile/Profile'
-import CompaniesMenu from './profile/CompaniesMenu'
-import CompaniesCreateMenu from './profile/CompaniesCreateMenu'
+import CompaniesMenu from './profile/CampaignsMenu'
+import CompaniesCreateMenu from './profile/CampaignsCreateMenu'
 
 const messages = {
   [locales.EN]: enMessages,
@@ -37,9 +37,9 @@ function App() {
             <NavigationPanel/>
             <Switch>
               <Route path="/about" component={About} />
-              <ProtectedRoute path="/profile/companies/create" 
+              <ProtectedRoute path="/profile/campaigns/create" 
                 component={CompaniesCreateMenu} />
-              <ProtectedRoute path="/profile/companies" component={CompaniesMenu} />
+              <ProtectedRoute path="/profile/campaigns" component={CompaniesMenu} />
               <ProtectedRoute path="/profile" component={Profile} />
               <Route path="/" component={Main} />
             </Switch>
