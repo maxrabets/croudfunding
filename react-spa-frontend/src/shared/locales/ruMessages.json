@@ -22,7 +22,12 @@
     "campaigns.video": "Ссылка на видео с YouTube",
     "campaigns.images": "Изображения",
     "campaigns.bonuses": "Бонусы",
-    "campaigns.dragndrop": "Перетащите сюда файлы",
+    "campaigns.dragndrop": "Перетащите сюда файлы",    
+    "campaigns.bonuses.name": "Название",
+    "campaigns.bonuses.description": "Описание",
+    "campaigns.bonuses.price": "Стоимость",
+    "campaigns.bonuses.add": "Добавить",
+    "campaigns.bonuses.remove": "Удалить",
     "authentication.login": "Войти",
     "authentication.logout": "Выход",
     "authentication.signup": "Зарегистрироваться"

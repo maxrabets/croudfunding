@@ -3,7 +3,7 @@ const camapignsController = require("../controllers/campaignsController.js");
 const camapignsRouter = express.Router();
 const upload = require('../config/multer');
 
-camapignsRouter.post("/create", uploader.single('image'), 
+camapignsRouter.post("/create", upload.array('images'), 
     camapignsController.createCampaign);
  
 module.exports = camapignsRouter;

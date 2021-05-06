@@ -1,8 +1,8 @@
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
-const jwtCheck = require('./jwt');
-const camapignsRouter = require("./routes/camapignsRouter.js");
+const jwtCheck = require('./auth/jwt');
+const camapignsRouter = require("./routes/campaignsRouter");
 
 var port = process.env.PORT || 8080;
 

@@ -23,6 +23,11 @@
     "campaigns.images": "Images",
     "campaigns.bonuses": "Bonuses",
     "campaigns.dragndrop": "Drag 'n' drop some files here, or click to select files",
+    "campaigns.bonuses.name": "Name",
+    "campaigns.bonuses.description": "Description",
+    "campaigns.bonuses.price": "Price",
+    "campaigns.bonuses.add": "Add",
+    "campaigns.bonuses.remove": "Remove",
     "authentication.login": "Log in",
     "authentication.logout": "Log out",
     "authentication.signup": "Sign up"

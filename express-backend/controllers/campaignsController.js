@@ -1,12 +1,12 @@
-const bucket = require('../config/firebaseStorage')
+const bucket = require('../config/firebaseStorage');
 
-exports.createCampaign = async function (request, response){
+function saveFile(file) {
     try {
-        if (req.file) {            
-            const blob = bucket.file(req.file.originalname);
+        if (file) {            
+            const blob = bucket.file(file.originalname);
             const blobWriter = blob.createWriteStream({
                 metadata: {
-                    contentType: req.file.mimetype,
+                    contentType: file.mimetype,
                 }
             });
             blobWriter.on('error', (err) => next(err));
@@ -16,20 +16,26 @@ exports.createCampaign = async function (request, response){
                     bucket.name
                 }/o/${encodeURI(blob.name)}?alt=media`;
 
-                // Return the file name and its public URL
-                res.status(200)
-                    .send({ fileName: req.file.originalname, fileLocation: publicUrl });
+                return  publicUrl ;
             });
 
             // When there is no more data to be consumed from the stream
-            blobWriter.end(req.file.buffer);
+            blobWriter.end(file.buffer);
         }
     } catch (error) {
-        res.status(400).send(
-            `Error, could not upload file: ${error}`
-        );
-        return;
+        console.log(`Error, could not upload file: ${error}`);
+        return false;
     }
+}
+
+exports.createCampaign = async function (request, response, next){
+    console.log(request.files);
+    const urls = [];
+    request.files.forEach(file => {
+        urls.push(saveFile(file));
+    });
+    console.log(urls);
+    response.sendStatus(200)
 };
 
 exports.updateCampaign = function(request, response){

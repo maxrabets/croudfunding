@@ -1,6 +1,5 @@
 import { Button } from '@material-ui/core';
 import React, {useState, useCallback} from "react";
-import ReactPlayer from 'react-player';
 import {FormattedMessage} from "react-intl";
 import NameField from "./NameField";
 import CategoriesField from "./CategoriesField";
@@ -10,8 +9,12 @@ import MoneyField from "./MoneyField";
 import DateField from "./DateField";
 import VideoLinkField from "./VideoLinkField";
 import ImagesField from "./ImagesField";
+import BonusesField from "./BonusesField";
+import { useAuth0 } from "@auth0/auth0-react";
 
-const CampaignForm = () => {
+const CampaignForm = () => {    
+    const { getAccessTokenSilently } = useAuth0();
+    const serverURL = process.env.REACT_APP_SERVER_URL;
     const [endDate, setEndDate] = useState(new Date());
     const [images, setImages] = useState([]);
     const [name, setName] = useState();
@@ -22,11 +25,8 @@ const CampaignForm = () => {
     const [bonuses, setBonuses] = useState();
     const [videoLink, setVideoLink] = useState();
 
-    
-
-    
-
-    const onSave = useCallback(() => {
+    const onSave = useCallback(async() => {
+        const token = await getAccessTokenSilently();
         const formData = new FormData();
         formData.set("images", images);
         formData.set("name", name);
@@ -36,19 +36,31 @@ const CampaignForm = () => {
         formData.set("targetMoney", targetMoney);
         formData.set("videoLink", videoLink);
         formData.set("endDate", endDate);
-        console.log(formData);
-    }, [category, description, endDate, images, name, tags, targetMoney, videoLink]);
+        formData.set("bonuses", bonuses);
+
+        fetch(`${serverURL}/profile/campaigns/create`, {
+            method: "POST",
+            headers: {
+                Authorization: `Bearer ${token}`
+            },
+            body: formData
+        }).then(response => {
+                alert(response.status);
+        });
+    }, [bonuses, category, description, endDate, 
+        getAccessTokenSilently, images, name, serverURL, tags, targetMoney, videoLink]);
 
     return (
         <form>
             <NameField onChange={(e) => setName(e.target.value)}/>
             <CategoriesField onChange={(e) => setCategory(e.target.value)}/>
-            <DescriptionField onChange={(e) => setDescription(e.target.value)}/>         
+            <DescriptionField onChange={(value) => setDescription(value)}/>         
             <TagsField onChange={(e) => setTags(e.detail.value)}/>
             <MoneyField onChange={(e) => setTargetMoney(e.target.value)}/>
             <DateField onPickDate={(date) => setEndDate(date)}/>
             <VideoLinkField onChange={(e) => setVideoLink(e.target.value)}/>
             <ImagesField onChange={(acceptedFiles) => setImages(acceptedFiles)}/>
+            <BonusesField onChange={(bonuses) => setBonuses(bonuses)}/>
             <Button 
                 variant="contained" 
                 color="primary" 

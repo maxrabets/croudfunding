@@ -13,7 +13,7 @@ export default function SideBar({open, setOpen}){
         <List component="nav" aria-label="mene items list">
           {links.map((link) => {
             return (
-              <ListItem>
+              <ListItem key={link.path}>
                 <NavLink to={link.path}
                   exact
                   className="nav-link"

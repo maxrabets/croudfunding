@@ -8,7 +8,7 @@ const DateField = ({onPickDate}) => {
     const [endDate, setEndDate] = useState(new Date());
     const onChange = useCallback(date => {
         setEndDate(date);
-        onPickDate(Date);
+        onPickDate(date);
     }, [onPickDate]);
 
     return(

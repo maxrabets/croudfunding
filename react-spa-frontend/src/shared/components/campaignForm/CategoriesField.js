@@ -20,14 +20,15 @@ const CategoriesField = ({onChange}) => {
                     <FormattedMessage id="campaigns.category" />
                 </InputLabel>
                 <Select
+                    defaultValue=''
                     onChange={onChange}
                     id="categories-select"
                     labelId="categories-select-label"
                     className={classes.select}
                 >
-                    <MenuItem value={10}>Electronics</MenuItem>
-                    <MenuItem value={20}>Cars</MenuItem>
-                    <MenuItem value={30}>Education</MenuItem>
+                    <MenuItem value={"Electronics"}>Electronics</MenuItem>
+                    <MenuItem value={"Cars"}>Cars</MenuItem>
+                    <MenuItem value={"Education"}>Education</MenuItem>
                 </Select>
             </FormControl>
         </Box>

@@ -7,4 +7,4 @@ const storage = new Storage({
 
 const bucket = storage.bucket(process.env.GCLOUD_STORAGE_BUCKET_URL);
 
-export default bucket;
+exports = bucket;
