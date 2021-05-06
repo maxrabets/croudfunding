@@ -14,6 +14,7 @@
     "campaigns.delete": "Delete",
     "campaigns.update": "Update",
     "campaigns.create": "Create",
+    "campaigns.save": "Save",
     "campaigns.description": "Description",
     "campaigns.targetAmount": "Target amount of money",
     "campaigns.endDate": "End date",
@@ -21,6 +22,7 @@
     "campaigns.video": "Link to video from YouTube",
     "campaigns.images": "Images",
     "campaigns.bonuses": "Bonuses",
+    "campaigns.dragndrop": "Drag 'n' drop some files here, or click to select files",
     "authentication.login": "Log in",
     "authentication.logout": "Log out",
     "authentication.signup": "Sign up"

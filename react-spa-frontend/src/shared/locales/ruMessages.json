@@ -13,7 +13,8 @@
     "campaigns.category": "Категория",
     "campaigns.delete": "Удалить",
     "campaigns.update": "Редактировать",
-    "campaigns.create": "Создать",    
+    "campaigns.create": "Создать",
+    "campaigns.save": "Сохранить",
     "campaigns.description": "Описание",
     "campaigns.targetAmount": "Целевая сумма денег",
     "campaigns.endDate": "Дата окончания",
@@ -21,6 +22,7 @@
     "campaigns.video": "Ссылка на видео с YouTube",
     "campaigns.images": "Изображения",
     "campaigns.bonuses": "Бонусы",
+    "campaigns.dragndrop": "Перетащите сюда файлы",
     "authentication.login": "Войти",
     "authentication.logout": "Выход",
     "authentication.signup": "Зарегистрироваться"
