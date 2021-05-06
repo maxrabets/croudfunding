@@ -14,7 +14,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 
 const CampaignForm = () => {    
     const { getAccessTokenSilently } = useAuth0();
-    const serverURL = process.env.REACT_APP_SERVER_URL;
+    // const serverURL = process.env.REACT_APP_SERVER_URL;
     const [endDate, setEndDate] = useState(new Date());
     const [images, setImages] = useState([]);
     const [name, setName] = useState();
@@ -38,17 +38,17 @@ const CampaignForm = () => {
         formData.set("endDate", endDate);
         formData.set("bonuses", bonuses);
 
-        fetch(`${serverURL}/profile/campaigns/create`, {
+        fetch(`/profile/campaigns/create`, {
             method: "POST",
             headers: {
                 Authorization: `Bearer ${token}`
             },
             body: formData
         }).then(response => {
-                alert(response.status);
+            console.log(response);
+            alert(response.status);
         });
-    }, [bonuses, category, description, endDate, 
-        getAccessTokenSilently, images, name, serverURL, tags, targetMoney, videoLink]);
+    }, [bonuses, category, description, endDate, getAccessTokenSilently, images, name, tags, targetMoney, videoLink]);
 
     return (
         <form>
