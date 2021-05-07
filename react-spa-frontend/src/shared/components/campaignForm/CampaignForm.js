@@ -10,10 +10,8 @@ import DateField from "./DateField";
 import VideoLinkField from "./VideoLinkField";
 import ImagesField from "./ImagesField";
 import BonusesField from "./BonusesField";
-import { useAuth0 } from "@auth0/auth0-react";
 
-const CampaignForm = () => {    
-    const { getAccessTokenSilently } = useAuth0();
+const CampaignForm = ({onSave}) => {
     // const serverURL = process.env.REACT_APP_SERVER_URL;
     const [endDate, setEndDate] = useState(new Date());
     const [images, setImages] = useState([]);
@@ -25,10 +23,12 @@ const CampaignForm = () => {
     const [bonuses, setBonuses] = useState();
     const [videoLink, setVideoLink] = useState();
 
-    const onSave = useCallback(async() => {
-        const token = await getAccessTokenSilently();
+
+    const onSubmit = useCallback(async() => {
         const formData = new FormData();
-        formData.set("images", images);
+        images.forEach(image => {
+            formData.append("images", image);
+        });
         formData.set("name", name);
         formData.set("description", description);
         formData.set("category", category);
@@ -37,18 +37,8 @@ const CampaignForm = () => {
         formData.set("videoLink", videoLink);
         formData.set("endDate", endDate);
         formData.set("bonuses", bonuses);
-
-        fetch(`/profile/campaigns/create`, {
-            method: "POST",
-            headers: {
-                Authorization: `Bearer ${token}`
-            },
-            body: formData
-        }).then(response => {
-            console.log(response);
-            alert(response.status);
-        });
-    }, [bonuses, category, description, endDate, getAccessTokenSilently, images, name, tags, targetMoney, videoLink]);
+        onSave(formData);
+    }, [bonuses, category, description, endDate, images, name, onSave, tags, targetMoney, videoLink]);
 
     return (
         <form>
@@ -64,7 +54,7 @@ const CampaignForm = () => {
             <Button 
                 variant="contained" 
                 color="primary" 
-                onClick={onSave}
+                onClick={onSubmit}
             >
                 <FormattedMessage id="campaigns.save" />
             </Button>

@@ -1,7 +1,8 @@
 const Sequelize = require("sequelize");
 const sequelize = require("../sequelize");
+const Bonus = require("./Bonus");
 
-Campaign = sequelize.define("game", {
+Campaign = sequelize.define("campaign", {
   id: {
     type: Sequelize.INTEGER,
     autoIncrement: true,
@@ -19,6 +20,11 @@ Campaign = sequelize.define("game", {
   targetMoney: {
     type: Sequelize.DECIMAL,
     allowNull: false,
+  },
+  currentMoney: {
+    type: Sequelize.DECIMAL,
+    allowNull: false,
+    defaultValue: 0,
   },
   endDate: {
     type: Sequelize.DATE,
@@ -39,7 +45,9 @@ Campaign = sequelize.define("game", {
   images: {
     type: Sequelize.STRING,
     allowNull: true,
-  },
+  },  
 });
+
+Campaign.hasMany(Bonus, { onDelete: "cascade" });
 
 module.exports = Campaign;

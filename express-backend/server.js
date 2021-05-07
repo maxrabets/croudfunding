@@ -19,10 +19,6 @@ app.use(bodyParser.urlencoded({
 
 
 app.use(jwtCheck);
-app.use((req,res, next) => {
-  console.log(req);
-  next();
-})
 
 app.use("/profile/campaigns", camapignsRouter);;
 
