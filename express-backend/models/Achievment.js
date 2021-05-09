@@ -1,9 +1,7 @@
 const Sequelize = require("sequelize");
 const sequelize = require("../config/sequelize");
-const User = require("./User");
-const Campaign = require("./Campaign");
 
-Bonus = sequelize.define("bonuses", {
+Achievment = sequelize.define("achievment", {
   id: {
     type: Sequelize.INTEGER,
     autoIncrement: true,
@@ -12,21 +10,19 @@ Bonus = sequelize.define("bonuses", {
   },
   name: {
     type: Sequelize.STRING,
-    allowNull: false
+    allowNull: false,
+    unique: true
   },
   description: {
     type: Sequelize.STRING,
     allowNull: false
   },
-  price: {
-    type: Sequelize.DECIMAL,
-    allowNull: false,
-  },
 });
 
-// Bonus.belongsTo(Campaign);
-// Bonus.belongsToMany(User, {
-//   through: "user_bonus",
+// Achievment.belongsToMany(User, {
+//     through: "user_achievment",
+//     as: "achievment",
+//     foreignKey: "achievment_id",
 // });
 
-module.exports = Bonus;
+module.exports = Achievment;

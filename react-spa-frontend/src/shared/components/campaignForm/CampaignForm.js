@@ -1,7 +1,7 @@
 import { Button } from '@material-ui/core';
 import React, {useState, useCallback} from "react";
 import {FormattedMessage} from "react-intl";
-import NameField from "./NameField";
+import RequiredTextField from "./RequiredTextField";
 import CategoriesField from "./CategoriesField";
 import DescriptionField from "./DescriptionField";
 import TagsField from "./TagsField";
@@ -10,8 +10,9 @@ import DateField from "./DateField";
 import VideoLinkField from "./VideoLinkField";
 import ImagesField from "./ImagesField";
 import BonusesField from "./BonusesField";
+import { Box } from '@material-ui/core';
 
-const CampaignForm = ({onSave}) => {
+const CampaignForm = ({defaultCampaign, onSave, categories}) => {
     // const serverURL = process.env.REACT_APP_SERVER_URL;
     const [endDate, setEndDate] = useState(new Date());
     const [images, setImages] = useState([]);
@@ -20,9 +21,14 @@ const CampaignForm = ({onSave}) => {
     const [category, setCategory] = useState();
     const [tags, setTags] = useState();
     const [targetMoney, setTargetMoney] = useState();
-    const [bonuses, setBonuses] = useState();
+    const [bonuses, setBonuses] = useState([]);
     const [videoLink, setVideoLink] = useState();
 
+    const onChangeTags = useCallback((e) => {
+        const tagsObjects = JSON.parse(e.detail.value);
+        const tags = tagsObjects.map(tagObject => tagObject.value);
+        setTags(tags);
+    }, []);
 
     const onSubmit = useCallback(async() => {
         const formData = new FormData();
@@ -36,21 +42,56 @@ const CampaignForm = ({onSave}) => {
         formData.set("targetMoney", targetMoney);
         formData.set("videoLink", videoLink);
         formData.set("endDate", endDate);
-        formData.set("bonuses", bonuses);
+        formData.set("bonuses", JSON.stringify(bonuses));
+        console.log(bonuses);
         onSave(formData);
-    }, [bonuses, category, description, endDate, images, name, onSave, tags, targetMoney, videoLink]);
+    }, [bonuses, category, description, endDate, images, 
+        name, onSave, tags, targetMoney, videoLink]);
 
     return (
         <form>
-            <NameField onChange={(e) => setName(e.target.value)}/>
-            <CategoriesField onChange={(e) => setCategory(e.target.value)}/>
-            <DescriptionField onChange={(value) => setDescription(value)}/>         
-            <TagsField onChange={(e) => setTags(e.detail.value)}/>
-            <MoneyField onChange={(e) => setTargetMoney(e.target.value)}/>
-            <DateField onPickDate={(date) => setEndDate(date)}/>
-            <VideoLinkField onChange={(e) => setVideoLink(e.target.value)}/>
-            <ImagesField onChange={(acceptedFiles) => setImages(acceptedFiles)}/>
-            <BonusesField onChange={(bonuses) => setBonuses(bonuses)}/>
+            <Box m={4}>                
+                <RequiredTextField onSetName={(name) => setName(name)} 
+                    defaultName={defaultCampaign.name}
+                    label={<FormattedMessage id="campaigns.name" />}
+                />
+            </Box>
+            <Box m={4}> 
+                <CategoriesField onChange={(e) => setCategory(e.target.value)}
+                    categories={categories}
+                />
+            </Box>
+            <Box m={4}> 
+                <DescriptionField onChange={(editor, data, value) => {
+                    setDescription(value);}}
+                    defaultDescription={defaultCampaign.description}
+                />
+            </Box>
+            <Box m={4}>     
+                <TagsField onChange={onChangeTags} defaultTags={defaultCampaign.tags}/>
+            </Box>
+            <Box m={4}>                
+                <MoneyField onSetMoney={(money) => setTargetMoney(money)}
+                    defaultMoney={defaultCampaign.targetMoney}                
+                    label={<FormattedMessage id="campaigns.targetAmount" />}
+                />
+            </Box>
+            <Box m={4}> 
+                <DateField onPickDate={(date) => setEndDate(date)}
+                    defaultDate={defaultCampaign.endDate}
+                />
+            </Box>
+            {/* <Box m={4} width={3/5}> 
+                <VideoLinkField onChange={(value) => setVideoLink(value)}/>
+            </Box>
+            <Box m={4}> 
+                <ImagesField onChange={(acceptedFiles) => setImages(acceptedFiles)}/>
+            </Box> */}
+            <Box m={4}>  
+                <BonusesField onChange={(bonuses) => setBonuses(bonuses)}
+                    defaultBonus={defaultCampaign.defaultBonus} 
+                    defaultBonuses={defaultCampaign.bonuses}/>
+            </Box>
             <Button 
                 variant="contained" 
                 color="primary" 

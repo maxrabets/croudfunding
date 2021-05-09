@@ -28,6 +28,7 @@
     "campaigns.bonuses.price": "Стоимость",
     "campaigns.bonuses.add": "Добавить",
     "campaigns.bonuses.remove": "Удалить",
+    "validation.required": "Это поле не может быть пустым",
     "authentication.login": "Войти",
     "authentication.logout": "Выход",
     "authentication.signup": "Зарегистрироваться"

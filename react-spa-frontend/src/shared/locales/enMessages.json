@@ -28,6 +28,7 @@
     "campaigns.bonuses.price": "Price",
     "campaigns.bonuses.add": "Add",
     "campaigns.bonuses.remove": "Remove",
+    "validation.required": "This field can't be empty",
     "authentication.login": "Log in",
     "authentication.logout": "Log out",
     "authentication.signup": "Sign up"

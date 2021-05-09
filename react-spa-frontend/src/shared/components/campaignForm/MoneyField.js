@@ -1,18 +1,28 @@
-import React from "react";
-import {TextField, FormControl, Box} from '@material-ui/core';
+import React, {useState, useCallback} from "react";
+import {TextField, FormControl} from '@material-ui/core';
 import {FormattedMessage} from "react-intl";
 
-const MoneyField = ({onChange}) => {
+const MoneyField = ({defaultMoney, onSetMoney, label}) => {
+    const [money, setMoney] = useState(defaultMoney);
+    const onChange = useCallback((e) => {
+        setMoney(e.target.value);
+        onSetMoney(e.target.value)
+    }, [onSetMoney]);
 
     return(
-        <Box m={4}>
             <FormControl >
                 <TextField
+                    inputProps={{min: "0"}}
+                    error={money === ""}
+                    value={money}
+                    required
                     onChange={onChange}
-                    label={<FormattedMessage id="campaigns.targetAmount" />}
+                    type="number"
+                    label={label}
+                    helperText={(money === "") ? 
+                        <FormattedMessage id="validation.required" /> : ""}
                 />
             </FormControl >
-        </Box>
     )
 }
 

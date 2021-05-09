@@ -1,18 +1,22 @@
 import React, { useCallback, useState } from "react";
-import {TextField, Box, TableContainer, Table,
+import {TextField, TableContainer, Table,
     TableHead, TableRow, TableCell, TableBody, Paper, Button} from '@material-ui/core';
 import {FormattedMessage} from "react-intl";
+import MoneyField from "./MoneyField";
+import RequiredTextField from "./RequiredTextField";
 
-const BonusesField = ({onChange}) => {
-    const [bonuses, setBonuses] = useState([]);
-    const [bonusName, setBonusName] = useState("");
-    const [bonusDescription, setBonusDescription] = useState("");
+const BonusesField = ({defaultBonus, defaultBonuses, onChange}) => {
+    const [bonuses, setBonuses] = useState(defaultBonuses);
+    const [bonusName, setBonusName] = useState(defaultBonus.name);
+    const [bonusDescription, setBonusDescription] = useState(defaultBonus.description);
     const [bonusPrice, setBonusPrice] = useState("");
 
     const onAdd = useCallback(() => {
         const newBonus = { name: bonusName, description: bonusDescription, price: bonusPrice}
-        setBonuses(bonuses.concat(newBonus));
-        onChange(bonuses.splice());
+        const newBonuses = bonuses.concat(newBonus);
+        setBonuses(newBonuses);
+        console.log(newBonuses);
+        onChange(newBonuses);
     }, [bonusDescription, bonusName, bonusPrice, bonuses, onChange]);
 
     const onRemove = useCallback((bonus) => {
@@ -20,24 +24,24 @@ const BonusesField = ({onChange}) => {
         const bonusesCopy = bonuses.slice();
         bonusesCopy.splice(index, 1);
         setBonuses(bonusesCopy);
-        onChange(bonuses.splice());
+        onChange(bonusesCopy);
     }, [bonuses, onChange]);
 
     return(
-        <Box m={4}>
-            <TextField
-                value={bonusName}
-                onChange={(e) => setBonusName(e.target.value)}
+        <>
+            
+            <RequiredTextField onSetName={(name) => setBonusName(name)} 
+                defaultName={defaultBonus.name}
                 label={<FormattedMessage id="campaigns.bonuses.name" />}
             />
             <TextField
+                defaultValue={defaultBonus.description}
                 value={bonusDescription}
                 onChange={(e) => setBonusDescription(e.target.value)}
                 label={<FormattedMessage id="campaigns.bonuses.description" />}
             />
-            <TextField
-                value={bonusPrice}
-                onChange={(e) => setBonusPrice(e.target.value)}
+            <MoneyField onSetMoney={(bonusPrice) => setBonusPrice(bonusPrice)}
+                defaultMoney={defaultBonus.price}                
                 label={<FormattedMessage id="campaigns.bonuses.price" />}
             />
             <Button 
@@ -86,8 +90,8 @@ const BonusesField = ({onChange}) => {
                         </TableBody>
                     </Table>
                 </TableContainer>
-        </Box>
+        </>
     )
 }
 
-export default BonusesField
+export default BonusesField;

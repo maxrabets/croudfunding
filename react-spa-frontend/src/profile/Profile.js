@@ -30,14 +30,14 @@ const Profile = () => {
                     </div>
                     <div>
                         <TextField 
-                            id="standard-name" 
+                            id="standard-surname" 
                             label={<FormattedMessage id="profile.surname" />} 
                             value={family_name}                     
                         />
                     </div>
                     <div>                    
                         <TextField 
-                            id="standard-name" 
+                            id="standard-email" 
                             label={<FormattedMessage id="profile.email" />}
                             value={email} 
                         />

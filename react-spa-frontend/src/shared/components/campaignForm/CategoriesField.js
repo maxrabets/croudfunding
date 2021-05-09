@@ -10,7 +10,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const CategoriesField = ({onChange}) => {
+const CategoriesField = ({onChange, categories}) => {
     
     const classes = useStyles();
     return(
@@ -20,15 +20,15 @@ const CategoriesField = ({onChange}) => {
                     <FormattedMessage id="campaigns.category" />
                 </InputLabel>
                 <Select
-                    defaultValue=''
+                    defaultValue={categories[0] || ""}
                     onChange={onChange}
                     id="categories-select"
                     labelId="categories-select-label"
                     className={classes.select}
                 >
-                    <MenuItem value={"Electronics"}>Electronics</MenuItem>
-                    <MenuItem value={"Cars"}>Cars</MenuItem>
-                    <MenuItem value={"Education"}>Education</MenuItem>
+                    {categories.map(category => 
+                        <MenuItem value={category}>{category}</MenuItem>
+                    )}
                 </Select>
             </FormControl>
         </Box>

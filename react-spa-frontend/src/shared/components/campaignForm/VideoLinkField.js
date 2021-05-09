@@ -23,10 +23,11 @@ const VideoLinkField = ({onChange}) => {
             setIsYouTubeLink(false);
         }
         setVideoLink(e.target.value);
-    }, []);
+        onChange(e.target.value);
+    }, [onChange]);
 
     return(
-        <Box m={4}>
+        <>
             <TextField
                 value={videoLink}
                 onChange={checkLink}
@@ -41,7 +42,7 @@ const VideoLinkField = ({onChange}) => {
                 onError={(err) => console.log(err)}
             /> : <></>}
             
-        </Box>
+        </>
     )
 }
 

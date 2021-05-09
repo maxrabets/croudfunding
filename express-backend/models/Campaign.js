@@ -1,6 +1,12 @@
 const Sequelize = require("sequelize");
-const sequelize = require("../sequelize");
+const sequelize = require("../config/sequelize");
 const Bonus = require("./Bonus");
+const Image = require("./Image");
+const Tag = require("./Tag");
+const News = require("./News");
+const Rating = require("./Rating");
+const User = require("./User");
+const Category = require("./Category");
 
 Campaign = sequelize.define("campaign", {
   id: {
@@ -12,10 +18,6 @@ Campaign = sequelize.define("campaign", {
   name: {
     type: Sequelize.STRING,
     allowNull: false
-  },
-  category: {
-    type: Sequelize.STRING,
-    allowNull: true,
   },
   targetMoney: {
     type: Sequelize.DECIMAL,
@@ -34,20 +36,17 @@ Campaign = sequelize.define("campaign", {
     type: Sequelize.STRING,
     allowNull: true,
   },
-  video: {
-    type: Sequelize.STRING,
-    allowNull: true,
-  },
-  tags: {
-    type: Sequelize.STRING,
-    allowNull: true,
-  },
-  images: {
-    type: Sequelize.STRING,
-    allowNull: true,
-  },  
 });
 
-Campaign.hasMany(Bonus, { onDelete: "cascade" });
+// Campaign.belongsTo(User);
+// Campaign.belongsTo(Category);
+// Campaign.hasMany(Bonus, { onDelete: "cascade" });
+// Campaign.hasMany(Rating, { onDelete: "cascade" });
+// Campaign.hasMany(Image, { onDelete: "cascade" });
+// Campaign.hasOne(Video, { onDelete: "cascade" });
+// Campaign.hasMany(News, { onDelete: "cascade" });
+// Campaign.belongsToMany(Tag, {
+//   through: "campaign_tag",
+// });
 
 module.exports = Campaign;
