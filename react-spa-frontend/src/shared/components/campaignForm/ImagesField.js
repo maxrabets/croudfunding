@@ -2,6 +2,7 @@ import React, {useState, useCallback, useMemo} from "react";
 import { InputLabel, Box} from '@material-ui/core';
 import {FormattedMessage} from "react-intl";
 import {useDropzone} from 'react-dropzone';
+import ImageCard from "../ImageCard";
 
 const baseStyle = {
     flex: 1,
@@ -32,11 +33,22 @@ const rejectStyle = {
 };
 
 const ImagesField = ({onChange, defaultImages}) => {
+    // default images
     const [images, setImages] = useState(defaultImages || []);
     
     const onDrop = useCallback(acceptedFiles => {
+        acceptedFiles.forEach(image => image.url = URL.createObjectURL(image));
         setImages(images.concat(acceptedFiles));
         onChange(acceptedFiles);
+    }, [images, onChange]);
+
+    const onClose = useCallback(image => {
+        URL.revokeObjectURL(image);
+        const index = images.indexOf(image);
+        const imagesCopy = images.slice();
+        imagesCopy.splice(index, 1);
+        setImages(imagesCopy);
+        onChange(imagesCopy);
     }, [images, onChange]);
 
     const { getRootProps, getInputProps, isDragActive,
@@ -58,7 +70,7 @@ const ImagesField = ({onChange, defaultImages}) => {
     ]);
 
     return(
-        <Box m={4}>
+        <>
             <InputLabel id="images-label">
                 <FormattedMessage id="campaigns.images" />
             </InputLabel>
@@ -67,12 +79,17 @@ const ImagesField = ({onChange, defaultImages}) => {
                     <input {...getInputProps()} />
                     <p><FormattedMessage id="campaigns.dragndrop" /></p>
                 </Box>
-            </section>
-            <ul>               
-                {images.map(image => <li key={image.name}>{image.name}</li>)}
-            </ul>
-        </Box>
+            </section>              
+                {images.map(image => 
+                    <Box component="span" width="10%" m={1} display="inline-flex">
+                        <ImageCard filename={image.name} 
+                            image={image.url}
+                            onClose={() => onClose(image)}
+                        />
+                    </Box>
+                )}
+        </>
     )
 }
 
-export default ImagesField
+export default ImagesField;

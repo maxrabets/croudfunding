@@ -73,7 +73,7 @@ exports.deleteCampaign = async function(request, response){
     const userId = request.user.sub;
     const id = request.query.id;
     let campaign = await Campaign.findOne({where: {id: id}});
-    if(campaign.userId == userId) {        
+    if(campaign.userId == userId) { 
         const tags = await campaign.getTags();
         const images = await campaign.getImages();
         cloudService.deleteFiles(images.map(image => image.filename));

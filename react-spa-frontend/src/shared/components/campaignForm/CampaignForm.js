@@ -64,7 +64,7 @@ const CampaignForm = ({defaultCampaign, onSave, categories}) => {
             </Box>
             <Box m={4}> 
                 <CategoriesField onSetCategory={(value) => setCategory(value)}
-                    categories={categories}
+                    categories={categories} defaultCategory={defaultCampaign.category}
                 />
             </Box>
             <Box m={4}> 

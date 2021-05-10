@@ -9,7 +9,7 @@ const BonusesField = ({defaultBonus, defaultBonuses, onChange}) => {
     const [bonuses, setBonuses] = useState(defaultBonuses);
     const [bonusName, setBonusName] = useState(defaultBonus.name);
     const [bonusDescription, setBonusDescription] = useState(defaultBonus.description);
-    const [bonusPrice, setBonusPrice] = useState("");
+    const [bonusPrice, setBonusPrice] = useState(defaultBonus.price);
 
     const onAdd = useCallback(() => {
         const newBonus = { name: bonusName, description: bonusDescription, price: bonusPrice}
@@ -28,14 +28,13 @@ const BonusesField = ({defaultBonus, defaultBonuses, onChange}) => {
     }, [bonuses, onChange]);
 
     return(
-        <>
-            
+        <fieldset>
+            <legend>{<FormattedMessage id="campaigns.bonuses" />}</legend>
             <RequiredTextField onSetName={(name) => setBonusName(name)} 
                 defaultName={defaultBonus.name}
                 label={<FormattedMessage id="campaigns.bonuses.name" />}
             />
             <TextField
-                defaultValue={defaultBonus.description}
                 value={bonusDescription}
                 onChange={(e) => setBonusDescription(e.target.value)}
                 label={<FormattedMessage id="campaigns.bonuses.description" />}
@@ -90,7 +89,7 @@ const BonusesField = ({defaultBonus, defaultBonuses, onChange}) => {
                         </TableBody>
                     </Table>
                 </TableContainer>
-        </>
+        </fieldset>
     )
 }
 

@@ -51,8 +51,10 @@ async function getFiles(names) {
 async function deleteFile(name) {    
     if(name) {
         const firebaseFile = firebase.bucket.file(name);
-        const data = await firebaseFile.delete();///hjjh
-        return data[0];
+        if(firebaseFile){
+            const data = await firebaseFile.delete();///hjjh
+            return data[0];
+        }
     }
     return false;
 }
@@ -62,7 +64,7 @@ async function deleteFiles(names) {
     for(let i = 0; i < names.length; i++) {
         const response = await deleteFile(names[i]);
         if(response){
-            responses.push(file);
+            responses.push(response);
         }
         else
             return false;
@@ -74,3 +76,5 @@ exports.saveFile = saveFile;
 exports.saveFiles = saveFiles;
 exports.getFile = getFile;
 exports.getFiles = getFiles;
+exports.deleteFile = deleteFile;
+exports.deleteFiles = deleteFiles;

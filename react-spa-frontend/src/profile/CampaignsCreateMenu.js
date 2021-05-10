@@ -13,7 +13,7 @@ const CampaignsCreateMenu = () => {
     const tomorrow = new Date();
     tomorrow.setDate(new Date().getDate() + 1);
 
-    const defaultCampaign = {name: "MyCampaign", targetMoney: 100, 
+    const defaultCampaign = {name: "MyCampaign", category:"IT", targetMoney: 100, 
         defaultBonus: {name: "MyBonus", description: "BonusDescription", price: 10}, 
         bonuses: [], description: "MyDescrition", endDate: tomorrow, tags: "tag1,tag2",
         images: [], videoLink: ""

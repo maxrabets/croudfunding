@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from "react";
-import {InputLabel, Select, FormControl, MenuItem} from '@material-ui/core';
+import {InputLabel, Select, FormControl, MenuItem, FormHelperText} from '@material-ui/core';
 import {FormattedMessage} from "react-intl";
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -10,8 +10,8 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const CategoriesField = ({onSetCategory, categories}) => {
-    const [category, setCategory] = useState(categories[0] || "");
+const CategoriesField = ({onSetCategory, categories, defaultCategory}) => {
+    const [category, setCategory] = useState(defaultCategory || "");
     const onChange = useCallback((e) => {
         setCategory(e.target.value);
         onSetCategory(e.target.value)
@@ -30,14 +30,15 @@ const CategoriesField = ({onSetCategory, categories}) => {
                 onChange={onChange}
                 id="categories-select"
                 labelId="categories-select-label"
-                className={classes.select}                
-                helperText={(category === "") ? 
-                    <FormattedMessage id="validation.required" /> : ""}
+                className={classes.select}
             >
                 {categories.map(category => 
-                    <MenuItem value={category}>{category}</MenuItem>
+                    <MenuItem key={category} value={category}>{category}</MenuItem>
                 )}
             </Select>
+            <FormHelperText>{(category === "") ? 
+                <FormattedMessage id="validation.required" /> : ""}
+            </FormHelperText>
         </FormControl>
     )
 }
