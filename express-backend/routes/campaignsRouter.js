@@ -6,10 +6,16 @@ const jwtAuthz = require('express-jwt-authz');
 const jwtCheck = require('../auth/jwt');
 
 camapignsRouter.post("/", jwtCheck, 
-    jwtAuthz(['create:campaign'], {customScopeKey: 'permissions'}), 
+    jwtAuthz(['create:campaigns'], {customScopeKey: 'permissions'}), 
     upload.array('images'),
     camapignsController.createCampaign);
 
 camapignsRouter.get("/categories", camapignsController.getCategories);
+
+camapignsRouter.get("/", camapignsController.getUserCampaigns)
+
+camapignsRouter.delete("/", jwtCheck, 
+    jwtAuthz(['delete:campaigns'], {customScopeKey: 'permissions'}),
+    camapignsController.deleteCampaign)
  
 module.exports = camapignsRouter;

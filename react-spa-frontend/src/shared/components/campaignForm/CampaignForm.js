@@ -10,19 +10,21 @@ import DateField from "./DateField";
 import VideoLinkField from "./VideoLinkField";
 import ImagesField from "./ImagesField";
 import BonusesField from "./BonusesField";
-import { Box } from '@material-ui/core';
+import { Box, Dialog, DialogContent, DialogContentText, 
+    DialogActions} from '@material-ui/core';
 
 const CampaignForm = ({defaultCampaign, onSave, categories}) => {
     // const serverURL = process.env.REACT_APP_SERVER_URL;
-    const [endDate, setEndDate] = useState(new Date());
-    const [images, setImages] = useState([]);
-    const [name, setName] = useState();
-    const [description, setDescription] = useState();
-    const [category, setCategory] = useState();
-    const [tags, setTags] = useState();
-    const [targetMoney, setTargetMoney] = useState();
-    const [bonuses, setBonuses] = useState([]);
-    const [videoLink, setVideoLink] = useState();
+    const [endDate, setEndDate] = useState(defaultCampaign.endDate);
+    const [images, setImages] = useState(defaultCampaign.images || []);
+    const [name, setName] = useState(defaultCampaign.name);
+    const [description, setDescription] = useState(defaultCampaign.description);
+    const [category, setCategory] = useState(defaultCampaign.category);
+    const [tags, setTags] = useState(defaultCampaign.tags);
+    const [targetMoney, setTargetMoney] = useState(defaultCampaign.targetMoney);
+    const [bonuses, setBonuses] = useState(defaultCampaign.bonuses);
+    const [videoLink, setVideoLink] = useState(defaultCampaign.videoLink);
+    const [isInvalid, setIsInvalid] = useState(false);
 
     const onChangeTags = useCallback((e) => {
         const tagsObjects = JSON.parse(e.detail.value);
@@ -32,6 +34,11 @@ const CampaignForm = ({defaultCampaign, onSave, categories}) => {
 
     const onSubmit = useCallback(async() => {
         const formData = new FormData();
+        if(name==="" || !categories.includes(category) || !targetMoney
+            || targetMoney < 0 || endDate < Date.now()){
+            setIsInvalid(true);
+            return;
+        }
         images.forEach(image => {
             formData.append("images", image);
         });
@@ -43,10 +50,9 @@ const CampaignForm = ({defaultCampaign, onSave, categories}) => {
         formData.set("videoLink", videoLink);
         formData.set("endDate", endDate);
         formData.set("bonuses", JSON.stringify(bonuses));
-        console.log(bonuses);
         onSave(formData);
-    }, [bonuses, category, description, endDate, images, 
-        name, onSave, tags, targetMoney, videoLink]);
+    }, [bonuses, categories, category, description, endDate, 
+        images, name, onSave, tags, targetMoney, videoLink]);
 
     return (
         <form>
@@ -57,7 +63,7 @@ const CampaignForm = ({defaultCampaign, onSave, categories}) => {
                 />
             </Box>
             <Box m={4}> 
-                <CategoriesField onChange={(e) => setCategory(e.target.value)}
+                <CategoriesField onSetCategory={(value) => setCategory(value)}
                     categories={categories}
                 />
             </Box>
@@ -81,17 +87,36 @@ const CampaignForm = ({defaultCampaign, onSave, categories}) => {
                     defaultDate={defaultCampaign.endDate}
                 />
             </Box>
-            {/* <Box m={4} width={3/5}> 
-                <VideoLinkField onChange={(value) => setVideoLink(value)}/>
+            <Box m={4} width={3/5}> 
+                <VideoLinkField defaultVideoLink={defaultCampaign.videoLink}
+                    onChange={(value) => setVideoLink(value)}/>
             </Box>
             <Box m={4}> 
-                <ImagesField onChange={(acceptedFiles) => setImages(acceptedFiles)}/>
-            </Box> */}
+                <ImagesField defaultImages={defaultCampaign.images}
+                    onChange={(acceptedFiles) => setImages(acceptedFiles)}/>
+            </Box>
             <Box m={4}>  
                 <BonusesField onChange={(bonuses) => setBonuses(bonuses)}
                     defaultBonus={defaultCampaign.defaultBonus} 
                     defaultBonuses={defaultCampaign.bonuses}/>
             </Box>
+            <Dialog
+                open={isInvalid}
+                onClose={() =>  setIsInvalid(false)}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+            >
+                <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                        <FormattedMessage id="campaigns.form.invalid" />
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={() =>  setIsInvalid(false)} color="primary">
+                        <FormattedMessage id="dialog.ok" />
+                    </Button>
+                </DialogActions>
+            </Dialog>
             <Button 
                 variant="contained" 
                 color="primary" 

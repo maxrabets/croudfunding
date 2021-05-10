@@ -12,6 +12,14 @@ const CampaignsCreateMenu = () => {
     const [categories, setCategories] = useState([]);
     const tomorrow = new Date();
     tomorrow.setDate(new Date().getDate() + 1);
+
+    const defaultCampaign = {name: "MyCampaign", targetMoney: 100, 
+        defaultBonus: {name: "MyBonus", description: "BonusDescription", price: 10}, 
+        bonuses: [], description: "MyDescrition", endDate: tomorrow, tags: "tag1,tag2",
+        images: [], videoLink: ""
+    };
+    
+
     const getCategories = () => {
         fetch(`/campaigns/categories`).then( response => {
             if(response.ok){
@@ -21,11 +29,6 @@ const CampaignsCreateMenu = () => {
     }
     useEffect(getCategories, []);
 
-    const defaultCampaign = {name: "", targetMoney: 0, 
-        defaultBonus: {name: "", description: "", price: 0}, 
-        bonuses: [], description: "", endDate: tomorrow, tags: ""
-    };
-    
     const onCreate = useCallback(async (formData) => {
         const token = await getAccessTokenSilently();
         fetch(`/campaigns`, {

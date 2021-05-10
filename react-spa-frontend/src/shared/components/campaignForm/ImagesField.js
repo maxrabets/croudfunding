@@ -31,8 +31,8 @@ const rejectStyle = {
     borderColor: '#ff1744'
 };
 
-const ImagesField = ({onChange}) => {
-    const [images, setImages] = useState([]);
+const ImagesField = ({onChange, defaultImages}) => {
+    const [images, setImages] = useState(defaultImages || []);
     
     const onDrop = useCallback(acceptedFiles => {
         setImages(images.concat(acceptedFiles));

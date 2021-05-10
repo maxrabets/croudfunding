@@ -31,7 +31,8 @@ async function getFile(name) {
         const firebaseFile = firebase.bucket.file(name);
         const data = await firebaseFile.download();
         return data[0];
-    }    
+    }
+    return false;
 }
 
 async function getFiles(names) {    
@@ -45,6 +46,28 @@ async function getFiles(names) {
             return false;
     }
     return files;  
+}
+
+async function deleteFile(name) {    
+    if(name) {
+        const firebaseFile = firebase.bucket.file(name);
+        const data = await firebaseFile.delete();///hjjh
+        return data[0];
+    }
+    return false;
+}
+
+async function deleteFiles(names) {    
+    const responses = [];
+    for(let i = 0; i < names.length; i++) {
+        const response = await deleteFile(names[i]);
+        if(response){
+            responses.push(file);
+        }
+        else
+            return false;
+    }
+    return responses;  
 }
 
 exports.saveFile = saveFile;
