@@ -97,7 +97,7 @@ const CampaignForm = ({defaultCampaign, onSave, categories}) => {
             </Box>
             <Box m={4}>  
                 <BonusesField onChange={(bonuses) => setBonuses(bonuses)}
-                    defaultBonus={defaultCampaign.defaultBonus} 
+                    defaultBonus={defaultCampaign.defaultBonus || {}} 
                     defaultBonuses={defaultCampaign.bonuses}/>
             </Box>
             <Dialog

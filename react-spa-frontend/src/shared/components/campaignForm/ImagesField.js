@@ -32,15 +32,22 @@ const rejectStyle = {
     borderColor: '#ff1744'
 };
 
-const ImagesField = ({onChange, defaultImages}) => {
+const ImagesField = ({onChange, defaultImages=[]}, max) => {
     // default images
-    const [images, setImages] = useState(defaultImages || []);
+    const [images, setImages] = useState(defaultImages.map(image => {
+        console.log(image);
+        image.url = URL.createObjectURL(image);
+        return image;
+    }));
     
     const onDrop = useCallback(acceptedFiles => {
         acceptedFiles.forEach(image => image.url = URL.createObjectURL(image));
+        if(max) {
+            acceptedFiles.splice(max, acceptedFiles.length - max);
+        }
         setImages(images.concat(acceptedFiles));
-        onChange(acceptedFiles);
-    }, [images, onChange]);
+        onChange(images);
+    }, [images, max, onChange]);
 
     const onClose = useCallback(image => {
         URL.revokeObjectURL(image);

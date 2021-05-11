@@ -1,15 +1,29 @@
 const firebase = require('../config/firebaseStorage');
+const fs = require('fs');
+
+const SEPARATOR = "_";
+
+function createUniqueName(name) {
+    const uniqueName = Date.now() + SEPARATOR + name;
+    return uniqueName;
+}
+
+function getOriginalName(uniqueName) {
+    const index = uniqueName.indexOf(SEPARATOR);
+    return uniqueName.substring(index+1);
+}
 
 async function saveFile(file) {    
     if (file) {
-        const name = Date.now() + file.originalname;
-        const firebaseFile = firebase.bucket.file(name);
+        console.log(file.buffer+" ");
+        const uniqueName = createUniqueName(file.originalname);
+        const firebaseFile = firebase.bucket.file(uniqueName);
         await firebaseFile.save(file.buffer);
         // const signedUrl = await firebaseFile.getSignedUrl();
         // console.log("signed " + signedUrl);
         // const publicUrl = firebaseFile.publicUrl();
         // console.log("publicUrl " + publicUrl);
-        return name;
+        return uniqueName;
     }    
 }
 
@@ -30,7 +44,8 @@ async function getFile(name) {
     if(name) {
         const firebaseFile = firebase.bucket.file(name);
         const data = await firebaseFile.download();
-        return data[0];
+        console.log()
+        return {buffer: data[0], name: getOriginalName(name)};
     }
     return false;
 }

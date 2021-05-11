@@ -28,7 +28,7 @@ const CampaignsMenu = () => {
     const onDelete = useCallback(async (id) => {
         if(isAuthenticated) {
             const token = await getAccessTokenSilently();
-            fetch(`/campaigns?id=${id}`, {
+            fetch(`/campaigns/${id}`, {
                 method: "DELETE",
                 headers: {
                     Authorization: `Bearer ${token}`
@@ -84,27 +84,29 @@ const CampaignsMenu = () => {
                         </TableHead>
                         <TableBody>
                             {campaigns.map(campaign => 
-                                <TableRow key={campaign.name}>
-                                    <TableCell>{campaign.name}</TableCell>
-                                    <TableCell>{campaign.category.name}</TableCell>
-                                    <TableCell>{
-                                        `${campaign.currentMoney}/${campaign.targetMoney}`
-                                        }
-                                    </TableCell>
-                                    <TableCell>{new Date(campaign.endDate)
-                                        .toDateString()}</TableCell>
-                                    <TableCell>
+                            <TableRow key={campaign.name}>
+                                <TableCell>{campaign.name}</TableCell>
+                                <TableCell>{campaign.category.name}</TableCell>
+                                <TableCell>{
+                                    `${campaign.currentMoney}/${campaign.targetMoney}`
+                                    }
+                                </TableCell>
+                                <TableCell>{new Date(campaign.endDate)
+                                    .toDateString()}</TableCell>
+                                <TableCell>
+                                    <NavLink to={`campaigns/${campaign.id}`}>
                                         <Button variant="contained" color="primary">                        
                                             <FormattedMessage id="campaigns.update" />                        
-                                        </Button>
-                                    </TableCell>
-                                    <TableCell>
-                                        <Button variant="contained" color="primary"
-                                            onClick={() => onDelete(campaign.id)}>                        
-                                            <FormattedMessage id="campaigns.delete" />                        
-                                        </Button>
-                                    </TableCell>
-                                </TableRow>
+                                        </Button>                                    
+                                    </NavLink>
+                                </TableCell>
+                                <TableCell>
+                                    <Button variant="contained" color="primary"
+                                        onClick={() => onDelete(campaign.id)}>                        
+                                        <FormattedMessage id="campaigns.delete" />                        
+                                    </Button>
+                                </TableCell>
+                            </TableRow>
                             )}
                         </TableBody>
                     </Table>

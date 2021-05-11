@@ -7,9 +7,9 @@ import RequiredTextField from "./RequiredTextField";
 
 const BonusesField = ({defaultBonus, defaultBonuses, onChange}) => {
     const [bonuses, setBonuses] = useState(defaultBonuses);
-    const [bonusName, setBonusName] = useState(defaultBonus.name);
-    const [bonusDescription, setBonusDescription] = useState(defaultBonus.description);
-    const [bonusPrice, setBonusPrice] = useState(defaultBonus.price);
+    const [bonusName, setBonusName] = useState(defaultBonus.name || "");
+    const [bonusDescription, setBonusDescription] = useState(defaultBonus.description || "");
+    const [bonusPrice, setBonusPrice] = useState(defaultBonus.price || "");
 
     const onAdd = useCallback(() => {
         const newBonus = { name: bonusName, description: bonusDescription, price: bonusPrice}

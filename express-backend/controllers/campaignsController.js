@@ -6,9 +6,11 @@ const Bonus = require("../models/Bonus");
 const User = require("../models/User");
 const Image = require("../models/Image");
 const Tag = require("../models/Tag");
+const fs = require("fs");
 
 exports.createCampaign = async function (request, response) {    
     const userId = request.user.sub;
+    
     const filenames = await cloudService.saveFiles(request.files);
     const bonuses = JSON.parse(request.body.bonuses);
     const categoryName = request.body.category;
@@ -69,9 +71,37 @@ exports.getUserCampaigns = async function(request, response){
     response.json(userCampaigns);
 };
 
+exports.getCampaign = async function(request, response){
+    const campaignId = request.params.campaignId;
+    let campaign = await Campaign.findOne({
+        where: {id: campaignId},
+        include: [ 
+            {
+                model: Category,
+                as: "category"
+            },
+            User, Bonus, Rating, Image, Video, Tag
+        ]
+    });
+    let images = await campaign.getImages();
+    images = await cloudService.getFiles(images.map(image => image.filename));
+    campaign = campaign.toJSON();
+    campaign.images = images;
+    // const encodedFiles = buffers.map(buffer => buffer.toString('base64'));
+    response.json(campaign);
+};
+
+exports.getCampaignNews = async function(request, response){
+    const campaignId = request.params.campaignId;
+    let campaign = await Campaign.findOne({
+        where: {id: campaignId}});
+    let news = await campaign.getNews();    
+    response.json(news);
+};
+
 exports.deleteCampaign = async function(request, response){
     const userId = request.user.sub;
-    const id = request.query.id;
+    const id = request.params.campaignId;
     let campaign = await Campaign.findOne({where: {id: id}});
     if(campaign.userId == userId) { 
         const tags = await campaign.getTags();
@@ -85,6 +115,33 @@ exports.deleteCampaign = async function(request, response){
             }
         } 
         return response.sendStatus(200);
+    }
+    else
+        return response.sendStatus(404);
+};
+
+exports.createPost = async function(request, response){
+    const userId = request.user.sub;
+    const campaignId = request.params.campaignId;
+    let post = request.body;
+    let campaign = await Campaign.findOne({where: {id: id}});
+    if(campaign.userId == userId) { 
+        post = await campaign.addNews(post);
+        return response.send(post);
+    }
+    else
+        return response.sendStatus(404);
+};
+
+exports.changePost = async function(request, response){
+    const userId = request.user.sub;
+    const campaignId = request.params.campaignId;
+    const postId = request.params.postId;//здесь
+    let post = request.body;
+    let campaign = await Campaign.findOne({where: {id: id}});
+    if(campaign.userId == userId) { 
+        post = await campaign.addNews(post);
+        return response.send(post);
     }
     else
         return response.sendStatus(404);
