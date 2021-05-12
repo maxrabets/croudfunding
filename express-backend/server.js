@@ -13,6 +13,7 @@ const Tag = require("./models/Tag");
 require("./models/associations");
 require('dotenv').config();
 
+
 var port = process.env.PORT || 8080;
 
 app.use(cors({
@@ -28,12 +29,12 @@ app.use(bodyParser.urlencoded({
 app.use("/campaigns", camapignsRouter);
 app.use("/users", usersRouter); 
 
-sequelize.sync({force: true}).then(async (result)=>{
+sequelize.sync({force: false}).then(async (result)=>{
 // /////////////////
-  await Category.create({name: "IT"});
-  await Category.create({name: "Education"});
-  await Category.create({name: "Fashion"});
-  await Category.create({name: "Medicine"});
+  // await Category.create({name: "IT"});
+  // await Category.create({name: "Education"});
+  // await Category.create({name: "Fashion"});
+  // await Category.create({name: "Medicine"});
   ////////////////////////
 
   app.listen(port, () => {

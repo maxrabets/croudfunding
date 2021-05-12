@@ -8,8 +8,9 @@ const Image = require("../models/Image");
 const Tag = require("../models/Tag");
 const Video = require("../models/Video");
 const News = require("../models/News");
+const Payment = require("../models/Payment");
 const fs = require("fs");
-const { Console } = require('console');
+const { Op } = require('sequelize');
 
 exports.createCampaign = async function (request, response) {    
     const userId = request.user.sub;
@@ -312,4 +313,24 @@ exports.editCampaign = async function(request, response) {
     }
     else
         return response.sendStatus(404);
+};
+
+exports.createPayment = async function(request, response){
+    const userId = request.user.sub;
+    const campaignId = request.params.campaignId;
+    let campaign = await Campaign.findOne({where: {id: campaignId}});
+    if(!campaign)        
+        return response.sendStatus(404);
+    const [user, created] = await User.findOrCreate({ where: {id: userId}});
+    const payment = await Payment.create({sum: request.body.money, campaignId, userId});
+    campaign.currentMoney += payment.sum;
+    if(campaign.currentMoney >= campaign.targetMoney) {
+        campaign.status = "finished";
+    }
+    user.payedTotal += payment.sum;
+    const bonuses = await campaign.getBonuses({where: {price: {[Op.lte]: payment.sum}}});
+    user.addBonuses(bonuses);
+    campaign.save();
+    user.save();
+    return response.sendStatus(200);
 };

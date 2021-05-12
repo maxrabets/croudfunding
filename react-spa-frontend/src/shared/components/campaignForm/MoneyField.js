@@ -4,6 +4,7 @@ import {FormattedMessage} from "react-intl";
 
 const MoneyField = ({defaultMoney, onSetMoney, label}) => {
     const [money, setMoney] = useState(defaultMoney);
+    
     const onChange = useCallback((e) => {
         setMoney(e.target.value);
         onSetMoney(e.target.value)

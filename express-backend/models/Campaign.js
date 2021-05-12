@@ -35,6 +35,11 @@ Campaign = sequelize.define("campaign", {
   description: {
     type: Sequelize.STRING,
     allowNull: true,
+  },
+  status: {
+    type: Sequelize.STRING,
+    allowNull: false,
+    defaultValue: "active"
   },  
   creationDate: {
     type: Sequelize.DATE,

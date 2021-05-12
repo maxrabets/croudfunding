@@ -11,6 +11,7 @@ const News = require("./News");
 const ReactionType = require("./ReactionType");
 const Tag = require("./Tag");
 const Video = require("./Video");
+const Payment = require("./Payment");
 
 Achievment.belongsToMany(User, {
     through: "user_achievment",
@@ -28,14 +29,19 @@ Campaign.hasMany(Rating, { onDelete: "cascade" });
 Campaign.hasMany(Image, { onDelete: "cascade" });
 Campaign.hasOne(Video, { onDelete: "cascade" });
 Campaign.hasMany(News, { onDelete: "cascade" });
+Campaign.hasMany(Comment, { onDelete: "cascade" });
+Campaign.hasMany(Payment, { onDelete: "cascade" });
 Campaign.belongsToMany(Tag, {
   through: "campaign_tag",
 });
 Category.hasMany(Campaign);//cascade
 Comment.belongsTo(User);//cascade
+Comment.belongsTo(Campaign);
 Comment.hasMany(Reaction, {onDelete: "cascade"});
 Image.belongsTo(Campaign, { onDelete: "cascade" });
 News.belongsTo(Campaign, { onDelete: "cascade" });
+Payment.belongsTo(User);//cascade
+Payment.belongsTo(Campaign);
 Rating.belongsTo(User, { onDelete: "cascade" });
 Rating.belongsTo(Campaign, { onDelete: "cascade" });
 Reaction.belongsTo(User, { onDelete: "cascade" });
@@ -50,6 +56,7 @@ User.hasMany(Campaign, {onDelete: "cascade"});
 User.hasMany(Reaction, {onDelete: "cascade"});
 User.hasMany(Comment, {onDelete: "cascade"});
 User.hasMany(Rating, {onDelete: "cascade"});
+User.hasMany(Payment, {onDelete: "cascade"});
 User.belongsToMany(Bonus, {
   through: "user_bonus",
 });

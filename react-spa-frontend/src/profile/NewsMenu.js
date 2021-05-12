@@ -8,12 +8,11 @@ import NewsForm from "../shared/components/news/NewsPostForm";
 import NewsEditCard from "../shared/components/news/NewsEditCard";
 
 const CampaignsCreateMenu = (props) => {
-    const { isAuthenticated } = useAuth0();
+    const { isAuthenticated, getAccessTokenSilently } = useAuth0();
     const [ isLoaded, setIsLoaded ] = useState(false);
     const [ addFormOpen, setAddFormOpen] = useState(false);
     const [ editFormOpen, setEditFormOpen] = useState(false);
     const [ currentPost, setCurrentPost] = useState();
-    const { getAccessTokenSilently } = useAuth0();
     const [news, setNews] = useState([]);
     console.log(props.match.params.id);
     const emptyPost = {header: "", description: ""};

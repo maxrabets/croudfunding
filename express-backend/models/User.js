@@ -13,6 +13,11 @@ User = sequelize.define("user", {
     primaryKey: true,
     allowNull: false
   },
+  payedTotal: {
+    type: Sequelize.DECIMAL,
+    allowNull: false,
+    defaultValue: 0
+  }
 });
 
 // User.hasMany(Campaign, {onDelete: "cascade"});

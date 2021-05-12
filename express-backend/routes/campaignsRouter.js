@@ -4,6 +4,8 @@ const camapignsRouter = express.Router();
 const upload = require('../config/multer');
 const jwtAuthz = require('express-jwt-authz');
 const jwtCheck = require('../auth/jwt');
+const bodyParser = require('body-parser');
+const jsonParser = bodyParser.json();
 
 camapignsRouter.post("/", jwtCheck, 
     jwtAuthz(['create:campaigns'], {customScopeKey: 'permissions'}), 
@@ -21,7 +23,11 @@ camapignsRouter.get("/", camapignsController.getUserCampaigns);
 camapignsRouter.get("/categories", camapignsController.getCategories);
 camapignsRouter.get("/:campaignId", camapignsController.getCampaign);
 
-camapignsRouter.get("/:campaignId/news", camapignsController.getCampaignNews);
+camapignsRouter.post("/:campaignId/payment",  jsonParser, jwtCheck, 
+    jwtAuthz(['create:payment'], {customScopeKey: 'permissions'}), 
+    camapignsController.createPayment);
+
+camapignsRouter.get("/:campaignId/news",  camapignsController.getCampaignNews);
 camapignsRouter.post("/:campaignId/news", jwtCheck, 
     jwtAuthz(['create:news'], {customScopeKey: 'permissions'}),
     upload.single('image'),
