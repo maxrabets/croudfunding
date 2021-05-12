@@ -13,7 +13,7 @@ News = sequelize.define("news", {
     type: Sequelize.STRING,
     allowNull: false
   },
-  text: {
+  description: {
     type: Sequelize.STRING,
     allowNull: false
   },
@@ -21,6 +21,16 @@ News = sequelize.define("news", {
     type: Sequelize.STRING,
     allowNull: true
   },
+  creationDate: {
+    type: Sequelize.DATE,
+    allowNull: false,
+    defaultValue: Date.now(),
+  },
+  lastModificationDate: {
+    type: Sequelize.DATE,
+    allowNull: false,
+    defaultValue: Date.now(),
+  }
 });
 
 // News.belongsTo(Campaign);

@@ -39,6 +39,7 @@ const CampaignForm = ({defaultCampaign, onSave, categories}) => {
             setIsInvalid(true);
             return;
         }
+        console.log("images" + images);
         images.forEach(image => {
             formData.append("images", image);
         });

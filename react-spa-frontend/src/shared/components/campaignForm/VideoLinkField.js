@@ -12,16 +12,11 @@ function matchYoutubeUrl(url) {
 }
 
 const VideoLinkField = ({onChange, defaultVideoLink}) => {
-    const [isYouTubeLink, setIsYouTubeLink] = useState(false);    
+    const [isYouTubeLink, setIsYouTubeLink] = useState(matchYoutubeUrl(defaultVideoLink));    
     const [videoLink, setVideoLink] = useState(defaultVideoLink || "");
 
     const checkLink = useCallback(e => {
-        if(matchYoutubeUrl(e.target.value)) {
-            setIsYouTubeLink(true);
-        }
-        else {
-            setIsYouTubeLink(false);
-        }
+        setIsYouTubeLink(matchYoutubeUrl(e.target.value));
         setVideoLink(e.target.value);
         onChange(e.target.value);
     }, [onChange]);

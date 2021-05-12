@@ -84,7 +84,7 @@ const CampaignsMenu = () => {
                         </TableHead>
                         <TableBody>
                             {campaigns.map(campaign => 
-                            <TableRow key={campaign.name}>
+                            <TableRow key={campaign.id}>
                                 <TableCell>{campaign.name}</TableCell>
                                 <TableCell>{campaign.category.name}</TableCell>
                                 <TableCell>{

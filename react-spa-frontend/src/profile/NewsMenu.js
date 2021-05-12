@@ -18,11 +18,17 @@ const CampaignsCreateMenu = (props) => {
     console.log(props.match.params.id);
     const emptyPost = {header: "", description: ""};
 
+    const convertImageToFile = (image) => {
+        return new File([Buffer.from(image.buffer)], image.name)
+    }
+
     const getNews = () => {
         //setIsLoaded(false);
         fetch(`/campaigns/${props.match.params.id}/news`).then( response => {
             if(response.ok){
                 response.json().then(news => {
+                    console.log(news)
+                    news.forEach(post => post.image = convertImageToFile(post.image))
                     setNews(news);
                     setIsLoaded(true);
                 });
@@ -45,8 +51,11 @@ const CampaignsCreateMenu = (props) => {
             setAddFormOpen(false);
             console.log(response);
             if(response.ok) {
-                response.json(addedNews => {
-                    setNews(news.concat(addedNews));
+                response.json(addedPost => {
+                    console.log(addedPost)
+                    addedPost.image = convertImageToFile(addedPost.image);
+                    
+                    setNews(news.concat(addedPost));
                 });
             }
             else
@@ -139,7 +148,7 @@ const CampaignsCreateMenu = (props) => {
                 onClose={() => setAddFormOpen(false)}
             >
                 <DialogContent>
-                    <NewsForm defaultNews={emptyPost} onSave={onAdd}/>
+                    <NewsForm defaultPost={emptyPost} onSave={onAdd}/>
                 </DialogContent>
             </Dialog>
             <Dialog
@@ -147,7 +156,7 @@ const CampaignsCreateMenu = (props) => {
                 onClose={() => setEditFormOpen(false)}
             >
                 <DialogContent>
-                    <NewsForm defaultNews={currentPost} onSave={onChange}/>
+                    <NewsForm defaultPost={currentPost} onSave={onChange}/>
                 </DialogContent>
             </Dialog>
         </>

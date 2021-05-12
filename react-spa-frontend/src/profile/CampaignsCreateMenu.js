@@ -30,6 +30,7 @@ const CampaignsCreateMenu = () => {
     useEffect(getCategories, []);
 
     const onCreate = useCallback(async (formData) => {
+        console.log(formData.get("images"));
         const token = await getAccessTokenSilently();
         fetch(`/campaigns`, {
             method: "POST",

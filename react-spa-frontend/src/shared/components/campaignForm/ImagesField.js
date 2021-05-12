@@ -32,10 +32,9 @@ const rejectStyle = {
     borderColor: '#ff1744'
 };
 
-const ImagesField = ({onChange, defaultImages=[]}, max) => {
+const ImagesField = ({onChange, defaultImages=[], max}) => {
     // default images
     const [images, setImages] = useState(defaultImages.map(image => {
-        console.log(image);
         image.url = URL.createObjectURL(image);
         return image;
     }));
@@ -43,10 +42,11 @@ const ImagesField = ({onChange, defaultImages=[]}, max) => {
     const onDrop = useCallback(acceptedFiles => {
         acceptedFiles.forEach(image => image.url = URL.createObjectURL(image));
         if(max) {
-            acceptedFiles.splice(max, acceptedFiles.length - max);
+            acceptedFiles.splice(max, acceptedFiles.length);
         }
-        setImages(images.concat(acceptedFiles));
-        onChange(images);
+        const newImages = images.concat(acceptedFiles);
+        setImages(newImages);
+        onChange(newImages);
     }, [images, max, onChange]);
 
     const onClose = useCallback(image => {

@@ -6,6 +6,8 @@ const Bonus = require("../models/Bonus");
 const User = require("../models/User");
 const Image = require("../models/Image");
 const Tag = require("../models/Tag");
+const Video = require("../models/Video");
+const News = require("../models/News");
 const fs = require("fs");
 
 exports.createCampaign = async function (request, response) {    
@@ -19,9 +21,10 @@ exports.createCampaign = async function (request, response) {
     const targetMoney = request.body.targetMoney;
     const endDate = request.body.endDate;
     const description = request.body.description;
-    const video = request.body.video;
+    const video = {filename: request.body.videoLink};
     const images = filenames.map(filename => {return {filename}});
     console.log(request.body); 
+    console.log(request.files); 
 
     const [user, created] = await User.findOrCreate({ where: {id: userId}});
     const category = await Category.findOne({where: {name: categoryName}});
@@ -40,7 +43,7 @@ exports.createCampaign = async function (request, response) {
         bonuses: bonuses,
         video: video,
     }, {
-        include: [Image, Bonus]
+        include: [Image, Bonus, Video]
     });
     for(let i = 0; i < tags.length; i++) {    
         const [tagFromDb, created] = await Tag.findOrCreate({where: {name: tags[i].name}});
@@ -67,7 +70,6 @@ exports.getUserCampaigns = async function(request, response){
         model: Category,
         as: "category"
     }});
-    console.log(userCampaigns);
     response.json(userCampaigns);
 };
 
@@ -87,16 +89,9 @@ exports.getCampaign = async function(request, response){
     images = await cloudService.getFiles(images.map(image => image.filename));
     campaign = campaign.toJSON();
     campaign.images = images;
+    campaign.videoLink = campaign.video.filename;
     // const encodedFiles = buffers.map(buffer => buffer.toString('base64'));
     response.json(campaign);
-};
-
-exports.getCampaignNews = async function(request, response){
-    const campaignId = request.params.campaignId;
-    let campaign = await Campaign.findOne({
-        where: {id: campaignId}});
-    let news = await campaign.getNews();    
-    response.json(news);
 };
 
 exports.deleteCampaign = async function(request, response){
@@ -120,13 +115,39 @@ exports.deleteCampaign = async function(request, response){
         return response.sendStatus(404);
 };
 
+
+async function addImageToPost(post) {    
+    let image = post.image;
+    image = await cloudService.getFile(post.image);
+    post = post.toJSON();
+    post.image = image;
+    return post;
+}
+
+exports.getCampaignNews = async function(request, response){
+    const campaignId = request.params.campaignId;
+    let campaign = await Campaign.findOne({
+        where: {id: campaignId}});
+    let news = await campaign.getNews();
+    news = await Promise.all(news.map(async post => 
+        await addImageToPost(post)
+    ))
+    console.log(news)
+    response.send(news);
+};
+
 exports.createPost = async function(request, response){
     const userId = request.user.sub;
     const campaignId = request.params.campaignId;
     let post = request.body;
-    let campaign = await Campaign.findOne({where: {id: id}});
+    let campaign = await Campaign.findOne({where: {id: campaignId}});
+    if(!campaign)        
+        return response.sendStatus(404);
     if(campaign.userId == userId) { 
-        post = await campaign.addNews(post);
+        post.image = await cloudService.saveFile(request.file);
+        post.campaignId = campaignId;
+        post = await News.create(post);
+        post = await addImageToPost(post);
         return response.send(post);
     }
     else
@@ -138,10 +159,39 @@ exports.changePost = async function(request, response){
     const campaignId = request.params.campaignId;
     const postId = request.params.postId;//здесь
     let post = request.body;
-    let campaign = await Campaign.findOne({where: {id: id}});
+    let campaign = await Campaign.findOne({where: {id: campaignId}});
     if(campaign.userId == userId) { 
-        post = await campaign.addNews(post);
-        return response.send(post);
+        let news = await campaign.getNews({where: {id: postId}});
+        if(news.legth != 1)
+            return response.sendStatus(500);
+        else {
+            post.image = await cloudService.saveFile(request.file);
+            news[0].header = post.header;
+            news[0].description = post.description;
+            news[0].image = post.image;
+            news[0].lastModificationDate = Date.now();
+            post = await news[0].save();
+            post = await addImageToPost(post);
+            return response.send(post);
+        }
+    }
+    else
+        return response.sendStatus(404);
+};
+
+exports.deletePost = async function(request, response){
+    const userId = request.user.sub;
+    const campaignId = request.params.campaignId;
+    const postId = request.params.postId;
+    let campaign = await Campaign.findOne({where: {id: campaignId}});
+    if(campaign.userId == userId) { 
+        let news = await campaign.getNews({where: {id: postId}});
+        if(news.legth != 1)
+            return response.sendStatus(500);
+        else {
+            const post = await news[0].destroy();
+            return response.sendStatus(200);
+        }
     }
     else
         return response.sendStatus(404);

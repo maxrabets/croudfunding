@@ -8,7 +8,7 @@ import { Box, Dialog, DialogContent, DialogContentText,
     DialogActions} from '@material-ui/core';
 
 const NewsForm = ({defaultPost, onSave}) => {
-    const [image, setImage] = useState(defaultPost.image || {});
+    const [image, setImage] = useState(defaultPost.image);
     const [header, setHeader] = useState(defaultPost.header);
     const [description, setDescription] = useState(defaultPost.description);
     const [isInvalid, setIsInvalid] = useState(false);
@@ -33,16 +33,16 @@ const NewsForm = ({defaultPost, onSave}) => {
                     label={<FormattedMessage id="campaigns.news.header" />}
                 />
             </Box>
-            <Box m={4}> 
+            <Box m={4}>
                 <DescriptionField onChange={(editor, data, value) => {
                     setDescription(value);}}
                     defaultDescription={description}
                 />
             </Box>
             <Box m={4}> 
-                <ImagesField defaultImages={[image]}
-                    onChange={(acceptedFiles) => setImage(acceptedFiles)}
-                    max={1}
+                <ImagesField defaultImages={image ? [image] : []}
+                    onChange={(acceptedFiles) => setImage(acceptedFiles[0])}
+                    max="1"
                 />
             </Box>
             <Dialog

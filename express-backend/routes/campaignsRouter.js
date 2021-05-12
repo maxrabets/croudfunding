@@ -16,9 +16,11 @@ camapignsRouter.get("/:campaignId", camapignsController.getCampaign);
 camapignsRouter.get("/:campaignId/news", camapignsController.getCampaignNews);
 camapignsRouter.post("/:campaignId/news", jwtCheck, 
     jwtAuthz(['create:news'], {customScopeKey: 'permissions'}),
+    upload.single('image'),
     camapignsController.createPost);
 camapignsRouter.put("/:campaignId/news/:postId", jwtCheck, 
     jwtAuthz(['change:news'], {customScopeKey: 'permissions'}),
+    upload.single('image'),
     camapignsController.changePost);
 camapignsRouter.delete("/:campaignId/news/:postId", jwtCheck, 
     jwtAuthz(['delete:news'], {customScopeKey: 'permissions'}),

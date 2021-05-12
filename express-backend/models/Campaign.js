@@ -35,7 +35,17 @@ Campaign = sequelize.define("campaign", {
   description: {
     type: Sequelize.STRING,
     allowNull: true,
+  },  
+  creationDate: {
+    type: Sequelize.DATE,
+    allowNull: false,
+    defaultValue: Date.now(),
   },
+  lastModificationDate: {
+    type: Sequelize.DATE,
+    allowNull: false,
+    defaultValue: Date.now(),
+  }
 });
 
 // Campaign.belongsTo(User);
