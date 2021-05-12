@@ -4,8 +4,8 @@ import {FormattedMessage} from "react-intl";
 import {NavLink} from "react-router-dom";
 import { Typography, Breadcrumbs, Button, 
     CircularProgress, DialogContent, Dialog } from '@material-ui/core';
-import NewsForm from "../shared/components/campaignForm/news/NewsPostForm";
-import NewsEditCard from "../shared/components/campaignForm/news/NewsEditCard";
+import NewsForm from "../shared/components/news/NewsPostForm";
+import NewsEditCard from "../shared/components/news/NewsEditCard";
 
 const CampaignsCreateMenu = (props) => {
     const { isAuthenticated } = useAuth0();
@@ -18,8 +18,13 @@ const CampaignsCreateMenu = (props) => {
     console.log(props.match.params.id);
     const emptyPost = {header: "", description: ""};
 
-    const convertImageToFile = (image) => {
-        return new File([Buffer.from(image.buffer)], image.name)
+    const convertImageToFile = (image) => {     
+        console.log(image);
+        if(image) {
+            const file = new File([Buffer.from(image.buffer)], image.name);
+            file.url = URL.createObjectURL(file);
+            return file;
+        }
     }
 
     const getNews = () => {
@@ -51,10 +56,10 @@ const CampaignsCreateMenu = (props) => {
             setAddFormOpen(false);
             console.log(response);
             if(response.ok) {
-                response.json(addedPost => {
+                response.json().then(addedPost => {
                     console.log(addedPost)
-                    addedPost.image = convertImageToFile(addedPost.image);
-                    
+                    if(addedPost.image)
+                        addedPost.image = convertImageToFile(addedPost.image);                    
                     setNews(news.concat(addedPost));
                 });
             }
@@ -73,9 +78,11 @@ const CampaignsCreateMenu = (props) => {
         }).then(response => {
             console.log(response);
             if(response.ok) {
+                console.log("delete");
                 const newsCopy = news.slice();
                 const index = newsCopy.find(post => post.id = id);
                 newsCopy.splice(index, 1);
+                setNews(newsCopy);
             }
             else
                 alert("error");
@@ -137,8 +144,8 @@ const CampaignsCreateMenu = (props) => {
                 <FormattedMessage id="campaigns.news.add" />
             </Button>
             {news.map(post => 
-                <NewsEditCard header={post.header} description={post.description}
-                    image={post.image} 
+                <NewsEditCard key={post.id} header={post.header} description={post.description}
+                    image={post.image ? post.image.url : false} 
                     onEdit={() => onEdit(post)} 
                     onClose={() => onClose(post.id)}
                 />

@@ -40,11 +40,11 @@ const ImagesField = ({onChange, defaultImages=[], max}) => {
     }));
     
     const onDrop = useCallback(acceptedFiles => {
-        acceptedFiles.forEach(image => image.url = URL.createObjectURL(image));
+        acceptedFiles.forEach(image => image.url = URL.createObjectURL(image));        
+        let newImages = images.concat(acceptedFiles);
         if(max) {
-            acceptedFiles.splice(max, acceptedFiles.length);
+            newImages = newImages.splice(0, max);
         }
-        const newImages = images.concat(acceptedFiles);
         setImages(newImages);
         onChange(newImages);
     }, [images, max, onChange]);

@@ -21,6 +21,7 @@ import CampaignsMenu from './profile/CampaignsMenu'
 import NewsMenu from './profile/NewsMenu'
 import CampaignsCreateMenu from './profile/CampaignsCreateMenu'
 import CampaignsUpdateMenu from './profile/CampaignsUpdateMenu'
+import Campaign from './campaign/Campaign'
 
 const messages = {
   [locales.EN]: enMessages,
@@ -39,6 +40,7 @@ function App() {
             <NavigationPanel/>
             <Switch>
               <Route path="/about" component={About} />
+              <Route path="/campaigns/:id" component={Campaign} />
               <ProtectedRoute exact path="/profile/campaigns/create" 
                 component={CampaignsCreateMenu} />
               <ProtectedRoute path="/profile/campaigns/:id/news"

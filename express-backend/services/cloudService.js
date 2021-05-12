@@ -15,7 +15,6 @@ function getOriginalName(uniqueName) {
 
 async function saveFile(file) {    
     if (file) {
-        console.log(file.buffer+" ");
         const uniqueName = createUniqueName(file.originalname);
         const firebaseFile = firebase.bucket.file(uniqueName);
         await firebaseFile.save(file.buffer);

@@ -4,16 +4,13 @@ import {FormattedMessage} from "react-intl";
 import {NavLink, Redirect} from "react-router-dom";
 import { Typography, Breadcrumbs, Button, 
     IconButton, CircularProgress } from '@material-ui/core';
-import VisibilityIcon from '@material-ui/icons/Visibility';
 import parseISO from "date-fns/parseISO"
-import CampaignForm from "../shared/components/campaignForm/CampaignForm";
 
-const CampaignsCreateMenu = (props) => {
+const Campaign = (props) => {
     const { isAuthenticated } = useAuth0();
     const [ isLoaded, setIsLoaded ] = useState(false);
     const { getAccessTokenSilently } = useAuth0();
     const [isSaved, setIsSaved] = useState(false);
-    const [categories, setCategories] = useState([]);
     const [campaign, setCamapign] = useState();
     const tomorrow = new Date();
     tomorrow.setDate(new Date().getDate() + 1);
@@ -94,11 +91,9 @@ const CampaignsCreateMenu = (props) => {
                     <FormattedMessage id="campaigns.news" />
                 </Button>
             </NavLink>
-            <NavLink to={`/campaigns/${props.match.params.id}`}>  
-                <IconButton variant="contained" color="primary">
-                    <VisibilityIcon />
-                </IconButton>
-            </NavLink>
+            <IconButton variant="contained" color="primary">
+                <VisibilityIcon />
+            </IconButton>
             <CampaignForm onSave={onUpdate}
                 defaultCampaign={campaign}
                 categories={categories}
@@ -109,4 +104,4 @@ const CampaignsCreateMenu = (props) => {
     return <></>
 };
 
-export default CampaignsCreateMenu;
+export default Campaign;

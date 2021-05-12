@@ -28,76 +28,13 @@ app.use(bodyParser.urlencoded({
 app.use("/campaigns", camapignsRouter);
 app.use("/users", usersRouter); 
 
-sequelize.sync({force: false}).then(async (result)=>{
-///////////////////
-  // await Category.create({name: "IT"});
-  // await Category.create({name: "Education"});
-  // await Category.create({name: "Fashion"});
-  // await Category.create({name: "Medicine"});
+sequelize.sync({force: true}).then(async (result)=>{
+// /////////////////
+  await Category.create({name: "IT"});
+  await Category.create({name: "Education"});
+  await Category.create({name: "Fashion"});
+  await Category.create({name: "Medicine"});
   ////////////////////////
-
-/////////////////////
-  // const userId = "KSDLKDS";
-  // const categoryName = "Fashion";
-  // const tags1 = [
-  //   {name: "foo"},
-  //   {name: "bar"}
-  // ]
-  // const [user, created] = await User.findOrCreate({ where: {id: userId}});
-  // const category = await Category.findOne({where: {name: categoryName}});
-  // const campaign = await Campaign.create({
-  //   name: "A",
-  //   targetMoney: 10,
-  //   endDate: new Date,
-  //   userId: userId,
-  //   categoryId: category.id,    
-  //   images: [
-  //     {filename: "error.txt"}
-  //   ],
-  //   bonuses: [
-  //     {name: "name", description: "descr", price: 10}
-  //   ],
-  // }, {
-  //   include: [Image, Bonus, Tag]
-  // });
-  // //campaign.addTags(tags1).then().catch(err => console.log(err))
-  // for(let i = 0; i < tags1.length; i++) {    
-  //   const [tagFromDb, created] = await Tag.findOrCreate({where: {name: tags1[i].name}});
-  //   console.log(tagFromDb);
-  //   await tagFromDb.addCampaign(campaign);
-  // } 
-
-
-  // const tags2 = [
-  //   {name: "foo"},
-  //   {name: "baz"}
-  // ]
-  // const campaign2 = await Campaign.create({
-  //   name: "B",
-  //   targetMoney: 20,
-  //   endDate: new Date,
-  //   userId: userId,
-  //   categoryId: category.id,    
-  //   images: [
-  //     {filename: "error2.txt"}
-  //   ],
-  //   bonuses: [
-  //     {name: "name2", description: "descr", price: 10}
-  //   ],
-  // }, {
-  //   include: [Image, Bonus, Tag]
-  // });
-  // for(let i = 0; i < tags2.length; i++) {    
-  //   const [tagFromDb, created] = await Tag.findOrCreate({where: {name: tags2[i].name}});
-  //   console.log(tagFromDb);
-  //   await tagFromDb.addCampaign(campaign2);
-  // } 
-
-  // const userCampaigns = await user.getCampaigns({include: {all: true}});
-  // console.log(userCampaigns); 
-  // console.log(userCampaigns[0].tags); 
-  // console.log(userCampaigns[1].tags); 
-///////////////
 
   app.listen(port, () => {
     console.log(`Server is listening on port ${port}`);

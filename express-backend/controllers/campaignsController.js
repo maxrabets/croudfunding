@@ -9,6 +9,7 @@ const Tag = require("../models/Tag");
 const Video = require("../models/Video");
 const News = require("../models/News");
 const fs = require("fs");
+const { Console } = require('console');
 
 exports.createCampaign = async function (request, response) {    
     const userId = request.user.sub;
@@ -23,12 +24,9 @@ exports.createCampaign = async function (request, response) {
     const description = request.body.description;
     const video = {filename: request.body.videoLink};
     const images = filenames.map(filename => {return {filename}});
-    console.log(request.body); 
-    console.log(request.files); 
 
     const [user, created] = await User.findOrCreate({ where: {id: userId}});
     const category = await Category.findOne({where: {name: categoryName}});
-    console.log(category);
     if(!category) {
         return response.status(400).send("Bad category");
     } 
@@ -47,7 +45,6 @@ exports.createCampaign = async function (request, response) {
     });
     for(let i = 0; i < tags.length; i++) {    
         const [tagFromDb, created] = await Tag.findOrCreate({where: {name: tags[i].name}});
-        console.log(tagFromDb);
         await tagFromDb.addCampaign(campaign);
     } 
 
@@ -85,12 +82,15 @@ exports.getCampaign = async function(request, response){
             User, Bonus, Rating, Image, Video, Tag
         ]
     });
+    if(!campaign)
+        return response.sendStatus(404);
     let images = await campaign.getImages();
     images = await cloudService.getFiles(images.map(image => image.filename));
     campaign = campaign.toJSON();
     campaign.images = images;
-    campaign.videoLink = campaign.video.filename;
-    // const encodedFiles = buffers.map(buffer => buffer.toString('base64'));
+    campaign.videoLink = "";
+    if(campaign.video)
+        campaign.videoLink = campaign.video.filename;
     response.json(campaign);
 };
 
@@ -103,18 +103,21 @@ exports.deleteCampaign = async function(request, response){
         const images = await campaign.getImages();
         cloudService.deleteFiles(images.map(image => image.filename));
         await campaign.destroy();
-        for(let i = 0; i < tags.length; i++) {    
-            const campaigns = await tags[i].getCampaigns();
-            if(campaigns.length == 0) {
-                await tags[i].destroy();
-            }
-        } 
+        checkTags(tags);
         return response.sendStatus(200);
     }
     else
         return response.sendStatus(404);
 };
 
+async function checkTags(tags) {
+    for(let i = 0; i < tags.length; i++) {    
+        const campaigns = await tags[i].getCampaigns();
+        if(campaigns.length == 0) {
+            await tags[i].destroy();
+        }
+    } 
+}
 
 async function addImageToPost(post) {    
     let image = post.image;
@@ -132,7 +135,6 @@ exports.getCampaignNews = async function(request, response){
     news = await Promise.all(news.map(async post => 
         await addImageToPost(post)
     ))
-    console.log(news)
     response.send(news);
 };
 
@@ -148,6 +150,7 @@ exports.createPost = async function(request, response){
         post.campaignId = campaignId;
         post = await News.create(post);
         post = await addImageToPost(post);
+        console.log(post)
         return response.send(post);
     }
     else
@@ -157,18 +160,27 @@ exports.createPost = async function(request, response){
 exports.changePost = async function(request, response){
     const userId = request.user.sub;
     const campaignId = request.params.campaignId;
-    const postId = request.params.postId;//здесь
+    const postId = request.params.postId; 
     let post = request.body;
-    let campaign = await Campaign.findOne({where: {id: campaignId}});
+    let campaign = await Campaign.findOne({where: {id: campaignId}});    
+    if(!campaign)        
+        return response.sendStatus(404);
     if(campaign.userId == userId) { 
         let news = await campaign.getNews({where: {id: postId}});
-        if(news.legth != 1)
+        if(news.length != 1)
             return response.sendStatus(500);
         else {
-            post.image = await cloudService.saveFile(request.file);
+            
             news[0].header = post.header;
             news[0].description = post.description;
-            news[0].image = post.image;
+            console.log(request.file)
+            if(request.file) {
+                post.image = await cloudService.saveFile(request.file);
+                news[0].image = post.image;
+            }
+            else {
+                news[0].image = null;
+            }
             news[0].lastModificationDate = Date.now();
             post = await news[0].save();
             post = await addImageToPost(post);
@@ -184,14 +196,119 @@ exports.deletePost = async function(request, response){
     const campaignId = request.params.campaignId;
     const postId = request.params.postId;
     let campaign = await Campaign.findOne({where: {id: campaignId}});
+
+    if(!campaign)        
+        return response.sendStatus(404);
     if(campaign.userId == userId) { 
         let news = await campaign.getNews({where: {id: postId}});
-        if(news.legth != 1)
+        console.log(news);
+        if(news.length != 1)
             return response.sendStatus(500);
         else {
             const post = await news[0].destroy();
             return response.sendStatus(200);
         }
+    }
+    else
+        return response.sendStatus(404);
+};
+
+async function updateBonuses(campaign, bonuses) {
+    const bonusesFromDb = await campaign.getBonuses();
+    for(let i = 0; i < bonusesFromDb.length; i++) {    
+        const index = bonuses.findIndex(bonus => bonus.id == bonusesFromDb[i].id);
+        if(index > -1) {
+            const bonus = bonuses[index];
+            bonusesFromDb[i].name = bonus.name;
+            bonusesFromDb[i].description = bonus.description;
+            bonusesFromDb[i].price = bonus.price;
+            bonusesFromDb[i].save();
+            bonuses.splice(index, 1);
+        }
+        else{
+            await bonusesFromDb[i].destroy();
+        }
+    }
+
+    for(let i = 0; i < bonuses.length; i++) {
+        bonuses[i].campaignId = campaign.id;
+        await Bonus.create(bonuses[i]);
+    }
+}
+
+async function updateImages(campaign, images) {
+    const oldImages = await campaign.getImages();
+    cloudService.deleteFiles(oldImages.map(image => image.filename));        
+    oldImages.forEach(image => image.destroy())
+    
+    for(let i = 0; i < images.length; i++) {    
+        await campaign.createImage(images[i]);
+    }
+}
+
+async function updateTags(campaign, tags) {
+    const oldTags = await campaign.getTags();
+    console.log(oldTags);
+    for(let i = 0; i < oldTags.length; i++) {
+        await campaign.removeTag(oldTags[i]);
+    }
+    
+    //add new tags
+    for(let i = 0; i < tags.length; i++) {    
+        const [tagFromDb, created] = await Tag.findOrCreate({where: {name: tags[i].name}});
+        await tagFromDb.addCampaign(campaign);
+    } 
+
+    checkTags(oldTags);
+}
+
+async function updateVideo(campaign, video) {
+    if(!video){
+        return;
+    }
+    const oldVideo = await campaign.getVideo();
+    if(!oldVideo){
+        return await campaign.addVideo(video);
+    }
+    oldVideo.filename = video.filename;
+    await oldVideo.save();
+}
+
+exports.editCampaign = async function(request, response) {
+    const userId = request.user.sub;
+    const campaignId = request.params.campaignId;
+    let campaign = await Campaign.findOne({where: {id: campaignId}, include: {all: true}});    
+    if(!campaign)        
+        return response.sendStatus(404);
+    if(campaign.userId == userId) { 
+        const filenames = await cloudService.saveFiles(request.files);        
+        const images = filenames.map(filename => {return {filename}});
+        const bonuses = JSON.parse(request.body.bonuses);
+        const categoryName = request.body.category;
+        const tags = request.body.tags.split(',').map(name => {return {name}}); 
+        const name = request.body.name;
+        const targetMoney = request.body.targetMoney;
+        const endDate = request.body.endDate;
+        const description = request.body.description;
+        const video = {filename: request.body.videoLink};
+
+        const category = await Category.findOne({where: {name: categoryName}});
+        if(!category) {
+            return response.status(400).send("Bad category");
+        }
+        campaign.categoryId = category.id;
+        campaign.name = name;
+        campaign.targetMoney = targetMoney;
+        campaign.endDate = endDate;
+        campaign.description = description;
+        await updateVideo(campaign, video);    
+        await updateImages(campaign, images)
+        await updateBonuses(campaign, bonuses);      
+        await updateTags(campaign, tags);
+        campaign.lastModificationDate = Date.now();
+        campaign.save();
+
+        return response.sendStatus(200);
     }
     else
         return response.sendStatus(404);

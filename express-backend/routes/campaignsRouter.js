@@ -9,8 +9,16 @@ camapignsRouter.post("/", jwtCheck,
     jwtAuthz(['create:campaigns'], {customScopeKey: 'permissions'}), 
     upload.array('images'),
     camapignsController.createCampaign);
-camapignsRouter.get("/categories", camapignsController.getCategories);
+camapignsRouter.put("/:campaignId", jwtCheck, 
+    jwtAuthz(['edit:campaigns'], {customScopeKey: 'permissions'}), 
+    upload.array('images'),
+    camapignsController.editCampaign);
+camapignsRouter.delete("/:campaignId", jwtCheck, 
+    jwtAuthz(['delete:campaigns'], {customScopeKey: 'permissions'}),
+    camapignsController.deleteCampaign);
 camapignsRouter.get("/", camapignsController.getUserCampaigns);
+
+camapignsRouter.get("/categories", camapignsController.getCategories);
 camapignsRouter.get("/:campaignId", camapignsController.getCampaign);
 
 camapignsRouter.get("/:campaignId/news", camapignsController.getCampaignNews);
@@ -25,9 +33,5 @@ camapignsRouter.put("/:campaignId/news/:postId", jwtCheck,
 camapignsRouter.delete("/:campaignId/news/:postId", jwtCheck, 
     jwtAuthz(['delete:news'], {customScopeKey: 'permissions'}),
     camapignsController.deletePost);
-
-camapignsRouter.delete("/:campaignId", jwtCheck, 
-    jwtAuthz(['delete:campaigns'], {customScopeKey: 'permissions'}),
-    camapignsController.deleteCampaign);
  
 module.exports = camapignsRouter;

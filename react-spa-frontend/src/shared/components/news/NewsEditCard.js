@@ -6,7 +6,6 @@ import EditIcon from '@material-ui/icons/Edit';
 import ReactMarkdown from 'react-markdown';
 
 const NewsEditCard = ({header, description, image, onEdit, onClose}) => {
-    console.log(image);
     return (
         <Card>        
             <IconButton 
@@ -27,10 +26,9 @@ const NewsEditCard = ({header, description, image, onEdit, onClose}) => {
                 <Typography variant="h5">
                     {header}
                 </Typography>
-                <ReactMarkdown>{description}</ReactMarkdown> 
-                <CardMedia>
-                    <img src={image} alt={image}/>
-                </CardMedia>
+                <ReactMarkdown>{description}</ReactMarkdown>
+                {image ? 
+                <CardMedia><img src={image} alt={image}/></CardMedia> : <></>}
             </CardContent>
         </Card>
     );

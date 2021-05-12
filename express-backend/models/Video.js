@@ -11,8 +11,7 @@ Video = sequelize.define("video", {
   },
   filename: {
     type: Sequelize.STRING,
-    allowNull: false,    
-    unique: true
+    allowNull: false,
   },
 });
 
