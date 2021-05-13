@@ -12,6 +12,7 @@ import BonusesList from "../shared/components/BonusesList";
 import PaymentDialog from "../shared/components/PaymentDialog";
 import ImagesGallery from "../shared/components/ImagesGallery";
 import NewsPost from "../shared/components/news/NewsPost";
+import CommentsField from "../shared/components/CommentsField";
 import Tags from "@yaireo/tagify/dist/react.tagify";
 import "@yaireo/tagify/dist/tagify.css";
 
@@ -124,6 +125,8 @@ const Campaign = (props) => {
         <Button variant="contained"  color="primary" onClick={() => onPay()}>
             <FormattedMessage id="campaigns.pay" />
         </Button>
+        
+        <CommentsField comments={campaign.comments} />
 
         <Typography><FormattedMessage id="campaigns.news" /></Typography>
         {news.map(post => <NewsPost post={post} />)}

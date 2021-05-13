@@ -29,6 +29,8 @@
     "campaigns.dragndrop": "Drag 'n' drop some files here, or click to select files",    
     "campaigns.news.add": "Add news",
     "campaigns.news.header": "Header",
+    "campaigns.news.creationDate": "Creation date",
+    "campaigns.news.lastUpdateDate": "Last update date",
     "campaigns.bonuses.name": "Name",
     "campaigns.bonuses.description": "Description",
     "campaigns.bonuses.price": "Price",

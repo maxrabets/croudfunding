@@ -29,6 +29,8 @@
     "campaigns.dragndrop": "Перетащите сюда файлы",    
     "campaigns.news.add": "Добавить новость",
     "campaigns.news.header": "Заголовок",
+    "campaigns.news.creationDate": "Дата создания",
+    "campaigns.news.lastUpdateDate": "Обновено",
     "campaigns.bonuses.name": "Название",
     "campaigns.bonuses.description": "Описание",
     "campaigns.bonuses.price": "Стоимость",
