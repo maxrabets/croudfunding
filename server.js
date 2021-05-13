@@ -26,11 +26,14 @@ app.use(bodyParser.urlencoded({
 app.use("/campaigns", camapignsRouter);
 app.use("/users", usersRouter); 
 
-if(process.env.NODE_ENV === "production") {  
+app.use(express.static(`${__dirname}/frontend`));
   app.use(express.static(`${__dirname}/frontend/build`));
-  app.get('*', (req, res) => {
-    res.sendFile(`${__dirname}/frontend/build/index.html`);
-  });
+  // app.get('*', (req, res) => {
+  //   res.sendFile(`${__dirname}/frontend/build/index.html`);
+  // });
+
+if(process.env.NODE_ENV === "production") {  
+  
 }
 
 sequelize.sync({force: false}).then(async (result)=>{
