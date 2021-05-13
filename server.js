@@ -28,8 +28,6 @@ app.use("/campaigns", camapignsRouter);
 app.use("/users", usersRouter);
 
 
-
-
 if(process.env.NODE_ENV === "production") {  
   app.use(express.static(`${__dirname}/frontend`));
   app.use(express.static(`${__dirname}/frontend/build`));
