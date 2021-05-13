@@ -1,26 +1,33 @@
 #FRONT
+
+/frontend/.env
+
 # dependencies
-/react-spa-frontend/node_modules
-/react-spa-frontend/.pnp
-/react-spa-frontend/.pnp.js
+/frontend/node_modules
+/frontend/.pnp
+/frontend/.pnp.js
 
 # testing
-/react-spa-frontend/coverage
+/frontend/coverage
 
 # production
-/react-spa-frontend/build
+/frontend/build
 
 # misc
-/react-spa-frontend/.DS_Store
-/react-spa-frontend/.env.local
-/react-spa-frontend/.env.development.local
-/react-spa-frontend/.env.test.local
-/react-spa-frontend/.env.production.local
+/frontend/.DS_Store
+/frontend/.env.local
+/frontend/.env.development.local
+/frontend/.env.test.local
+/frontend/.env.production.local
 
-/react-spa-frontend/npm-debug.log*
-/react-spa-frontend/yarn-debug.log*
-/react-spa-frontend/yarn-error.log*
+/frontend/npm-debug.log*
+/frontend/yarn-debug.log*
+/frontend/yarn-error.log*
 
 
 #BACK
-/express-backend/node_modules
+/config/firebaseCredentials.json
+/node_modules
+/images
+/db
+/.env

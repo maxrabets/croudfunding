@@ -23,6 +23,8 @@ app.use(bodyParser.urlencoded({
   extended: true
 }));
 
+app.use(express.static(`${__dirname}/frontend/build`));
+
 app.use("/campaigns", camapignsRouter);
 app.use("/users", usersRouter); 
 
