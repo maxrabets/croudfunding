@@ -26,7 +26,7 @@ app.use(bodyParser.urlencoded({
  
 app.use("/campaigns", camapignsRouter);
 app.use("/users", usersRouter);
-
+app.use(express.static(`${__dirname}/frontend/build`));
 
 if(process.env.NODE_ENV === "production") {  
   app.use(express.static(`${__dirname}/frontend`));
