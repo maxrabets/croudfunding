@@ -8,10 +8,10 @@ if(process.env.NODE_ENV === "production") {
       require: true,
       rejectUnauthorized: false
   }
-  const sequelize = new Sequelize(process.env.DATABASE_URL);
+  var sequelize = new Sequelize(process.env.DATABASE_URL);
 }
 else{  
-  const sequelize = new Sequelize({
+  var sequelize = new Sequelize({
     dialect: "sqlite",
     storage: process.env.DATABASE_URL_DEVELOPMENT,
     define: {
