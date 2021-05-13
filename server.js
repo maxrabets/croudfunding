@@ -39,8 +39,8 @@ sequelize.sync({force: false}).then(async (result)=>{
   await Category.findOrCreate({where: {name: "Fashion"}});
   await Category.findOrCreate({where: {name: "Medicine"}});
 
-  await ReactionType.findOrCreate({name: "like"});
-  await ReactionType.findOrCreate({name: "dislike"});
+  await ReactionType.findOrCreate({where: {name: "like"}});
+  await ReactionType.findOrCreate({where: {name: "dislike"}});
 
   app.listen(port, () => {
     console.log(`Server is listening on port ${port}`);
