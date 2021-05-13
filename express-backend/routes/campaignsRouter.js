@@ -4,6 +4,7 @@ const camapignsRouter = express.Router();
 const categoriesRouter = require("./categoriesRouter");
 const newsRouter = require("./newsRouter");
 const paymentsRouter = require("./paymentsRouter");
+const commentsRouter = require("./commentsRouter");
 const upload = require('../config/multer');
 const jwtAuthz = require('express-jwt-authz');
 const jwtCheck = require('../auth/jwt');
@@ -31,6 +32,8 @@ camapignsRouter.get("/:campaignId", camapignsController.getCampaign);
 camapignsRouter.use("/:campaignId/payment", paymentsRouter);
 
 camapignsRouter.use("/:campaignId/news",  newsRouter);
+
+camapignsRouter.use("/:campaignId/comments",  commentsRouter);
 
  
 module.exports = camapignsRouter;

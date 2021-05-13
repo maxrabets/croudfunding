@@ -6,6 +6,7 @@ const usersRouter = require("./routes/usersRouter");
 const cors = require('cors');
 const sequelize = require("./config/sequelize");
 const Category = require("./models/Category");
+const ReactionType = require("./models/ReactionType");
 require("./models/associations");
 require('dotenv').config();
 
@@ -31,7 +32,10 @@ sequelize.sync({force: false}).then(async (result)=>{
   // await Category.create({name: "Education"});
   // await Category.create({name: "Fashion"});
   // await Category.create({name: "Medicine"});
-  ////////////////////////
+
+  // await ReactionType.create({name: "like"});
+  // await ReactionType.create({name: "dislike"});
+////////////////////////
 
   app.listen(port, () => {
     console.log(`Server is listening on port ${port}`);

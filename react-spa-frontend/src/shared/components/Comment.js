@@ -1,8 +1,8 @@
 import React from 'react';
-import { Card, CardContent, CardMedia,
-    Typography} from '@material-ui/core';
+import { Card, CardContent, Typography} from '@material-ui/core';
 import {FormattedMessage} from "react-intl";
 import UserLink from "./UserLink";
+import Reactions from "./Reactions";
 
 const Comment = ({comment}) => {
     return (
@@ -16,6 +16,7 @@ const Comment = ({comment}) => {
                 <Typography >
                     {comment.text}
                 </Typography>
+                <Reactions commentId={comment.id} campaignId={comment.campaignId}/>
             </CardContent>
         </Card>
     );

@@ -53,7 +53,7 @@ async function deleteCampaign(campaignId, userId) {
         const images = await campaign.getImages();
         cloudService.deleteFiles(images.map(image => image.filename));
         await campaign.destroy();
-        await checkTags(tags);
+        await tagsService.checkTags(tags);
         return campaign;
     }
     else

@@ -14,6 +14,16 @@ Comment = sequelize.define("comment", {
     type: Sequelize.STRING,
     allowNull: false
   },
+  creationDate: {
+    type: Sequelize.DATE,
+    allowNull: false,
+    defaultValue: Date.now()
+  },
+  lastModificationDate: {
+    type: Sequelize.DATE,
+    allowNull: false,
+    defaultValue: Date.now()
+  },
 });
 
 // Comment.belongsTo(User);

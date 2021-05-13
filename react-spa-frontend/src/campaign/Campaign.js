@@ -25,9 +25,8 @@ function matchYoutubeUrl(url) {
 }
 
 const Campaign = (props) => {
-    const { isAuthenticated } = useAuth0();
+    const { isAuthenticated, getAccessTokenSilently } = useAuth0();
     const [ isLoaded, setIsLoaded ] = useState(false);
-    const { getAccessTokenSilently } = useAuth0();
     const [campaign, setCamapign] = useState({});
     const [news, setNews] = useState([]);
     const [isYouTubeLink, setIsYouTubeLink] = useState(false);
@@ -126,7 +125,7 @@ const Campaign = (props) => {
             <FormattedMessage id="campaigns.pay" />
         </Button>
         
-        {/* <CommentsField comments={campaign.comments} /> */}
+        <CommentsField campaignId={campaign.id}/> 
 
         <Typography><FormattedMessage id="campaigns.news" /></Typography>
         {news.map(post => <NewsPost post={post} />)}
