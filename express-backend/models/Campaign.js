@@ -22,11 +22,19 @@ Campaign = sequelize.define("campaign", {
   targetMoney: {
     type: Sequelize.DECIMAL,
     allowNull: false,
+    get() {
+      const stringValue = this.getDataValue("targetMoney");
+      return parseInt(stringValue, 10);
+    }
   },
   currentMoney: {
     type: Sequelize.DECIMAL,
     allowNull: false,
     defaultValue: 0,
+    get() {
+      const stringValue = this.getDataValue("currentMoney");
+      return parseInt(stringValue, 10);
+    }
   },
   endDate: {
     type: Sequelize.DATE,

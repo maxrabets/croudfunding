@@ -42,9 +42,10 @@ const PaymentDialog = ({campaign, isOpen, onClose, defaultSum}) => {
 
     return (
     <Dialog open={isOpen} onClose={onClose} 
-        onEnter={() => setAvailableBonuses(campaign.bonuses.filter(bonus => 
-            bonus.price <= defaultSum)
-        )}
+        onEnter={() => {
+            setAvailableBonuses(campaign.bonuses.filter(bonus => bonus.price <= defaultSum));
+            setMoney(defaultSum);
+        }}
     >
         <DialogTitle id="form-dialog-title">
             <FormattedMessage id="campaigns.pay"/>

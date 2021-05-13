@@ -6,10 +6,6 @@ const usersRouter = require("./routes/usersRouter");
 const cors = require('cors');
 const sequelize = require("./config/sequelize");
 const Category = require("./models/Category");
-const Campaign = require("./models/Campaign");
-const Image = require("./models/Image");
-const Bonus = require("./models/Bonus");
-const Tag = require("./models/Tag");
 require("./models/associations");
 require('dotenv').config();
 
@@ -30,7 +26,7 @@ app.use("/campaigns", camapignsRouter);
 app.use("/users", usersRouter); 
 
 sequelize.sync({force: false}).then(async (result)=>{
-// /////////////////
+/////////////////
   // await Category.create({name: "IT"});
   // await Category.create({name: "Education"});
   // await Category.create({name: "Fashion"});

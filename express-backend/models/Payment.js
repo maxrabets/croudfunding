@@ -12,7 +12,11 @@ Payment = sequelize.define("payment", {
   },
   sum: {
     type: Sequelize.DECIMAL,
-    allowNull: false
+    allowNull: false,
+    get() {
+      const stringValue = this.getDataValue("sum");
+      return parseInt(stringValue, 10);
+    }
   },
   date: {
     type: Sequelize.DATE,

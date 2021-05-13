@@ -126,7 +126,7 @@ const Campaign = (props) => {
             <FormattedMessage id="campaigns.pay" />
         </Button>
         
-        <CommentsField comments={campaign.comments} />
+        {/* <CommentsField comments={campaign.comments} /> */}
 
         <Typography><FormattedMessage id="campaigns.news" /></Typography>
         {news.map(post => <NewsPost post={post} />)}

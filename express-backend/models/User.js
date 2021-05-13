@@ -16,7 +16,11 @@ User = sequelize.define("user", {
   payedTotal: {
     type: Sequelize.DECIMAL,
     allowNull: false,
-    defaultValue: 0
+    defaultValue: 0,
+    get() {
+      const stringValue = this.getDataValue("payedTotal");
+      return parseInt(stringValue, 10);
+    }
   }
 });
 

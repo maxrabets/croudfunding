@@ -23,7 +23,7 @@ async function saveFile(file) {
         // const publicUrl = firebaseFile.publicUrl();
         // console.log("publicUrl " + publicUrl);
         return uniqueName;
-    }    
+    }
 }
 
 async function saveFiles(files) {
