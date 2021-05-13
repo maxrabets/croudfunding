@@ -34,17 +34,15 @@ if(process.env.NODE_ENV === "production") {
 }
 
 sequelize.sync({force: false}).then(async (result)=>{
-/////////////////
-  await Category.findOrCreate({name: "IT"});
-  await Category.findOrCreate({name: "Education"});
-  await Category.findOrCreate({name: "Fashion"});
-  await Category.findOrCreate({name: "Medicine"});
+  await Category.findOrCreate({where: {name: "IT"}});
+  await Category.findOrCreate({where: {name: "Education"}});
+  await Category.findOrCreate({where: {name: "Fashion"}});
+  await Category.findOrCreate({where: {name: "Medicine"}});
 
   await ReactionType.findOrCreate({name: "like"});
   await ReactionType.findOrCreate({name: "dislike"});
-////////////////////////
 
   app.listen(port, () => {
     console.log(`Server is listening on port ${port}`);
   });
-}).catch(err=> console.log(err));
+}).catch(err => console.log(err));
