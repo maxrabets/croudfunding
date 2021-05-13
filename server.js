@@ -35,15 +35,13 @@ if(process.env.NODE_ENV === "production") {
 
 sequelize.sync({force: false}).then(async (result)=>{
 /////////////////
-if(process.env.NODE_ENV === "production") {  
-  await Category.create({name: "IT"});
-  await Category.create({name: "Education"});
-  await Category.create({name: "Fashion"});
-  await Category.create({name: "Medicine"});
+  await Category.findOrCreate({name: "IT"});
+  await Category.findOrCreate({name: "Education"});
+  await Category.findOrCreate({name: "Fashion"});
+  await Category.findOrCreate({name: "Medicine"});
 
-  await ReactionType.create({name: "like"});
-  await ReactionType.create({name: "dislike"});
-}
+  await ReactionType.findOrCreate({name: "like"});
+  await ReactionType.findOrCreate({name: "dislike"});
 ////////////////////////
 
   app.listen(port, () => {
