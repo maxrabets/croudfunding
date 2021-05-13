@@ -23,20 +23,24 @@ app.use(bodyParser.urlencoded({
   extended: true
 }));
 
-app.use(express.static(`${__dirname}/frontend/build`));
+if(process.env.NODE_ENV === "production") {  
+  app.use(express.static(`${__dirname}/frontend/build`));
+}
 
 app.use("/campaigns", camapignsRouter);
 app.use("/users", usersRouter); 
 
 sequelize.sync({force: false}).then(async (result)=>{
 /////////////////
-  // await Category.create({name: "IT"});
-  // await Category.create({name: "Education"});
-  // await Category.create({name: "Fashion"});
-  // await Category.create({name: "Medicine"});
+if(process.env.NODE_ENV === "production") {  
+  await Category.create({name: "IT"});
+  await Category.create({name: "Education"});
+  await Category.create({name: "Fashion"});
+  await Category.create({name: "Medicine"});
 
-  // await ReactionType.create({name: "like"});
-  // await ReactionType.create({name: "dislike"});
+  await ReactionType.create({name: "like"});
+  await ReactionType.create({name: "dislike"});
+}
 ////////////////////////
 
   app.listen(port, () => {
