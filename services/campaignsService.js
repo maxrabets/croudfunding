@@ -143,9 +143,19 @@ async function rateCampaign(campaignId, userId, rating) {
     return await getCampaignRating(campaign);
 }
 
+async function getCampaignsCount() {
+    return await Campaign.count();
+}
+
+async function getPage(pageNumber, count, order) {
+    
+    return await Campaign.count();
+}
+
 exports.getUserCampaigns = getUserCampaigns;
 exports.getCampaign = getCampaign;
 exports.deleteCampaign = deleteCampaign;
 exports.createCampaign = createCampaign;
 exports.editCampaign = editCampaign;
 exports.rateCampaign = rateCampaign;
+exports.getCampaignsCount = getCampaignsCount;

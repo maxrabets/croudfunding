@@ -87,3 +87,16 @@ exports.rateCampaign = async function (request, response) {
     else
         response.sendStatus(500);
 };
+
+exports.getCampaignsCount = async function (request, response) {
+    const campaignsCount = await campaignsService.getCampaignsCount();
+    response.json(campaignsCount);
+};
+
+exports.getPage = async function (request, response) {
+    const pageNumber = request.query.pageNumber;
+    const count = request.query.count;
+    const order = request.query.order;
+    const campaigns = await campaignsService.getPage(pageNumber, count, order);
+    response.json(campaigns);
+};

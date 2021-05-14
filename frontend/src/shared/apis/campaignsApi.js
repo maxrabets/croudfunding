@@ -40,7 +40,7 @@ export async function createCampaign(formData, token) {
         body: formData
     })
     console.log(response);
-    return response.ok
+    return response.ok;
 }
 
 export async function deleteCampaign(campaignId, token) {
@@ -51,7 +51,7 @@ export async function deleteCampaign(campaignId, token) {
         }
     })
     console.log(response);
-    return response.ok
+    return response.ok;
 }
 
 export async function changeCampaign(campaignId, formData, token) {
@@ -63,5 +63,27 @@ export async function changeCampaign(campaignId, formData, token) {
         body: formData
     });
     console.log(response);
-    return response.ok
+    return response.ok;
+}
+
+export async function getCampaignsCount() {
+    const response = await fetch(`/api/campaigns/count`);
+    if(response.ok)
+        return await response.json();
+    else{
+        console.log(response);
+        return false;
+    }
+}
+
+export async function getCampaignsPage(page, count, order) {
+    const response = await fetch(
+        `/api/campaigns/page?pageNumber=${page}&count=${count}&order=${order}`
+    );
+    if(response.ok)
+        return await response.json();
+    else{
+        console.log(response);
+        return false;
+    }
 }

@@ -25,6 +25,10 @@ camapignsRouter.delete("/:campaignId", jwtCheck,
 
 camapignsRouter.get("/", camapignsController.getUserCampaigns);
 
+camapignsRouter.get("/count", campaignsControler.getCampaignsCount);
+
+camapignsRouter.get("/page", campaignsControler.getPage);
+
 camapignsRouter.use("/categories", categoriesRouter);
 
 camapignsRouter.get("/:campaignId", camapignsController.getCampaign);
@@ -35,7 +39,7 @@ camapignsRouter.use("/:campaignId/news",  newsRouter);
 
 camapignsRouter.use("/:campaignId/comments",  commentsRouter);
 
-camapignsRouter.use("/:campaignId/ratings", jwtCheck, 
+camapignsRouter.post("/:campaignId/ratings", jwtCheck, 
     jwtAuthz(['rate:campaigns'], {customScopeKey: 'permissions'}),
     camapignsController.rateCampaign);
  
