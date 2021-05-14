@@ -8,11 +8,14 @@ import ReactMarkdown from 'react-markdown';
 import ProgressBar from "../shared/components/ProgressBar";
 import BonusesList from "../shared/components/BonusesList";
 import PaymentDialog from "../shared/components/PaymentDialog";
+import RatingDialog from "../shared/components/RatingDialog";
 import ImagesGallery from "../shared/components/ImagesGallery";
 import NewsPost from "../shared/components/news/NewsPost";
 import CommentsField from "../shared/components/CommentsField";
 import Tags from "@yaireo/tagify/dist/react.tagify";
 import "@yaireo/tagify/dist/tagify.css";
+import Rating from '@material-ui/lab/Rating';
+import cloneDeep from 'lodash/cloneDeep';
 import {matchYoutubeUrl} from "../shared/validators/VideoLinkValidator";
 import {getNews as getNewsFromApi} from "../shared/apis/newsApi";
 import {getCampaign as getCampaignFromApi} from "../shared/apis/campaignsApi";
@@ -24,6 +27,7 @@ const Campaign = (props) => {
     const [news, setNews] = useState([]);
     const [isYouTubeLink, setIsYouTubeLink] = useState(false);
     const [isPaymentDialogOpen, setIsPaymentDialogOpen] = useState(false);
+    const [isRatingDialogOpen, setIsRatingDialogOpen] = useState(false);
     const [defaultPaymentSum, setDefaultPaymentSum] = useState(0);
 
     const getNews = () => {
@@ -57,7 +61,13 @@ const Campaign = (props) => {
                 setDefaultPaymentSum(0);
             setIsPaymentDialogOpen(true);
         }
-    }, [isAuthenticated])
+    }, [isAuthenticated]);
+
+    const onRate = useCallback(() => {
+        if(isAuthenticated) {
+            setIsRatingDialogOpen(true);
+        }
+    }, [isAuthenticated]);
 
     if(!isLoaded)
         return <CircularProgress />;
@@ -65,6 +75,10 @@ const Campaign = (props) => {
     return (
     <>
         <Typography variant="h3">{campaign.name}</Typography>
+        <Rating value={campaign.rating} readOnly precision={0.1}/>
+        <Button variant="contained"  color="primary" onClick={onRate}>
+            <FormattedMessage id="campaigns.ratings.rate" />
+        </Button>
         {isYouTubeLink ? <ReactPlayer
                 url={campaign.videoLink}
             /> : <></>}
@@ -98,10 +112,33 @@ const Campaign = (props) => {
 
         <Typography><FormattedMessage id="campaigns.news" /></Typography>
         {news.map(post => <NewsPost post={post} />)}
+
         <PaymentDialog campaign={campaign} 
             isOpen={isPaymentDialogOpen}
-            onClose={() => setIsPaymentDialogOpen(false)} 
-            defaultSum={defaultPaymentSum}/>
+            onClose={(campaignCurrentMoney) => {
+                setIsPaymentDialogOpen(false);
+                console.log(campaignCurrentMoney)
+                if(campaignCurrentMoney) {
+                    const newCampaign = cloneDeep(campaign);
+                    newCampaign.currentMoney = campaignCurrentMoney;
+                    setCamapign(newCampaign)
+                }
+            }} 
+            defaultSum={defaultPaymentSum}
+        />
+        <RatingDialog 
+            campaignId={campaign.id} 
+            isOpen={isRatingDialogOpen}
+            onClose={(avgRating) => {
+                setIsRatingDialogOpen(false);
+                console.log(avgRating)
+                if(avgRating) {
+                    const newCampaign = cloneDeep(campaign);
+                    newCampaign.rating = avgRating;
+                    setCamapign(newCampaign)
+                }
+            }} 
+        />
     </>
     );
 };

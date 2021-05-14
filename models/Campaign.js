@@ -58,7 +58,7 @@ Campaign = sequelize.define("campaign", {
     type: Sequelize.DATE,
     allowNull: false,
     defaultValue: Date.now(),
-  }
+  },
 });
 
 // Campaign.belongsTo(User);

@@ -35,5 +35,8 @@ camapignsRouter.use("/:campaignId/news",  newsRouter);
 
 camapignsRouter.use("/:campaignId/comments",  commentsRouter);
 
+camapignsRouter.use("/:campaignId/ratings", jwtCheck, 
+    jwtAuthz(['rate:campaigns'], {customScopeKey: 'permissions'}),
+    camapignsController.rateCampaign);
  
 module.exports = camapignsRouter;

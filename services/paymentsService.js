@@ -18,7 +18,7 @@ async function createPayment(campaignId, userId, money) {
     user.addBonuses(bonuses);
     campaign.save();
     user.save();
-    return true;
+    return campaign.currentMoney;
 }
 
 exports.createPayment = createPayment;

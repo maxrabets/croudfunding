@@ -3,7 +3,6 @@ const campaignsService = require('../services/campaignsService');
 const usersService = require('../services/usersService');
 const categoriesService = require('../services/categoriesService');
 
-
 exports.createCampaign = async function (request, response) {    
     const userId = request.user.sub;
     const filenames = await cloudService.saveFiles(request.files);
@@ -76,4 +75,15 @@ exports.editCampaign = async function(request, response) {
         return response.sendStatus(200);
     else
         return response.sendStatus(404);
+};
+
+exports.rateCampaign = async function (request, response) {    
+    const userId = request.user.sub;
+    const campaignId = request.params.campaignId;
+    const rating = request.body.rating;
+    const averageRating = await campaignsService.rateCampaign(campaignId, userId, rating);
+    if(averageRating)
+        response.json(averageRating);
+    else
+        response.sendStatus(500);
 };

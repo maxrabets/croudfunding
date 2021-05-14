@@ -19,9 +19,9 @@ const PaymentDialog = ({campaign, isOpen, onClose, defaultSum}) => {
 
     const onPay = useCallback(async () => {
         const token = await getAccessTokenSilently();
-        createPayment(campaign.id, money, token).then(created => {            
-            if(created) {
-                onClose();
+        createPayment(campaign.id, money, token).then(campaignCurrentMoney => {            
+            if(campaignCurrentMoney) {
+                onClose(campaignCurrentMoney);
             }
             else
                 alert("error");
@@ -33,7 +33,7 @@ const PaymentDialog = ({campaign, isOpen, onClose, defaultSum}) => {
         return <></>
 
     return (
-    <Dialog open={isOpen} onClose={onClose} 
+    <Dialog open={isOpen} onClose={() => onClose()} 
         onEnter={() => {
             setAvailableBonuses(campaign.bonuses.filter(bonus => bonus.price <= defaultSum));
             setMoney(defaultSum);
@@ -56,7 +56,7 @@ const PaymentDialog = ({campaign, isOpen, onClose, defaultSum}) => {
             <Button onClick={onPay} color="primary">
                 <FormattedMessage id="campaigns.pay"/>
             </Button>
-            <Button onClick={onClose} color="primary">
+            <Button onClick={() => onClose()} color="primary">
                 <FormattedMessage id="dialog.cancel"/>
             </Button>
             </DialogActions>

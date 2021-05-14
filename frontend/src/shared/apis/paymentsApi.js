@@ -8,5 +8,10 @@ export async function createPayment(campaignId, money, token) {
         body: JSON.stringify({money})
     })
     console.log(response);
-    return response.ok;
+    if(response.ok) {
+        return await response.json();
+    }
+    else{
+        console.log("error")
+    }
 }

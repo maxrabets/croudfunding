@@ -12,6 +12,15 @@ const videosService = require('../services/videosService');
 const imagesService = require('../services/imagesService');
 const bonusesService = require('../services/bonusesService');
 
+async function getCampaignRating(campaign) {
+    if(!campaign)
+        return false;
+    const ratings = await campaign.getRatings();
+    const sum = ratings.reduce((sum, current) => sum + current.value, 0);
+    console.log(sum);
+    return sum / ratings.length;
+}
+
 async function getUserCampaigns(user) {
     if(!user)
         return false;
@@ -37,9 +46,11 @@ async function getCampaign(campaignId) {
         return response.sendStatus(404);
     let images = await campaign.getImages();
     images = await cloudService.getFiles(images.map(image => image.filename));
+    const rating = await getCampaignRating(campaign);
     campaign = campaign.toJSON();
     campaign.images = images;
     campaign.videoLink = "";
+    campaign.rating = rating;
     if(campaign.video)
         campaign.videoLink = campaign.video.filename;
     return campaign;
@@ -113,8 +124,28 @@ async function editCampaign(userId, campaignId, categoryName, name, targetMoney,
         return false;
 };
 
+async function rateCampaign(campaignId, userId, rating) {
+    console.log(campaignId);
+    let campaign = await Campaign.findOne({where: {id: campaignId}});
+    if(!campaign)
+        return false;
+    const user = await usersService.findOrCreate(userId);
+    const ratingFromDb = await Rating.findOne({
+        where: {campaignId, userId},
+    })
+    if(ratingFromDb){
+        ratingFromDb.value = rating;
+        await ratingFromDb.save();
+    }
+    else{
+        await Rating.create({campaignId, userId, value: rating})
+    }
+    return await getCampaignRating(campaign);
+}
+
 exports.getUserCampaigns = getUserCampaigns;
 exports.getCampaign = getCampaign;
 exports.deleteCampaign = deleteCampaign;
 exports.createCampaign = createCampaign;
 exports.editCampaign = editCampaign;
+exports.rateCampaign = rateCampaign;
