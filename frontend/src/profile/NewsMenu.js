@@ -6,6 +6,8 @@ import { Typography, Breadcrumbs, Button,
     CircularProgress, DialogContent, Dialog } from '@material-ui/core';
 import NewsForm from "../shared/components/news/NewsPostForm";
 import NewsEditCard from "../shared/components/news/NewsEditCard";
+import {getNews as getNewsFromApi, createPost, deletePost, 
+    changePost} from "../shared/apis/newsApi";
 
 const CampaignsCreateMenu = (props) => {
     const { isAuthenticated, getAccessTokenSilently } = useAuth0();
@@ -17,75 +19,44 @@ const CampaignsCreateMenu = (props) => {
     console.log(props.match.params.id);
     const emptyPost = {header: "", description: ""};
 
-    const convertImageToFile = (image) => {     
-        console.log(image);
-        if(image) {
-            const file = new File([Buffer.from(image.buffer)], image.name);
-            file.url = URL.createObjectURL(file);
-            return file;
-        }
-    }
-
-    const getNews = () => {
-        //setIsLoaded(false);
-        fetch(`/campaigns/${props.match.params.id}/news`).then( response => {
-            if(response.ok){
-                response.json().then(news => {
-                    console.log(news)
-                    news.forEach(post => post.image = convertImageToFile(post.image))
-                    setNews(news);
-                    setIsLoaded(true);
-                });
+    const getNews = useCallback(() => {
+        getNewsFromApi(props.match.params.id).then(newsFromApi => {
+            if(newsFromApi) {
+                setNews(newsFromApi);
+                setIsLoaded(true);
             }
-            else{
-                console.log(response);
-            }
+            else
+                console.log('error')
         })
-    }
+    }, [props.match.params.id])
 
     const onAdd = useCallback(async (formData) => {
         const token = await getAccessTokenSilently();
-        fetch(`/campaigns/${props.match.params.id}/news`, {
-            method: "POST",
-            headers: {
-                Authorization: `Bearer ${token}`
-            },
-            body: formData
-        }).then(response => {
+        createPost(props.match.params.id, formData, token)
+        .then(addedPost => {
             setAddFormOpen(false);
-            console.log(response);
-            if(response.ok) {
-                response.json().then(addedPost => {
-                    console.log(addedPost)
-                    if(addedPost.image)
-                        addedPost.image = convertImageToFile(addedPost.image);                    
+            if(addedPost) {                 
                     setNews(news.concat(addedPost));
-                });
             }
-            else
+            else {
                 alert("error");
+            }
         });
     }, [getAccessTokenSilently, news, props.match.params.id]);
 
     const onClose = useCallback(async (id) => {
         const token = await getAccessTokenSilently();
-        fetch(`/campaigns/${props.match.params.id}/news/${id}`, {
-            method: "DELETE",
-            headers: {
-                Authorization: `Bearer ${token}`
-            },
-        }).then(response => {
-            console.log(response);
-            if(response.ok) {
+        deletePost(props.match.params.id, id, token).then(deleted => {
+            if(deleted){
                 console.log("delete");
                 const newsCopy = news.slice();
                 const index = newsCopy.find(post => post.id = id);
                 newsCopy.splice(index, 1);
                 setNews(newsCopy);
-            }
+            }            
             else
                 alert("error");
-        });
+        })
     }, [getAccessTokenSilently, news, props.match.params.id]);
 
     const onEdit = useCallback((post) => {
@@ -95,24 +66,17 @@ const CampaignsCreateMenu = (props) => {
 
     const onChange = useCallback(async (formData, id) => {
         const token = await getAccessTokenSilently();
-        fetch(`/campaigns/${props.match.params.id}/news/${id}`, {
-            method: "PUT",
-            headers: {
-                Authorization: `Bearer ${token}`
-            },
-            body: formData
-        }).then(response => {
+        changePost(props.match.params.id, id, formData, token).then(changed => {            
             setEditFormOpen(false);
-            console.log(response);
-            if(response.ok) {
+            if(changed) {
                 getNews();
             }
             else
                 alert("error");
-        });
+        })
     }, [getAccessTokenSilently, getNews, props.match.params.id]);
 
-    useEffect(getNews, [props.match.params.id, setIsLoaded]);
+    useEffect(getNews, [getNews]);
 
     if(!isLoaded)
         return <CircularProgress />;

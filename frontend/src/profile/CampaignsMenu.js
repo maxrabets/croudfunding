@@ -4,41 +4,33 @@ import {NavLink} from "react-router-dom";
 import {Button, TableContainer, Table, TableHead, Typography,
     TableRow, TableCell, TableBody, Paper, Breadcrumbs} from '@material-ui/core';
 import {FormattedMessage} from "react-intl"
+import {getUserCampaigns, deleteCampaign} from "../shared/apis/campaignsApi"
 
 const CampaignsMenu = () => {
     const { user, isAuthenticated, getAccessTokenSilently} = useAuth0();
     const [campaigns, setCampaigns] = useState([]);
     
-    console.log(campaigns);
-    const getCampaigns = () => {
+    const getCampaigns = useCallback(() => {
         if(isAuthenticated) {
-            fetch(`/campaigns?userId=${user.sub}`)
-            .then( response => {
-                if(response.ok){
-                    response.json().then(campaigns => {
-                        console.log(campaigns);
-                        setCampaigns(campaigns);                        
-                    });
-                }
+            getUserCampaigns(user.sub).then(campaigns => {
+                if(campaigns)
+                    setCampaigns(campaigns);
+                else
+                    console.log("error")
             })
         }
-    }
-    useEffect(getCampaigns, [isAuthenticated, user.sub]);
+    }, [isAuthenticated, user.sub])
+    useEffect(getCampaigns, [getCampaigns]);
 
     const onDelete = useCallback(async (id) => {
         if(isAuthenticated) {
             const token = await getAccessTokenSilently();
-            fetch(`/campaigns/${id}`, {
-                method: "DELETE",
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            }).then(response => {
-                console.log(response);
-                if(response.ok) {
+            deleteCampaign(id, token).then(deleted => {
+                if(deleted)
                     getCampaigns();
-                }
-            });
+                else
+                    console.log("delete error")
+            })
         }
     }, [getAccessTokenSilently, getCampaigns, isAuthenticated]);
 

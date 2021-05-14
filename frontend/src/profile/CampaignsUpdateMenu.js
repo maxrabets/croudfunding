@@ -5,8 +5,10 @@ import {NavLink, Redirect} from "react-router-dom";
 import { Typography, Breadcrumbs, Button, 
     IconButton, CircularProgress } from '@material-ui/core';
 import VisibilityIcon from '@material-ui/icons/Visibility';
-import parseISO from "date-fns/parseISO"
 import CampaignForm from "../shared/components/campaignForm/CampaignForm";
+import { changeCampaign,
+    getCampaign as getCampaignFromApi} from "../shared/apis/campaignsApi"
+import { getCategories as getCategoriesFromApi,} from "../shared/apis/categoriesApi"
 
 const CampaignsCreateMenu = (props) => {
     const { isAuthenticated } = useAuth0();
@@ -20,50 +22,35 @@ const CampaignsCreateMenu = (props) => {
     console.log(props.match.params.id);
 
     const getCampaign = () => {
-        fetch(`/campaigns/${props.match.params.id}`).then( response => {
-            if(response.ok){
-                response.json().then(campaign => {
-                    campaign.endDate = parseISO(campaign.endDate);
-                    campaign.category = campaign.category.name;
-                    campaign.images = campaign.images.map(image => {
-                        console.log(image.buffer.data);
-                        return new File([Buffer.from(image.buffer)], image.name,
-                            //{type: "image/jpeg"}
-                        )
-                    })
-                    campaign.tags = campaign.tags.map(tag => tag.name);
-                    setCamapign(campaign);                    
-                    setIsLoaded(true);
-                });
+        getCampaignFromApi(props.match.params.id).then(campaign => { 
+            if(campaign){                    
+                setCamapign(campaign);            
+                setIsLoaded(true);
             }
-            else{
-                alert("error");
-            }
+            else
+                console.log('error')
         })
     }
 
     const getCategories = () => {
-        fetch(`/campaigns/categories`).then( response => {
-            if(response.ok){
-                response.json().then(categories => setCategories(categories));
-            }
-        })
+        getCategoriesFromApi().then(categories => {
+            if(categories)
+                setCategories(categories);
+            else
+                console.log('error');
+        });
     }
     useEffect(getCategories, []);
     useEffect(getCampaign, [props.match.params.id, setIsLoaded]);
 
     const onUpdate = useCallback(async (formData) => {
         const token = await getAccessTokenSilently();
-        fetch(`/campaigns/${props.match.params.id}`, {
-            method: "PUT",
-            headers: {
-                Authorization: `Bearer ${token}`
-            },
-            body: formData
-        }).then(response => {
-            console.log(response);
-            if(response.ok) {
+        changeCampaign(props.match.params.id, formData, token).then(cheanged => {
+            if(cheanged) {
                 setIsSaved(true);
+            }
+            else{
+                console.log('error');
             }
         });
     }, [getAccessTokenSilently, props.match.params.id]);

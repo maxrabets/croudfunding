@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card, CardActionArea, CardContent, CardMedia,
-    Typography, IconButton, Box} from '@material-ui/core';
+    Typography, IconButton} from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 
 const MediaCard = ({filename, image, onClose}) => {

@@ -1,11 +1,11 @@
 import React, { useCallback, useState,  } from "react";
 import { DialogContent, Dialog, DialogTitle, DialogActions, Button,
-    TextField, Typography } from '@material-ui/core';
+    Typography } from '@material-ui/core';
 import { useAuth0 } from "@auth0/auth0-react";
 import {FormattedMessage} from "react-intl";
 import MoneyField from "./campaignForm/MoneyField";
 import AvailableBonusesList from "./AvailableBonusesList";
-
+import {createPayment} from "../apis/paymentsApi";
 
 const PaymentDialog = ({campaign, isOpen, onClose, defaultSum}) => {
     const { isAuthenticated, getAccessTokenSilently } = useAuth0();
@@ -17,23 +17,15 @@ const PaymentDialog = ({campaign, isOpen, onClose, defaultSum}) => {
         setMoney(newMoney);
     }, [campaign.bonuses])
 
-    const onPay = useCallback(async (bonus) => {
+    const onPay = useCallback(async () => {
         const token = await getAccessTokenSilently();
-        fetch(`/campaigns/${campaign.id}/payment`, {
-            method: "POST",
-            headers: {
-                Authorization: `Bearer ${token}`,
-                'Content-type': 'application/json;charset=utf-8'
-            },
-            body: JSON.stringify({money})
-        }).then(response => {
-            console.log(response);
-            if(response.ok) {
+        createPayment(campaign.id, money, token).then(created => {            
+            if(created) {
                 onClose();
             }
             else
                 alert("error");
-        });
+        })
     }, [campaign.id, getAccessTokenSilently, money, onClose])
 
 

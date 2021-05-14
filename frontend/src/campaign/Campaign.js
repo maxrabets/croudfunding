@@ -1,10 +1,8 @@
 import React, {useCallback, useState, useEffect} from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import {FormattedMessage} from "react-intl";
-import {NavLink, Redirect} from "react-router-dom";
 import { Typography, Button, 
     CircularProgress, InputLabel } from '@material-ui/core';
-import parseISO from "date-fns/parseISO";
 import ReactPlayer from 'react-player/youtube';
 import ReactMarkdown from 'react-markdown';
 import ProgressBar from "../shared/components/ProgressBar";
@@ -15,17 +13,12 @@ import NewsPost from "../shared/components/news/NewsPost";
 import CommentsField from "../shared/components/CommentsField";
 import Tags from "@yaireo/tagify/dist/react.tagify";
 import "@yaireo/tagify/dist/tagify.css";
-
-function matchYoutubeUrl(url) {
-    var p = /^(?:https?:\/\/)?(?:m\.|www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})(?:\S+)?$/;
-    if(url.match(p)){
-        return url.match(p)[1];
-    }
-    return false;
-}
+import {matchYoutubeUrl} from "../shared/validators/VideoLinkValidator";
+import {getNews as getNewsFromApi} from "../shared/apis/newsApi";
+import {getCampaign as getCampaignFromApi} from "../shared/apis/campaignsApi";
 
 const Campaign = (props) => {
-    const { isAuthenticated, getAccessTokenSilently } = useAuth0();
+    const { isAuthenticated } = useAuth0();
     const [ isLoaded, setIsLoaded ] = useState(false);
     const [campaign, setCamapign] = useState({});
     const [news, setNews] = useState([]);
@@ -33,48 +26,24 @@ const Campaign = (props) => {
     const [isPaymentDialogOpen, setIsPaymentDialogOpen] = useState(false);
     const [defaultPaymentSum, setDefaultPaymentSum] = useState(0);
 
-    const convertImageToFile = (image) => {     
-        console.log(image);
-        if(image) {
-            const file = new File([Buffer.from(image.buffer)], image.name);
-            file.url = URL.createObjectURL(file);
-            return file;
-        }
-    }
-
     const getNews = () => {
-        fetch(`/campaigns/${props.match.params.id}/news`).then( response => {
-            if(response.ok){
-                response.json().then(news => {
-                    console.log(news)
-                    news.forEach(post => post.image = convertImageToFile(post.image))
-                    setNews(news);
-                });
-            }
-            else{
-                console.log(response);
-            }
+        getNewsFromApi(props.match.params.id).then(newsFromApi => {
+            if(newsFromApi)
+                setNews(newsFromApi);
+            else
+                console.log('error')
         })
     }
 
     const getCampaign = () => {
-        fetch(`/campaigns/${props.match.params.id}`).then( response => {
-            if(response.ok){
-                response.json().then(campaign => {
-                    campaign.endDate = parseISO(campaign.endDate);
-                    campaign.category = campaign.category.name;
-                    campaign.images = campaign.images.map(image => 
-                        convertImageToFile(image)
-                    )
-                    campaign.tags = campaign.tags.map(tag => tag.name);
-                    setCamapign(campaign);
-                    setIsYouTubeLink(matchYoutubeUrl(campaign.videoLink));              
-                    setIsLoaded(true);
-                });
+        getCampaignFromApi(props.match.params.id).then(campaign => { 
+            if(campaign){                    
+                setCamapign(campaign);
+                setIsYouTubeLink(matchYoutubeUrl(campaign.videoLink));              
+                setIsLoaded(true);
             }
-            else{
-                alert("error");
-            }
+            else
+                console.log('error')
         })
     }
     useEffect(getCampaign, [props.match.params.id, setIsLoaded]);

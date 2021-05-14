@@ -2,14 +2,7 @@ import React, {useState, useCallback} from "react";
 import {TextField} from '@material-ui/core';
 import {FormattedMessage} from "react-intl";
 import ReactPlayer from 'react-player/youtube';
-
-function matchYoutubeUrl(url) {
-    var p = /^(?:https?:\/\/)?(?:m\.|www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})(?:\S+)?$/;
-    if(url.match(p)){
-        return url.match(p)[1];
-    }
-    return false;
-}
+import {matchYoutubeUrl} from "../../validators/VideoLinkValidator";
 
 const VideoLinkField = ({onChange, defaultVideoLink}) => {
     const [isYouTubeLink, setIsYouTubeLink] = useState(matchYoutubeUrl(defaultVideoLink));    

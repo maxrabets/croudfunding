@@ -3,6 +3,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { IconButton } from '@material-ui/core';
 import ThumbUpIcon from '@material-ui/icons/ThumbUp';
 import ThumbDownIcon from '@material-ui/icons/ThumbDown';
+import {getReactions as getReactionsFromApi, createRaction} from "../apis/reactionsApi";
 
 const Reactions = ({campaignId, commentId}) => {
     const { isAuthenticated, getAccessTokenSilently } = useAuth0();
@@ -10,42 +11,32 @@ const Reactions = ({campaignId, commentId}) => {
     const [dislikesCount, setDislikesCount] = useState(0);
 
     const getReactions = () => {
-        fetch(`/campaigns/${campaignId}/comments/${commentId}/reactions`).then(response => {
-            if(response.ok){
-                response.json().then(reactionTypesCount => {
-                    console.log(reactionTypesCount)
-                    reactionTypesCount = new Map(JSON.parse(reactionTypesCount));
-                    console.log(reactionTypesCount)
-                    setLlikesCount(reactionTypesCount.get("like"));
-                    setDislikesCount(reactionTypesCount.get("dislike"));
-                });
+        getReactionsFromApi(campaignId, commentId).then(reactionTypesCount => {
+            if(reactionTypesCount) {
+                setLlikesCount(reactionTypesCount.get("like"));
+                setDislikesCount(reactionTypesCount.get("dislike"));
             }
             else{
-                console.log(response);
+                console.log("error")
             }
-        })
+        });
     }
     useEffect(getReactions, [campaignId, commentId]);
 
     const onReaction = useCallback(async (reactionType) => {
         if(isAuthenticated) {
             const token = await getAccessTokenSilently();
-            fetch(`/campaigns/${campaignId}/comments/${commentId}/reactions`, {
-                method: "POST",
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                    'Content-type': 'application/json;charset=utf-8'
-                },
-                body: JSON.stringify({reactionType})
-            }).then(response => {
-                console.log(response);
-                if(response.ok) {
+            createRaction(campaignId, commentId, reactionType, token).then(created => {
+                if(created){                    
                     if(reactionType === "like")
                         setLlikesCount(likesCount + 1);
                     else
                         setDislikesCount(dislikesCount + 1);
                 }
-            });
+                else{
+                    console.log("error");
+                }
+            })
         }
     }, [campaignId, commentId, dislikesCount, getAccessTokenSilently, isAuthenticated, likesCount])
 

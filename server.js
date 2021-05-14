@@ -10,7 +10,6 @@ const ReactionType = require("./models/ReactionType");
 require("./models/associations");
 require('dotenv').config();
 
-
 var port = process.env.PORT || 8080;
 
 app.use(cors({
@@ -24,12 +23,16 @@ app.use(bodyParser.urlencoded({
 }));
 
  
-app.use("/campaigns", camapignsRouter);
-app.use("/users", usersRouter);
-app.use(express.static(`${__dirname}/frontend/build`));
+app.use("/api/campaigns", camapignsRouter);
+app.use("/api/users", usersRouter);
 
-if(process.env.NODE_ENV === "production") {  
-  app.use(express.static(`${__dirname}/frontend`));
+// app.use(express.static(`${__dirname}/frontend/build`));
+// app.get('*', (req, res) => {
+//   res.sendFile(`${__dirname}/frontend/build/index.html`);
+// });  
+
+
+if(process.env.NODE_ENV === "production") {
   app.use(express.static(`${__dirname}/frontend/build`));
   app.get('*', (req, res) => {
     res.sendFile(`${__dirname}/frontend/build/index.html`);

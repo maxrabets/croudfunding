@@ -4,6 +4,8 @@ import { Typography, Breadcrumbs } from '@material-ui/core';
 import {FormattedMessage} from "react-intl";
 import {NavLink, Redirect} from "react-router-dom";
 import CampaignForm from "../shared/components/campaignForm/CampaignForm"
+import {getCategories as getCategoriesFromApi} from "../shared/apis/categoriesApi"
+import {createCampaign} from "../shared/apis/campaignsApi"
 
 const CampaignsCreateMenu = () => {
     const { isAuthenticated } = useAuth0();        
@@ -17,32 +19,22 @@ const CampaignsCreateMenu = () => {
         defaultBonus: {name: "MyBonus", description: "BonusDescription", price: 10}, 
         bonuses: [], description: "MyDescrition", endDate: tomorrow, tags: "tag1,tag2",
         images: [], videoLink: ""
-    };
-    
+    };    
 
     const getCategories = () => {
-        fetch(`/campaigns/categories`).then( response => {
-            if(response.ok){
-                response.json().then(categories => setCategories(categories));
-            }
-        })
+        getCategoriesFromApi().then(categories => {
+            if(categories)
+                setCategories(categories);
+            else
+                console.log('error');
+        });        
     }
     useEffect(getCategories, []);
 
     const onCreate = useCallback(async (formData) => {
-        console.log(formData.get("images"));
         const token = await getAccessTokenSilently();
-        fetch(`/campaigns`, {
-            method: "POST",
-            headers: {
-                Authorization: `Bearer ${token}`
-            },
-            body: formData
-        }).then(response => {
-            console.log(response);
-            if(response.ok) {
-                setIsCreated(true);
-            }
+        createCampaign(formData, token).then(created => {
+            setIsCreated(created);
         });
     }, [getAccessTokenSilently]);
 

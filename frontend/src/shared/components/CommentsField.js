@@ -7,21 +7,17 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import {FormattedMessage} from "react-intl";
 import Comment from "./Comment";
 import NewComment from "./NewComment";
+import {getComments as getCommentsFromApi} from "../apis/commentsApi";
 
  const CommentsField = ({campaignId}) => {
     const [comments, setComments] = useState([]);
 
     const getComments = () => {
-        fetch(`/campaigns/${campaignId}/comments`).then( response => {
-            if(response.ok){
-                response.json().then(comments => {
-                    console.log(comments)
-                    setComments(comments);
-                });
-            }
-            else{
-                console.log(response);
-            }
+        getCommentsFromApi(campaignId).then(comments => {
+            if(comments)
+                setComments(comments);
+            else
+                console.log("error");
         })
     }
     useEffect(getComments, [campaignId]);
