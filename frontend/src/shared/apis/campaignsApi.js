@@ -76,10 +76,24 @@ export async function getCampaignsCount() {
     }
 }
 
-export async function getCampaignsPage(page, count, order) {
-    const response = await fetch(
-        `/api/campaigns/page?pageNumber=${page}&count=${count}&order=${order}`
-    );
+export async function getCampaignsPage(pageNumber, count, order, tags) {
+    const params = new URLSearchParams({
+        pageNumber,
+        count,
+        order,
+        tags
+    })
+    const response = await fetch(`/api/campaigns/page?${params}`);
+    if(response.ok)
+        return await response.json();
+    else{
+        console.log(response);
+        return false;
+    }
+}
+
+export async function getAllTags() {
+    const response = await fetch(`/api/campaigns/tags`);
     if(response.ok)
         return await response.json();
     else{

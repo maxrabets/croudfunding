@@ -1,5 +1,5 @@
 const express = require("express");
-const camapignsController = require("../controllers/campaignsController.js");
+const campaignsControler = require("../controllers/campaignsController.js");
 const camapignsRouter = express.Router();
 const categoriesRouter = require("./categoriesRouter");
 const newsRouter = require("./newsRouter");
@@ -12,26 +12,28 @@ const jwtCheck = require('../auth/jwt');
 camapignsRouter.post("/", jwtCheck, 
     jwtAuthz(['create:campaigns'], {customScopeKey: 'permissions'}), 
     upload.array('images'),
-    camapignsController.createCampaign);
+    campaignsControler.createCampaign);
 
 camapignsRouter.put("/:campaignId", jwtCheck, 
     jwtAuthz(['edit:campaigns'], {customScopeKey: 'permissions'}), 
     upload.array('images'),
-    camapignsController.editCampaign);
+    campaignsControler.editCampaign);
 
 camapignsRouter.delete("/:campaignId", jwtCheck, 
     jwtAuthz(['delete:campaigns'], {customScopeKey: 'permissions'}),
-    camapignsController.deleteCampaign);
+    campaignsControler.deleteCampaign);
 
-camapignsRouter.get("/", camapignsController.getUserCampaigns);
+camapignsRouter.get("/", campaignsControler.getUserCampaigns);
 
 camapignsRouter.get("/count", campaignsControler.getCampaignsCount);
+
+camapignsRouter.get("/tags", campaignsControler.getAllTags);
 
 camapignsRouter.get("/page", campaignsControler.getPage);
 
 camapignsRouter.use("/categories", categoriesRouter);
 
-camapignsRouter.get("/:campaignId", camapignsController.getCampaign);
+camapignsRouter.get("/:campaignId", campaignsControler.getCampaign);
 
 camapignsRouter.use("/:campaignId/payment", paymentsRouter);
 
@@ -41,6 +43,6 @@ camapignsRouter.use("/:campaignId/comments",  commentsRouter);
 
 camapignsRouter.post("/:campaignId/ratings", jwtCheck, 
     jwtAuthz(['rate:campaigns'], {customScopeKey: 'permissions'}),
-    camapignsController.rateCampaign);
+    campaignsControler.rateCampaign);
  
 module.exports = camapignsRouter;

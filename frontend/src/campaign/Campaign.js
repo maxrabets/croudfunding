@@ -75,7 +75,7 @@ const Campaign = (props) => {
     return (
     <>
         <Typography variant="h3">{campaign.name}</Typography>
-        <Rating value={campaign.rating} readOnly precision={0.1}/>
+        <Rating value={campaign.averageRating} readOnly precision={0.1}/>
         <Button variant="contained"  color="primary" onClick={onRate}>
             <FormattedMessage id="campaigns.ratings.rate" />
         </Button>
@@ -134,7 +134,7 @@ const Campaign = (props) => {
                 console.log(avgRating)
                 if(avgRating) {
                     const newCampaign = cloneDeep(campaign);
-                    newCampaign.rating = avgRating;
+                    newCampaign.averageRating = avgRating;
                     setCamapign(newCampaign)
                 }
             }} 

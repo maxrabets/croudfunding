@@ -43,14 +43,12 @@ async function getCampaign(campaignId) {
         ]
     });
     if(!campaign)
-        return response.sendStatus(404);
+        return false
     let images = await campaign.getImages();
     images = await cloudService.getFiles(images.map(image => image.filename));
-    const rating = await getCampaignRating(campaign);
     campaign = campaign.toJSON();
     campaign.images = images;
     campaign.videoLink = "";
-    campaign.rating = rating;
     if(campaign.video)
         campaign.videoLink = campaign.video.filename;
     return campaign;
@@ -140,16 +138,41 @@ async function rateCampaign(campaignId, userId, rating) {
     else{
         await Rating.create({campaignId, userId, value: rating})
     }
-    return await getCampaignRating(campaign);
+    const avgRating = await getCampaignRating(campaign);
+    campaign.averageRating = avgRating;
+    campaign.save();
+    return avgRating;
 }
 
 async function getCampaignsCount() {
     return await Campaign.count();
 }
 
-async function getPage(pageNumber, count, order) {
-    
-    return await Campaign.count();
+async function getPage(pageNumber, count, orderColumn, tags) {
+    let where;
+    console.log(tags);
+    if(!tags || tags == []) {
+        where = {}
+    }
+    else{
+        where = {
+            '$Tags.name$': tags
+        }
+    }
+    const campaigns = await Campaign.findAll({
+        offset: (pageNumber -1) * count,
+        limit: count,
+        where,
+        order: [
+            [orderColumn, "DESC"]
+        ],
+        include: [Category, Tag]
+    });
+    return campaigns;
+}
+
+async function getAllTags(){
+    return await Tag.findAll();
 }
 
 exports.getUserCampaigns = getUserCampaigns;
@@ -159,3 +182,5 @@ exports.createCampaign = createCampaign;
 exports.editCampaign = editCampaign;
 exports.rateCampaign = rateCampaign;
 exports.getCampaignsCount = getCampaignsCount;
+exports.getPage = getPage;
+exports.getAllTags = getAllTags;

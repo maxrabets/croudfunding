@@ -97,6 +97,12 @@ exports.getPage = async function (request, response) {
     const pageNumber = request.query.pageNumber;
     const count = request.query.count;
     const order = request.query.order;
-    const campaigns = await campaignsService.getPage(pageNumber, count, order);
+    const tags = request.query.tags;
+    const campaigns = await campaignsService.getPage(pageNumber, count, order, tags);
     response.json(campaigns);
+};
+
+exports.getAllTags = async function (request, response) {
+    const tags = await campaignsService.getAllTags();
+    response.json(tags);
 };

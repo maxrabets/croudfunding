@@ -59,6 +59,11 @@ Campaign = sequelize.define("campaign", {
     allowNull: false,
     defaultValue: Date.now(),
   },
+  averageRating: {
+    type: Sequelize.DECIMAL,
+    allowNull: false,
+    defaultValue: 0,
+  },
 });
 
 // Campaign.belongsTo(User);
