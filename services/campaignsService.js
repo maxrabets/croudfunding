@@ -11,6 +11,7 @@ const categoriesService = require('../services/categoriesService');
 const videosService = require('../services/videosService');
 const imagesService = require('../services/imagesService');
 const bonusesService = require('../services/bonusesService');
+const { Op } = require("sequelize");
 
 async function getCampaignRating(campaign) {
     if(!campaign)
@@ -154,19 +155,34 @@ async function getPage(pageNumber, count, orderColumn, tags) {
     if(!tags || tags == []) {
         where = {}
     }
+    // else{
+    //     where = {
+    //         name: {
+    //             [Op.in]: tags
+    //         }
+    //     }
+    // }
     else{
         where = {
-            '$Tags.name$': tags
+            '$tags.name$': tags
         }
     }
     const campaigns = await Campaign.findAll({
         offset: (pageNumber -1) * count,
         limit: count,
-        where,
         order: [
             [orderColumn, "DESC"]
         ],
-        include: [Category, Tag]
+        include: [
+            Category,
+            {
+                model: Tag,
+                as: "tags",
+                //where,
+                required: true
+            }
+        ],        
+        where,
     });
     return campaigns;
 }

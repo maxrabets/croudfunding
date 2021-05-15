@@ -87,6 +87,7 @@ export default function Main() {
     const onChangeTags = useCallback((event) => {
         let newTags = JSON.parse(event.detail.value);
         newTags = newTags.map(tag => tag.value);
+        console.log(newTags)
         setTags(newTags);
         setPage(1);
         getCampaignsPage(1, campaignsPerPage, order, newTags).then(campaigns => {
