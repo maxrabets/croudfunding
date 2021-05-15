@@ -6,7 +6,7 @@ import Tags from "@yaireo/tagify/dist/react.tagify";
 import "@yaireo/tagify/dist/tagify.css";
 import {getCampaignsCount, getCampaignsPage,
      getAllTags} from "../shared/apis/campaignsApi";
-import CampaignPreviewCard from "../shared/components/CampaignPreviewCard";
+import CampaignPreviewCard from "../shared/components/campaigns/CampaignPreviewCard";
 
 const tagifySettings = {		
     maxTags: 10,
@@ -100,7 +100,7 @@ export default function Main() {
 
     return (
         <Box m={2}>
-            <Typography variant="h3"><FormattedMessage id="main.header"/></Typography>
+            <Typography variant="h6"><FormattedMessage id="main.header"/></Typography>
             <Typography><FormattedMessage id="campaigns.tags"/>:</Typography>
             <Tags
                 settings={tagifySettings}

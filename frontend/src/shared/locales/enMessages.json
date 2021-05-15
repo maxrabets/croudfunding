@@ -11,6 +11,7 @@
     "profile.email": "Email",
     "campaigns.name": "Name",
     "campaigns.category": "Category",
+    "campaigns.status": "Status",
     "campaigns.news": "News",
     "campaigns.delete": "Delete",
     "campaigns.update": "Update",

@@ -11,6 +11,7 @@
     "profile.email": "Электронная почта",
     "campaigns.name": "Название",
     "campaigns.category": "Категория",
+    "campaigns.status": "Статус",
     "campaigns.news": "Новости",
     "campaigns.delete": "Удалить",
     "campaigns.update": "Редактировать",

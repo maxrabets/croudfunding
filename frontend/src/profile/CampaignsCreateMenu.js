@@ -3,7 +3,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { Typography, Breadcrumbs, Box } from '@material-ui/core';
 import {FormattedMessage} from "react-intl";
 import {NavLink, Redirect} from "react-router-dom";
-import CampaignForm from "../shared/components/campaignForm/CampaignForm"
+import CampaignForm from "../shared/components/campaigns/CampaignForm"
 import {getCategories as getCategoriesFromApi} from "../shared/apis/categoriesApi"
 import {createCampaign} from "../shared/apis/campaignsApi"
 

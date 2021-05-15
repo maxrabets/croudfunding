@@ -44,11 +44,21 @@ Campaign = sequelize.define("campaign", {
     type: Sequelize.STRING,
     allowNull: true,
   },
+  // status: {
+  //   type: Sequelize.STRING,
+  //   allowNull: false,
+  //   defaultValue: "active"
+  // },  
   status: {
-    type: Sequelize.STRING,
-    allowNull: false,
-    defaultValue: "active"
-  },  
+      type: Sequelize.VIRTUAL, 
+      get() {
+        if(Date.now() > this.endDate && this.currentMoney < this.targetMoney)
+          return "failed";
+        if(Date.now() <= this.endDate && this.currentMoney < this.targetMoney)
+          return "active"
+        return "succeed";        
+      },
+    },  
   creationDate: {
     type: Sequelize.DATE,
     allowNull: false,

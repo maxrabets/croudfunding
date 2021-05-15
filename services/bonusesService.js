@@ -1,6 +1,8 @@
 const Bonus = require("../models/Bonus");
 
 async function updateBonuses(campaign, bonuses) {
+    if(campaign.status !== "active")
+        return campaign;
     const bonusesFromDb = await campaign.getBonuses();
     for(let i = 0; i < bonusesFromDb.length; i++) {    
         const index = bonuses.findIndex(bonus => bonus.id == bonusesFromDb[i].id);

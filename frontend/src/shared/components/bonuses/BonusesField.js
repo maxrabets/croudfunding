@@ -1,9 +1,8 @@
 import React, { useCallback, useState } from "react";
-import {TextField, TableContainer, Table,
+import {TextField, TableContainer, Table, Box,
     TableHead, TableRow, TableCell, TableBody, Paper, Button} from '@material-ui/core';
 import {FormattedMessage} from "react-intl";
-import MoneyField from "./MoneyField";
-import RequiredTextField from "./RequiredTextField";
+import validateBonus from "../../validators/BonusValidator";
 
 const BonusesField = ({defaultBonus, defaultBonuses, onChange}) => {
     const [bonuses, setBonuses] = useState(defaultBonuses);
@@ -12,11 +11,13 @@ const BonusesField = ({defaultBonus, defaultBonuses, onChange}) => {
     const [bonusPrice, setBonusPrice] = useState(defaultBonus.price || "");
 
     const onAdd = useCallback(() => {
-        const newBonus = { name: bonusName, description: bonusDescription, price: bonusPrice}
-        const newBonuses = bonuses.concat(newBonus);
-        setBonuses(newBonuses);
-        console.log(newBonuses);
-        onChange(newBonuses);
+        const newBonus = { name: bonusName, description: bonusDescription, price: Number(bonusPrice)}
+        if(validateBonus(newBonus) && !bonuses.find(bonus => bonus.name === newBonus.name)) {            
+            const newBonuses = bonuses.concat(newBonus);
+            setBonuses(newBonuses);
+            console.log(newBonuses);
+            onChange(newBonuses);
+        }
     }, [bonusDescription, bonusName, bonusPrice, bonuses, onChange]);
 
     const onRemove = useCallback((bonus) => {
@@ -28,20 +29,32 @@ const BonusesField = ({defaultBonus, defaultBonuses, onChange}) => {
     }, [bonuses, onChange]);
 
     return(
-        <fieldset>
-            <legend>{<FormattedMessage id="campaigns.bonuses" />}</legend>
-            <RequiredTextField onSetName={(name) => setBonusName(name)} 
-                defaultName={defaultBonus.name}
+        <Box>
+            <FormattedMessage id="campaigns.bonuses" />            
+            <TextField
+                required
+                value={bonusName}
+                onChange={(e) => setBonusName(e.target.value)}
                 label={<FormattedMessage id="campaigns.bonuses.name" />}
+                helperText={(bonusName === "") ? 
+                    <FormattedMessage id="validation.required" /> : ""}
+                error={bonusName === ""}
             />
             <TextField
                 value={bonusDescription}
                 onChange={(e) => setBonusDescription(e.target.value)}
                 label={<FormattedMessage id="campaigns.bonuses.description" />}
             />
-            <MoneyField onSetMoney={(bonusPrice) => setBonusPrice(bonusPrice)}
-                defaultMoney={defaultBonus.price}                
+            <TextField
+                inputProps={{min: "0"}}
+                error={bonusPrice === ""}
+                value={bonusPrice}
+                required
+                onChange={(e) => setBonusPrice(e.target.value)}
+                type="number"
                 label={<FormattedMessage id="campaigns.bonuses.price" />}
+                helperText={(bonusPrice === "") ? 
+                    <FormattedMessage id="validation.required" /> : ""}
             />
             <Button 
                 variant="contained" 
@@ -89,7 +102,7 @@ const BonusesField = ({defaultBonus, defaultBonuses, onChange}) => {
                         </TableBody>
                     </Table>
                 </TableContainer>
-        </fieldset>
+        </Box>
     )
 }
 

@@ -2,7 +2,7 @@ import React, {useState, useCallback} from "react";
 import {TextField} from '@material-ui/core';
 import {FormattedMessage} from "react-intl";
 import ReactPlayer from 'react-player/youtube';
-import {matchYoutubeUrl} from "../../validators/VideoLinkValidator";
+import {matchYoutubeUrl} from "../validators/VideoLinkValidator";
 
 const VideoLinkField = ({onChange, defaultVideoLink}) => {
     const [isYouTubeLink, setIsYouTubeLink] = useState(matchYoutubeUrl(defaultVideoLink));    
@@ -22,7 +22,7 @@ const VideoLinkField = ({onChange, defaultVideoLink}) => {
                 onChange={checkLink}
                 label={<FormattedMessage id="campaigns.video" />}
             />
-            {isYouTubeLink ? <ReactPlayer
+            {isYouTubeLink ? <ReactPlayer width="100%"
                 url={videoLink}
             /> : <></>}
             

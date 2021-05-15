@@ -25,6 +25,9 @@ const CampaignsMenu = ({campaigns, onDelete}) => {
                             <FormattedMessage id="campaigns.endDate" />
                         </TableCell>
                         <TableCell>
+                            <FormattedMessage id="campaigns.status" />
+                        </TableCell>
+                        <TableCell>
                             <FormattedMessage id="campaigns.update" />
                         </TableCell>
                         <TableCell>
@@ -42,12 +45,17 @@ const CampaignsMenu = ({campaigns, onDelete}) => {
                             }
                         </TableCell>
                         <TableCell><FormattedDate value={campaign.endDate}/></TableCell>
+                        <TableCell>{campaign.status}</TableCell>
                         <TableCell>
+                            { campaign.status === "active" ?
                             <NavLink to={`campaigns/${campaign.id}`}>
-                                <Button variant="contained" color="primary">                        
+                                <Button variant="contained" 
+                                    color="primary" disabled={campaign.status !== "active" }
+                                >                        
                                     <FormattedMessage id="campaigns.update" />                        
                                 </Button>                                    
-                            </NavLink>
+                            </NavLink> : <></>
+                            }
                         </TableCell>
                         <TableCell>
                             <Button variant="contained" color="primary"

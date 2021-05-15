@@ -3,7 +3,7 @@ import { TableContainer, Table,
     TableHead, TableRow, TableCell, TableBody, Paper, Button} from '@material-ui/core';
 import {FormattedMessage} from "react-intl";
 
-const BonusesList = ({bonuses, onPay}) => {
+const BonusesList = ({bonuses, onPay, disabled}) => {
 
     return(
     <TableContainer component={Paper}>
@@ -32,7 +32,7 @@ const BonusesList = ({bonuses, onPay}) => {
                         <TableCell >{bonus.description}</TableCell>
                         <TableCell >{bonus.price}</TableCell>
                         <TableCell >
-                            <Button 
+                            <Button disabled={disabled}
                                 variant="contained" 
                                 color="primary" 
                                 onClick={() => onPay(bonus)}

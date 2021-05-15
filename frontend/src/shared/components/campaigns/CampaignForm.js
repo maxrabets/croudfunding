@@ -1,15 +1,15 @@
 import { Button } from '@material-ui/core';
 import React, {useState, useCallback} from "react";
 import {FormattedMessage} from "react-intl";
-import RequiredTextField from "./RequiredTextField";
-import CategoriesField from "./CategoriesField";
-import DescriptionField from "./DescriptionField";
-import TagsField from "./TagsField";
-import MoneyField from "./MoneyField";
-import DateField from "./DateField";
-import VideoLinkField from "./VideoLinkField";
-import ImagesField from "../ImagesField";
-import BonusesField from "./BonusesField";
+import RequiredTextField from "../RequiredTextField";
+import CategoriesField from "../CategoriesField";
+import DescriptionField from "../DescriptionField";
+import TagsField from "../TagsField";
+import MoneyField from "../MoneyField";
+import DateField from "../DateField";
+import VideoLinkField from "../VideoLinkField";
+import ImagesField from "../images/ImagesField";
+import BonusesField from "../bonuses/BonusesField";
 import { Box, Dialog, DialogContent, DialogContentText, 
     DialogActions} from '@material-ui/core';
 
@@ -56,47 +56,48 @@ const CampaignForm = ({defaultCampaign, onSave, categories}) => {
         images, name, onSave, tags, targetMoney, videoLink]);
 
     return (
-        <form>
-            <Box m={4}>                
+        <>
+            <Box my={4}>                
                 <RequiredTextField onSetName={(name) => setName(name)} 
                     defaultName={defaultCampaign.name}
                     label={<FormattedMessage id="campaigns.name" />}
                 />
             </Box>
-            <Box m={4}> 
+            <Box my={4}> 
                 <CategoriesField onSetCategory={(value) => setCategory(value)}
-                    categories={categories} defaultCategory={defaultCampaign.category}
+                    categories={categories} defaultCategory={defaultCampaign.category 
+                        || categories[0]}
                 />
             </Box>
-            <Box m={4}> 
+            <Box my={4}> 
                 <DescriptionField onChange={(editor, data, value) => {
                     setDescription(value);}}
                     defaultDescription={defaultCampaign.description}
                 />
             </Box>
-            <Box m={4}>     
+            <Box my={4}>     
                 <TagsField onChange={onChangeTags} defaultTags={defaultCampaign.tags}/>
             </Box>
-            <Box m={4}>                
+            <Box my={4}>
                 <MoneyField onSetMoney={(money) => setTargetMoney(money)}
                     defaultMoney={defaultCampaign.targetMoney}                
                     label={<FormattedMessage id="campaigns.targetAmount" />}
                 />
             </Box>
-            <Box m={4}> 
+            <Box my={4}> 
                 <DateField onPickDate={(date) => setEndDate(date)}
                     defaultDate={defaultCampaign.endDate}
                 />
             </Box>
-            <Box m={4} width={3/5}> 
+            <Box my={4} width={3/5}> 
                 <VideoLinkField defaultVideoLink={defaultCampaign.videoLink}
                     onChange={(value) => setVideoLink(value)}/>
             </Box>
-            <Box m={4}> 
+            <Box my={4}> 
                 <ImagesField defaultImages={defaultCampaign.images}
                     onChange={(acceptedFiles) => setImages(acceptedFiles)}/>
             </Box>
-            <Box m={4}>  
+            <Box my={4}>  
                 <BonusesField onChange={(bonuses) => setBonuses(bonuses)}
                     defaultBonus={defaultCampaign.defaultBonus || {}} 
                     defaultBonuses={defaultCampaign.bonuses}/>
@@ -125,7 +126,7 @@ const CampaignForm = ({defaultCampaign, onSave, categories}) => {
             >
                 <FormattedMessage id="campaigns.save" />
             </Button>
-        </ form>
+        </ >
     )
 }
 

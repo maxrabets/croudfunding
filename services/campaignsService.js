@@ -100,6 +100,8 @@ async function editCampaign(userId, campaignId, categoryName, name, targetMoney,
     let campaign = await Campaign.findOne({where: {id: campaignId}, include: {all: true}});    
     if(!campaign)        
         return false;
+    if(campaign.status !== "active")
+        return campaign;
     if(campaign.userId == userId) { 
         const category = await categoriesService.findOne(categoryName);
         if(!category) {
@@ -116,7 +118,6 @@ async function editCampaign(userId, campaignId, categoryName, name, targetMoney,
         await tagsService.updateTags(campaign, tags);
         campaign.lastModificationDate = Date.now();
         campaign.save();
-
         return campaign;
     }
     else

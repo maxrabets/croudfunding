@@ -4,7 +4,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import {TextField, Button, Box} from '@material-ui/core';
 import {FormattedMessage} from "react-intl"
 import {getUserBonuses as getUserBonusesFromApi} from "../shared/apis/usersApi";
-import AvailableBonusesList from "../shared/components/AvailableBonusesList";
+import AvailableBonusesList from "../shared/components/bonuses/AvailableBonusesList";
 
 const Profile = () => {
     const { user, isAuthenticated } = useAuth0();

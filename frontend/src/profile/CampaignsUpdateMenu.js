@@ -5,7 +5,7 @@ import {NavLink, Redirect} from "react-router-dom";
 import { Typography, Breadcrumbs, Button, Box,
     IconButton, CircularProgress } from '@material-ui/core';
 import VisibilityIcon from '@material-ui/icons/Visibility';
-import CampaignForm from "../shared/components/campaignForm/CampaignForm";
+import CampaignForm from "../shared/components/campaigns/CampaignForm";
 import { changeCampaign,
     getCampaign as getCampaignFromApi} from "../shared/apis/campaignsApi"
 import { getCategories as getCategoriesFromApi,} from "../shared/apis/categoriesApi"

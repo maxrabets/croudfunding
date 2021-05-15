@@ -3,9 +3,9 @@ import { DialogContent, Dialog, DialogTitle, DialogActions, Button,
     Typography } from '@material-ui/core';
 import { useAuth0 } from "@auth0/auth0-react";
 import {FormattedMessage} from "react-intl";
-import MoneyField from "./campaignForm/MoneyField";
-import AvailableBonusesList from "./AvailableBonusesList";
-import {createPayment} from "../apis/paymentsApi";
+import MoneyField from "../MoneyField";
+import AvailableBonusesList from "../bonuses/AvailableBonusesList";
+import {createPayment} from "../../apis/paymentsApi";
 
 const PaymentDialog = ({campaign, isOpen, onClose, defaultSum}) => {
     const { isAuthenticated, getAccessTokenSilently } = useAuth0();

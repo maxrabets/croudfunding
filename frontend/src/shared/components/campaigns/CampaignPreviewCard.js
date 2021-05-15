@@ -11,12 +11,13 @@ const CampaignPreviewCard = ({campaign}) => {
         <Card component={Box} m={2} elevation="8">
             <MaterialUILink component={Link} to={`/campaigns/${campaign.id}`} color="inherit">
                 <CardActionArea>
-                    <Typography variant="h4">
+                    <Typography variant="h5" color="secondary">
                         {campaign.name}
                     </Typography>
                     <Typography>
                         <FormattedMessage id="campaigns.category" />: 
-                        {campaign.category.name}
+                        {campaign.category.name}, <FormattedMessage id="campaigns.status" />: 
+                        {campaign.status}
                     </Typography>  
                     <Rating value={campaign.averageRating} readOnly precision={0.1}/>
                     {campaign.tags !== [] ? <Tags

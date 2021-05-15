@@ -1,9 +1,9 @@
 import { Button } from '@material-ui/core';
 import React, {useState, useCallback} from "react";
 import {FormattedMessage} from "react-intl";
-import RequiredTextField from "../campaignForm/RequiredTextField";
-import DescriptionField from "../campaignForm/DescriptionField";
-import ImagesField from "../ImagesField";
+import RequiredTextField from "../RequiredTextField";
+import DescriptionField from "../DescriptionField";
+import ImagesField from "../images/ImagesField";
 import { Box, Dialog, DialogContent, DialogContentText, 
     DialogActions} from '@material-ui/core';
 

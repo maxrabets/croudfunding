@@ -6,10 +6,10 @@ import { Typography, Button, Box, Divider,
 import ReactPlayer from 'react-player/youtube';
 import ReactMarkdown from 'react-markdown';
 import ProgressBar from "../shared/components/ProgressBar";
-import BonusesList from "../shared/components/BonusesList";
-import PaymentDialog from "../shared/components/PaymentDialog";
-import RatingDialog from "../shared/components/RatingDialog";
-import ImagesGallery from "../shared/components/ImagesGallery";
+import BonusesList from "../shared/components/bonuses/BonusesList";
+import PaymentDialog from "../shared/components/dialogs/PaymentDialog";
+import RatingDialog from "../shared/components/dialogs/RatingDialog";
+import ImagesGallery from "../shared/components/images/ImagesGallery";
 import NewsPost from "../shared/components/news/NewsPost";
 import CommentsField from "../shared/components/comments/CommentsField";
 import Tags from "@yaireo/tagify/dist/react.tagify";
@@ -74,14 +74,20 @@ const Campaign = (props) => {
     
     return (
     <Box m={2}>
-        <Typography variant="h3">{campaign.name}</Typography>
+        <Typography variant="h5" color="secondary">{campaign.name}</Typography>
         <Box my={2}>
             <Rating value={campaign.averageRating} readOnly precision={0.1}/>
-            <Button variant="contained"  color="primary" onClick={onRate}>
+            <Button variant="contained"  color="primary" onClick={onRate} 
+                disabled={!isAuthenticated}> 
                 <FormattedMessage id="campaigns.ratings.rate" />
             </Button>
         </Box>
-        {isYouTubeLink ? <ReactPlayer
+        <Box my={2}>
+            <Typography>
+                <FormattedMessage id="campaigns.status" />: {campaign.status}
+            </Typography>
+        </Box>
+        {isYouTubeLink ? <ReactPlayer width="100%"
                 url={campaign.videoLink}
             /> : <></>}
         <Box mt={6} mb={10}>
@@ -127,9 +133,11 @@ const Campaign = (props) => {
             <Typography>
                 <FormattedMessage id="campaigns.bonuses" />
             </Typography>
-            <BonusesList bonuses={campaign.bonuses} onPay={onPay}/>
+            <BonusesList bonuses={campaign.bonuses} onPay={onPay} 
+                disabled={!isAuthenticated || campaign.status !== "active" }/>
             <Box m={2}>
-                <Button variant="contained"  color="primary" onClick={() => onPay()}>
+                <Button variant="contained"  color="primary" onClick={() => onPay()}
+                    disabled={!isAuthenticated || campaign.status !== "active" }>
                     <FormattedMessage id="campaigns.pay" />
                 </Button>
             </Box>

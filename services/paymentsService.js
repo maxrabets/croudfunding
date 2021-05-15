@@ -5,14 +5,16 @@ const { Op } = require('sequelize');
 
 async function createPayment(campaignId, userId, money) {
     let campaign = await Campaign.findOne({where: {id: campaignId}});
-    if(!campaign)
+    if(!campaign )
         return false;
+    if(campaign.status !== "active")
+        return campaign.currentMoney;
     const [user, created] = await User.findOrCreate({ where: {id: userId}});
     const payment = await Payment.create({sum: money, campaignId, userId});
     campaign.currentMoney += payment.sum;
-    if(campaign.currentMoney >= campaign.targetMoney) {
-        campaign.status = "finished";
-    }
+    // if(campaign.currentMoney >= campaign.targetMoney) {
+    //     campaign.status = "finished";
+    // }
     user.payedTotal += payment.sum;
     const bonuses = await campaign.getBonuses({where: {price: {[Op.lte]: payment.sum}}});
     user.addBonuses(bonuses);

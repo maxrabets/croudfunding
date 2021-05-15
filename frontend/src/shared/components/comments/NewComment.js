@@ -26,7 +26,8 @@ const NewComment = ({campaignId, onAdded}) => {
         <Box my={2}>   
             <TextField fullWidth variant="outlined" multiline inputRef={commentRef}/>
         </Box>
-            <Button variant="contained"  color="primary" onClick={onAdd}>
+            <Button variant="contained"  color="primary" onClick={onAdd} 
+            disabled={!isAuthenticated}>
                 <FormattedMessage id="campaigns.comments.add"/>
             </Button>
         </>

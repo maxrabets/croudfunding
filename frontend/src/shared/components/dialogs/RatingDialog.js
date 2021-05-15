@@ -2,7 +2,7 @@ import React, { useCallback, useState,  } from "react";
 import { DialogContent, Dialog, DialogTitle, DialogActions, Button} from '@material-ui/core';
 import { useAuth0 } from "@auth0/auth0-react";
 import {FormattedMessage} from "react-intl";
-import { rateCamapaign } from "../apis/ratingsApi";
+import { rateCamapaign } from "../../apis/ratingsApi";
 import Rating from '@material-ui/lab/Rating';
 
 const RatingDialog = ({campaignId, isOpen, onClose}) => {

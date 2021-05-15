@@ -23,7 +23,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
   extended: true
 }));
-
  
 app.use("/api/campaigns", camapignsRouter);
 app.use("/api/users", usersRouter);
@@ -41,7 +40,7 @@ if(process.env.NODE_ENV === "production") {
   });  
 }
 
-sequelize.sync({force: true }).then(async (result)=>{
+sequelize.sync({force: false }).then(async (result)=>{
   await Category.findOrCreate({where: {name: "IT"}});
   await Category.findOrCreate({where: {name: "Education"}});
   await Category.findOrCreate({where: {name: "Fashion"}});

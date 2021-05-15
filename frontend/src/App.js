@@ -36,7 +36,7 @@ function App() {
   return (
       <IntlProvider locale={selectedLocale} messages={messages[selectedLocale]}>
         <ThemeProvider theme={createMuiTheme(theme)}>
-          <Paper style={{minHeight: "100vh"}}>
+          <Paper style={{minHeight: "100vh"}} square elevation={0}>
             <NavigationPanel/>
             <Switch>
               <Route path="/about" component={About} />
