@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import {AppBar, Toolbar, Typography, IconButton} from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
-import SideBar from "../shared/components/SideBar"
+import SideBar from "./SideBar"
 import AuthenticaionPanel from "../shared/components/authenticationPanel/AuthenticationPanel"
 import LanguagePicker from '../shared/components/LanguagePicker';
 import ThemeSwitch from '../shared/components/ThemeSwitch';

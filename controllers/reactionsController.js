@@ -9,7 +9,7 @@ exports.getCommentReactions = async function(request, response){
         return response.json(JSON.stringify([...reactionTypesCount]));
     }
     else
-        return response.sendStatus(404);
+        return response.sendStatus(400);
 };
 
 exports.createReaction = async function(request, response){

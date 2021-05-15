@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import {FormattedMessage} from "react-intl"
-import { Select, MenuItem } from '@material-ui/core';
+import { Select, MenuItem, Typography, Box } from '@material-ui/core';
 import Pagination from '@material-ui/lab/Pagination';
 import Tags from "@yaireo/tagify/dist/react.tagify";
 import "@yaireo/tagify/dist/tagify.css";
@@ -94,13 +94,14 @@ export default function Main() {
             if(campaigns)
                 setCampaigns(campaigns);
             else
-                console.log("error");            
+                console.log("error");
         });
     }, [order]);
 
     return (
-        <>
-            <h3><FormattedMessage id="main.header"/></h3>
+        <Box m={2}>
+            <Typography variant="h3"><FormattedMessage id="main.header"/></Typography>
+            <Typography><FormattedMessage id="campaigns.tags"/>:</Typography>
             <Tags
                 settings={tagifySettings}
                 onChange={onChangeTags}
@@ -117,11 +118,15 @@ export default function Main() {
                     </FormattedMessage></MenuItem>
                 )}
             </Select>
-            <Pagination count={pagesCount} page={page} onChange={onPageChange} />
+            <Box mx={8}>
+                <Pagination count={pagesCount} page={page} 
+                    onChange={onPageChange}
+                />
+            </Box>
             {campaigns.map(campaign => 
                 <CampaignPreviewCard campaign={campaign}/>
             )}
             <Pagination count={pagesCount} page={page} onChange={onPageChange} />
-        </>
+        </ Box>
     )
 }

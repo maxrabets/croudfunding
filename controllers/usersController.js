@@ -1,4 +1,5 @@
 const cloudService = require('../services/cloudService');
+const usersService = require('../services/usersService')
 const User = require("../models/User");
 
 exports.createCampaign = async function (request, response){
@@ -24,4 +25,13 @@ exports.registerUser = async function(request, response){
     const userId = request.user.sub;
     const [user, created] = await User.findOrCreate({id: userId});
     response.send(created);
+};
+
+exports.getUserBonuses = async function(request, response){
+    const userId = request.params.userId;
+    const bonuses = await usersService.getUserBonuses(userId);
+    if(bonuses)
+        response.json(bonuses);
+    else
+        response.sendStatus(400);
 };

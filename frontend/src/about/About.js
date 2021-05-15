@@ -1,6 +1,12 @@
 import React from 'react';
-import {FormattedMessage} from "react-intl"
+import {FormattedMessage} from "react-intl";
+import { Box, Typography } from '@material-ui/core';
 
-export default function Main() {
-    return <h3><FormattedMessage id="about.header"></FormattedMessage></h3>
+export default function About() {
+    return (
+        <Box m={2}>
+            <Typography variant="h3"><FormattedMessage id="about.header" /></Typography>
+            <Typography align="justify"><FormattedMessage id="about.text" /></Typography>
+        </ Box>
+    )
 }

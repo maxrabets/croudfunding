@@ -6,7 +6,7 @@ exports.getCampaignComments = async function(request, response){
     if(comments)
         return response.send(comments);
     else
-        return response.sendStatus(404);
+        return response.sendStatus(400);
 };
 
 exports.createComment = async function(request, response){
@@ -17,5 +17,5 @@ exports.createComment = async function(request, response){
     if(comment)
         return response.send(comment);
     else
-        return response.sendStatus(404);
+        return response.sendStatus(400);
 };

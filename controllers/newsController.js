@@ -6,7 +6,7 @@ exports.getCampaignNews = async function(request, response){
     if(news)
         return response.send(news);
     else
-        return response.sendStatus(404);
+        return response.sendStatus(400);
 };
 
 exports.createPost = async function(request, response){
@@ -17,7 +17,7 @@ exports.createPost = async function(request, response){
     if(post)
         return response.send(post);
     else
-        return response.sendStatus(404);
+        return response.sendStatus(400);
 };
 
 exports.changePost = async function(request, response){

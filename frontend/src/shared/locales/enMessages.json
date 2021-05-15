@@ -1,6 +1,5 @@
 {
-    "main.header": "Main page",
-    "about.header": "About us",
+    "main.header": "Main page",    
     "links.main": "Main",
     "links.about": "About",
     "links.profile": "Profile",
@@ -53,5 +52,7 @@
     "validation.required": "This field can't be empty",
     "authentication.login": "Log in",
     "authentication.logout": "Log out",
-    "authentication.signup": "Sign up"
+    "authentication.signup": "Sign up",
+    "about.header": "About crowdfunding",
+    "about.text": "Crowdfunding is the practice of funding a project or venture by raising small amounts of money from a large number of people, typically via the Internet.[1][2] Crowdfunding is a form of crowdsourcing and alternative finance. In 2015, over US$34 billion was raised worldwide by crowdfunding. Although similar concepts can also be executed through mail-order subscriptions, benefit events, and other methods, the term crowdfunding refers to Internet-mediated registries.[4] This modern crowdfunding model is generally based on three types of actors: the project initiator who proposes the idea or project to be funded, individuals or groups who support the idea, and a moderating organization (the platform) that brings the parties together to launch the idea.Crowdfunding has been used to fund a wide range of for-profit, entrepreneurial ventures such as artistic and creative projects,[6] medical expenses, travel, and community-oriented social entrepreneurship projects.[7] Even though crowdfunding has been suggested to be highly linked to sustainability, empirical validation has shown that sustainability plays only a fractional role in crowdfunding.[8] Its use has also been criticised for funding quackery, especially costly and fraudulent cancer treatments."
 }

@@ -1,7 +1,7 @@
 import React, {useCallback, useState, useEffect} from "react";
 import { useAuth0 } from "@auth0/auth0-react";
-import {FormattedMessage} from "react-intl";
-import { Typography, Button, 
+import {FormattedMessage, FormattedDate} from "react-intl";
+import { Typography, Button, Box,
     CircularProgress, InputLabel } from '@material-ui/core';
 import ReactPlayer from 'react-player/youtube';
 import ReactMarkdown from 'react-markdown';
@@ -73,46 +73,67 @@ const Campaign = (props) => {
         return <CircularProgress />;
     
     return (
-    <>
+    <Box m={2}>
         <Typography variant="h3">{campaign.name}</Typography>
-        <Rating value={campaign.averageRating} readOnly precision={0.1}/>
-        <Button variant="contained"  color="primary" onClick={onRate}>
-            <FormattedMessage id="campaigns.ratings.rate" />
-        </Button>
+        <Box my={2}>
+            <Rating value={campaign.averageRating} readOnly precision={0.1}/>
+            <Button variant="contained"  color="primary" onClick={onRate}>
+                <FormattedMessage id="campaigns.ratings.rate" />
+            </Button>
+        </Box>
         {isYouTubeLink ? <ReactPlayer
                 url={campaign.videoLink}
             /> : <></>}
-        <ReactMarkdown>{campaign.description}</ReactMarkdown>
-        <ProgressBar now={campaign.currentMoney} target={campaign.targetMoney} />
         <Typography>
-            <FormattedMessage id="campaigns.startDate" />: {campaign.creationDate.toString()}
+            <ReactMarkdown >{campaign.description}</ReactMarkdown>
         </Typography>
-        <Typography>
-            <FormattedMessage id="campaigns.endDate" />: {campaign.endDate.toString()}
+        <Typography >
+            <FormattedMessage id="campaigns.money.summary" />:
+            <ProgressBar now={campaign.currentMoney} target={campaign.targetMoney} />
         </Typography>
+        <Box my={2}>
+            <Typography>
+                <FormattedMessage id="campaigns.startDate" />: 
+                <FormattedDate value={campaign.creationDate} />
+            </Typography>
+            <Typography>
+                <FormattedMessage id="campaigns.endDate" />: 
+                <FormattedDate value={campaign.endDate} />
+            </Typography>
+        </Box>
         <Typography>
             <FormattedMessage id="campaigns.category" />: {campaign.category}
         </Typography>
-        <InputLabel id="tags-label">
-            <FormattedMessage id="campaigns.tags" />
-        </InputLabel>
-        <Tags
-            value={campaign.tags}
-            readOnly
-        />
+        <Box my={2}>
+            <InputLabel id="tags-label">
+                <FormattedMessage id="campaigns.tags" />
+            </InputLabel>
+            <Tags
+                value={campaign.tags}
+                readOnly
+            />
+        </Box>
         <Typography><FormattedMessage id="campaigns.images" /></Typography>
         <ImagesGallery images={campaign.images}/>
         
-        <BonusesList bonuses={campaign.bonuses} onPay={onPay}/>        
-        <Button variant="contained"  color="primary" onClick={() => onPay()}>
-            <FormattedMessage id="campaigns.pay" />
-        </Button>
+        <Box my={2}>
+            <Typography>
+                <FormattedMessage id="campaigns.bonuses" />
+            </Typography>
+            <BonusesList bonuses={campaign.bonuses} onPay={onPay}/>
+            <Box m={2}>
+                <Button variant="contained"  color="primary" onClick={() => onPay()}>
+                    <FormattedMessage id="campaigns.pay" />
+                </Button>
+            </Box>
+        </Box>
         
         <CommentsField campaignId={campaign.id}/> 
-
-        <Typography><FormattedMessage id="campaigns.news" /></Typography>
-        {news.map(post => <NewsPost post={post} />)}
-
+        
+        <Box my={2}>
+            <Typography><FormattedMessage id="campaigns.news" /></Typography>
+            {news.map(post => <NewsPost post={post} />)}
+        </Box>
         <PaymentDialog campaign={campaign} 
             isOpen={isPaymentDialogOpen}
             onClose={(campaignCurrentMoney) => {
@@ -139,7 +160,7 @@ const Campaign = (props) => {
                 }
             }} 
         />
-    </>
+    </ Box>
     );
 };
 

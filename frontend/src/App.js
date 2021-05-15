@@ -22,6 +22,7 @@ import NewsMenu from './profile/NewsMenu'
 import CampaignsCreateMenu from './profile/CampaignsCreateMenu'
 import CampaignsUpdateMenu from './profile/CampaignsUpdateMenu'
 import Campaign from './campaign/Campaign'
+import Footer from './common/Footer';
 
 const messages = {
   [locales.EN]: enMessages,
@@ -33,10 +34,9 @@ function App() {
   const theme = useSelector(selectTheme);
 
   return (
-    <div className="App">
       <IntlProvider locale={selectedLocale} messages={messages[selectedLocale]}>
         <ThemeProvider theme={createMuiTheme(theme)}>
-          <Paper styles={{height: "100vh"}}>
+          <Paper style={{minHeight: "100vh"}}>
             <NavigationPanel/>
             <Switch>
               <Route path="/about" component={About} />
@@ -51,10 +51,10 @@ function App() {
               <ProtectedRoute path="/profile" component={Profile} />
               <Route path="/" component={Main} />
             </Switch>
+            <Footer />
           </Paper> 
         </ThemeProvider>
       </IntlProvider>
-    </div>
   );
 }
 

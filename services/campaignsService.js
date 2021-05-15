@@ -145,7 +145,7 @@ async function rateCampaign(campaignId, userId, rating) {
     return avgRating;
 }
 
-async function getCampaignsCount() {
+async function getCampaignsCount(tags) {
     return await Campaign.count();
 }
 
@@ -155,18 +155,18 @@ async function getPage(pageNumber, count, orderColumn, tags) {
     if(!tags || tags == []) {
         where = {}
     }
-    // else{
-    //     where = {
-    //         name: {
-    //             [Op.in]: tags
-    //         }
-    //     }
-    // }
     else{
         where = {
-            '$tags.name$': tags
+            name: {
+                [Op.in]: tags
+            }
         }
     }
+    // else{
+    //     where = {
+    //         '$tags.name$': tags
+    //     }
+    // }
     const campaigns = await Campaign.findAll({
         offset: (pageNumber -1) * count,
         limit: count,
@@ -178,11 +178,11 @@ async function getPage(pageNumber, count, orderColumn, tags) {
             {
                 model: Tag,
                 as: "tags",
-                //where,
+                where,
                 required: true
             }
         ],        
-        where,
+        // where,
     });
     return campaigns;
 }

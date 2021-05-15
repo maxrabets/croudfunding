@@ -23,7 +23,7 @@ exports.createCampaign = async function (request, response) {
     if(campaign)
         response.sendStatus(200);
     else
-        response.sendStatus(500);
+        response.sendStatus(400);
 };
 
 exports.getUserCampaigns = async function(request, response){
@@ -33,14 +33,14 @@ exports.getUserCampaigns = async function(request, response){
     if(userCampaigns)
         response.json(userCampaigns);
     else
-        response.sendStatus(500);
+        response.sendStatus(400);
 };
 
 exports.getCampaign = async function(request, response){
     const campaignId = request.params.campaignId;
     let campaign = await campaignsService.getCampaign(campaignId);
     if(!campaign)
-        return response.sendStatus(404);
+        return response.sendStatus(400);
     else
         response.json(campaign);
 };
@@ -52,7 +52,7 @@ exports.deleteCampaign = async function(request, response){
     if(camapaign)
         return response.sendStatus(200);
     else
-        return response.sendStatus(404);
+        return response.sendStatus(400);
 };
 
 exports.editCampaign = async function(request, response) {
@@ -74,7 +74,7 @@ exports.editCampaign = async function(request, response) {
     if(campaign)
         return response.sendStatus(200);
     else
-        return response.sendStatus(404);
+        return response.sendStatus(400);
 };
 
 exports.rateCampaign = async function (request, response) {    
@@ -85,7 +85,7 @@ exports.rateCampaign = async function (request, response) {
     if(averageRating)
         response.json(averageRating);
     else
-        response.sendStatus(500);
+        response.sendStatus(400);
 };
 
 exports.getCampaignsCount = async function (request, response) {
@@ -100,8 +100,11 @@ exports.getPage = async function (request, response) {
     let tags = request.query.tags;
     if(tags)
         tags = tags.split(',')
-    const campaigns = await campaignsService.getPage(pageNumber, count, order, tags);
-    response.json(campaigns);
+    const page = await campaignsService.getPage(pageNumber, count, order, tags);
+    if(page)
+        response.json(page); 
+    else
+        response.sendStatus(400);
 };
 
 exports.getAllTags = async function (request, response) {
