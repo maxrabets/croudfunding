@@ -31,7 +31,8 @@ const RatingDialog = ({campaignId, isOpen, onClose}) => {
         </DialogTitle>
 
         <DialogContent>
-            <Rating value={rating}  onChange={(event, newRating) => setRating(newRating)}/>
+            <Rating value={rating} name="rating" 
+                onChange={(event, newRating) => setRating(newRating)}/>
         </DialogContent>
 
         <DialogActions>

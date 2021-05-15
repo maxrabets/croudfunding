@@ -14,7 +14,7 @@ const Comment = ({comment}) => {
                         <FormattedMessage id="campaigns.comments.creationDate" />: 
                         <FormattedDate value={comment.creationDate} />
                     </Typography>
-                    <Typography component="p">
+                    <Typography>
                         {comment.text}
                     </Typography>
                     <Reactions commentId={comment.id} campaignId={comment.campaignId}/>

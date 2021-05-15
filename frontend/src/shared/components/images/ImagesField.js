@@ -89,7 +89,7 @@ const ImagesField = ({onChange, defaultImages=[], max}) => {
             </section>              
                 {images.map(image => 
                     <Box component="span" width={ max == 1 ? "100%" : "18%" } 
-                        height="20%" m={1} display="inline-flex"
+                        height="20%" m={1} display="inline-flex" key={image.url}
                     >
                         <ImageCard filename={image.name} 
                             image={image.url}

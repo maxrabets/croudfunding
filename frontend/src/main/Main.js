@@ -85,7 +85,9 @@ export default function Main() {
     }, [tags]);
 
     const onChangeTags = useCallback((event) => {
-        let newTags = JSON.parse(event.detail.value);
+        console.log(event.detail.value);
+        let newTags = event.detail.value ? JSON.parse(event.detail.value) : [];
+        //let newTags = JSON.parse(event.detail.value);
         newTags = newTags.map(tag => tag.value);
         console.log(newTags)
         setTags(newTags);

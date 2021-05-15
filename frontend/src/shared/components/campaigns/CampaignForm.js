@@ -26,10 +26,10 @@ const CampaignForm = ({defaultCampaign, onSave, categories}) => {
     const [videoLink, setVideoLink] = useState(defaultCampaign.videoLink);
     const [isInvalid, setIsInvalid] = useState(false);
 
-    const onChangeTags = useCallback((e) => {
-        const tagsObjects = JSON.parse(e.detail.value);
-        const tags = tagsObjects.map(tagObject => tagObject.value);
-        setTags(tags);
+    const onChangeTags = useCallback((event) => {
+        let newTags = event.detail.value ? JSON.parse(event.detail.value) : [];
+        newTags = newTags.map(tagObject => tagObject.value);
+        setTags(newTags);
     }, []);
 
     const onSubmit = useCallback(async() => {

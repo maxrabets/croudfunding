@@ -29,7 +29,7 @@ import {getComments as getCommentsFromApi} from "../../apis/commentsApi";
             </AccordionSummary>
             <AccordionDetails>
                 <Box my={3} maxWidth="100%">
-                    {comments.map(comment => <Comment comment={comment} />)}
+                    {comments.map(comment => <Comment key={comment.id} comment={comment} />)}
                     <Box my={3}>
                         <NewComment campaignId={campaignId} 
                             onAdded={(comment) => setComments(comments.concat([comment]))}
