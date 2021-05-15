@@ -3,7 +3,7 @@ import React, {useState, useCallback} from "react";
 import {FormattedMessage} from "react-intl";
 import RequiredTextField from "../campaignForm/RequiredTextField";
 import DescriptionField from "../campaignForm/DescriptionField";
-import ImagesField from "../campaignForm/ImagesField";
+import ImagesField from "../ImagesField";
 import { Box, Dialog, DialogContent, DialogContentText, 
     DialogActions} from '@material-ui/core';
 
@@ -26,20 +26,20 @@ const NewsForm = ({defaultPost, onSave}) => {
     }, [header, description, image, onSave, defaultPost.id]);
 
     return (
-        <form>
-            <Box m={4}>                
+        <Box m={2}>
+            <Box my={2}>                
                 <RequiredTextField onSetName={(header) => setHeader(header)} 
                     defaultName={header}
                     label={<FormattedMessage id="campaigns.news.header" />}
                 />
             </Box>
-            <Box m={4}>
+            <Box my={2}>
                 <DescriptionField onChange={(editor, data, value) => {
                     setDescription(value);}}
                     defaultDescription={description}
                 />
             </Box>
-            <Box m={4}> 
+            <Box my={2}> 
                 <ImagesField defaultImages={image ? [image] : []}
                     onChange={(acceptedFiles) => setImage(acceptedFiles[0])}
                     max="1"
@@ -67,7 +67,7 @@ const NewsForm = ({defaultPost, onSave}) => {
             >
                 <FormattedMessage id="campaigns.save" />
             </Button>
-        </ form>
+        </ Box>
     )
 }
 

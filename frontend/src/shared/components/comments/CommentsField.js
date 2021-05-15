@@ -1,13 +1,11 @@
 import React, {useState, useEffect} from 'react';
-import Accordion from '@material-ui/core/Accordion';
-import AccordionSummary from '@material-ui/core/AccordionSummary';
-import AccordionDetails from '@material-ui/core/AccordionDetails';
-import Typography from '@material-ui/core/Typography';
+import { Accordion, AccordionSummary, AccordionDetails, Box,
+     Typography} from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import {FormattedMessage} from "react-intl";
 import Comment from "./Comment";
 import NewComment from "./NewComment";
-import {getComments as getCommentsFromApi} from "../apis/commentsApi";
+import {getComments as getCommentsFromApi} from "../../apis/commentsApi";
 
  const CommentsField = ({campaignId}) => {
     const [comments, setComments] = useState([]);
@@ -30,10 +28,14 @@ import {getComments as getCommentsFromApi} from "../apis/commentsApi";
                 </Typography>
             </AccordionSummary>
             <AccordionDetails>
-                {comments.map(comment => <Comment comment={comment} />)}
-                <NewComment campaignId={campaignId} 
-                    onAdded={(comment) => setComments(comments.concat([comment]))}
-                />
+                <Box my={3} maxWidth="100%">
+                    {comments.map(comment => <Comment comment={comment} />)}
+                    <Box my={3}>
+                        <NewComment campaignId={campaignId} 
+                            onAdded={(comment) => setComments(comments.concat([comment]))}
+                        />
+                    </Box>
+                    </Box>
             </AccordionDetails>
         </Accordion>
     );

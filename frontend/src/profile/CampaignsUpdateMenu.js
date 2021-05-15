@@ -2,7 +2,7 @@ import React, {useCallback, useState, useEffect} from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import {FormattedMessage} from "react-intl";
 import {NavLink, Redirect} from "react-router-dom";
-import { Typography, Breadcrumbs, Button, 
+import { Typography, Breadcrumbs, Button, Box,
     IconButton, CircularProgress } from '@material-ui/core';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import CampaignForm from "../shared/components/campaignForm/CampaignForm";
@@ -10,7 +10,7 @@ import { changeCampaign,
     getCampaign as getCampaignFromApi} from "../shared/apis/campaignsApi"
 import { getCategories as getCategoriesFromApi,} from "../shared/apis/categoriesApi"
 
-const CampaignsCreateMenu = (props) => {
+const CampaignsUpdateMenu = (props) => {
     const { isAuthenticated } = useAuth0();
     const [ isLoaded, setIsLoaded ] = useState(false);
     const { getAccessTokenSilently } = useAuth0();
@@ -63,7 +63,7 @@ const CampaignsCreateMenu = (props) => {
 
     if(isAuthenticated) {
         return (
-        <>
+        <Box m={2}>
             <Breadcrumbs aria-label="breadcrumb">
                 <NavLink color="inherit" to="/profile" >
                     <FormattedMessage id="links.profile" />
@@ -90,10 +90,10 @@ const CampaignsCreateMenu = (props) => {
                 defaultCampaign={campaign}
                 categories={categories}
             />
-        </>
+        </Box>
         );
     }
     return <></>
 };
 
-export default CampaignsCreateMenu;
+export default CampaignsUpdateMenu;

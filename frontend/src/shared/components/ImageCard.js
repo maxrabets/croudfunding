@@ -16,7 +16,7 @@ const MediaCard = ({filename, image, onClose}) => {
             </IconButton>
             <CardActionArea>
                 <CardMedia>
-                    <img src={image} alt={image} style={{height:"10vw", width:"10vw"}}/>
+                    <img src={image} alt={filename} style={{maxHeight:"100%", maxWidth:"100%"}}/>
                 </CardMedia>
                 <CardContent>
                     <Typography>

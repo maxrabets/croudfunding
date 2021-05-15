@@ -1,8 +1,8 @@
 import React, {useCallback, useRef} from 'react';
-import { Button, TextField} from '@material-ui/core';
+import { Button, TextField, Box} from '@material-ui/core';
 import { FormattedMessage } from 'react-intl';
 import { useAuth0 } from "@auth0/auth0-react";
-import {createComment} from "../apis/commentsApi";
+import {createComment} from "../../apis/commentsApi";
 
 const NewComment = ({campaignId, onAdded}) => {
     const { isAuthenticated, getAccessTokenSilently } = useAuth0();
@@ -21,9 +21,11 @@ const NewComment = ({campaignId, onAdded}) => {
         }
     }, [campaignId, getAccessTokenSilently, isAuthenticated, onAdded])
 
-    return (    
-        <>    
-            <TextField multiline inputRef={commentRef}/>
+    return (   
+        <> 
+        <Box my={2}>   
+            <TextField fullWidth variant="outlined" multiline inputRef={commentRef}/>
+        </Box>
             <Button variant="contained"  color="primary" onClick={onAdd}>
                 <FormattedMessage id="campaigns.comments.add"/>
             </Button>

@@ -2,7 +2,7 @@ import React, {useState, useCallback, useMemo} from "react";
 import { InputLabel, Box} from '@material-ui/core';
 import {FormattedMessage} from "react-intl";
 import {useDropzone} from 'react-dropzone';
-import ImageCard from "../ImageCard";
+import ImageCard from "./ImageCard";
 
 const baseStyle = {
     flex: 1,
@@ -88,7 +88,9 @@ const ImagesField = ({onChange, defaultImages=[], max}) => {
                 </Box>
             </section>              
                 {images.map(image => 
-                    <Box component="span" width="10%" m={1} display="inline-flex">
+                    <Box component="span" width={ max == 1 ? "100%" : "18%" } 
+                        height="20%" m={1} display="inline-flex"
+                    >
                         <ImageCard filename={image.name} 
                             image={image.url}
                             onClose={() => onClose(image)}

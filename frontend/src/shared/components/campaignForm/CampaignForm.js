@@ -8,7 +8,7 @@ import TagsField from "./TagsField";
 import MoneyField from "./MoneyField";
 import DateField from "./DateField";
 import VideoLinkField from "./VideoLinkField";
-import ImagesField from "./ImagesField";
+import ImagesField from "../ImagesField";
 import BonusesField from "./BonusesField";
 import { Box, Dialog, DialogContent, DialogContentText, 
     DialogActions} from '@material-ui/core';

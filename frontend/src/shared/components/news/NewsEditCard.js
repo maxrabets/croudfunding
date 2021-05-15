@@ -1,13 +1,12 @@
 import React from 'react';
-import { Card, CardContent, CardMedia,
-    Typography, IconButton} from '@material-ui/core';
+import { Card, Box, IconButton} from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 import EditIcon from '@material-ui/icons/Edit';
-import ReactMarkdown from 'react-markdown';
+import NewsPostContent from './NewsPostContent';
 
-const NewsEditCard = ({header, description, image, onEdit, onClose}) => {
+const NewsEditCard = ({post, onEdit, onClose}) => {
     return (
-        <Card>        
+        <Card component={Box} m={2} elevation="8">
             <IconButton 
                 edge="start"
                 color="inherit" aria-label="close"
@@ -22,14 +21,7 @@ const NewsEditCard = ({header, description, image, onEdit, onClose}) => {
             >
                 <EditIcon />
             </IconButton>
-            <CardContent>
-                <Typography variant="h5">
-                    {header}
-                </Typography>
-                <ReactMarkdown>{description}</ReactMarkdown>
-                {image ? 
-                <CardMedia><img src={image} alt={image}/></CardMedia> : <></>}
-            </CardContent>
+            <NewsPostContent post={post} />
         </Card>
     );
 }

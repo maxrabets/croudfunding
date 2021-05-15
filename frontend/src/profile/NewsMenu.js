@@ -2,7 +2,7 @@ import React, {useCallback, useState, useEffect} from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import {FormattedMessage} from "react-intl";
 import {NavLink} from "react-router-dom";
-import { Typography, Breadcrumbs, Button, 
+import { Typography, Breadcrumbs, Button, Box,
     CircularProgress, DialogContent, Dialog } from '@material-ui/core';
 import NewsForm from "../shared/components/news/NewsPostForm";
 import NewsEditCard from "../shared/components/news/NewsEditCard";
@@ -83,7 +83,7 @@ const CampaignsCreateMenu = (props) => {
 
     if(isAuthenticated) {
         return (
-        <>
+        <Box m={2}>
             <Breadcrumbs aria-label="breadcrumb">
                 <NavLink color="inherit" to="/profile" >
                     <FormattedMessage id="links.profile" />
@@ -101,18 +101,22 @@ const CampaignsCreateMenu = (props) => {
                 </Typography>
             </Breadcrumbs>
 
-            <Button  color="primary" variant="contained" 
-                onClick={() => setAddFormOpen(true)}
-            >
-                <FormattedMessage id="campaigns.news.add" />
-            </Button>
-            {news.map(post => 
-                <NewsEditCard key={post.id} header={post.header} description={post.description}
-                    image={post.image ? post.image.url : false} 
-                    onEdit={() => onEdit(post)} 
-                    onClose={() => onClose(post.id)}
-                />
-            )}
+            <Box my={2}>
+                <Button  color="primary" variant="contained" 
+                    onClick={() => setAddFormOpen(true)}
+                >
+                    <FormattedMessage id="campaigns.news.add" />
+                </Button>
+            </Box>
+            <Box my={2}>
+                {news.map(post => 
+                    <NewsEditCard key={post.id} post={post}
+                        onEdit={() => onEdit(post)} 
+                        onClose={() => onClose(post.id)}
+                    />
+                )}
+            </Box>
+
             <Dialog
                 open={addFormOpen}
                 onClose={() => setAddFormOpen(false)}
@@ -129,7 +133,7 @@ const CampaignsCreateMenu = (props) => {
                     <NewsForm defaultPost={currentPost} onSave={onChange}/>
                 </DialogContent>
             </Dialog>
-        </>
+        </Box>
         );
     }
     return <></>

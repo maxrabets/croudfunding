@@ -1,31 +1,13 @@
 import React from 'react';
-import { Card, CardContent, CardMedia,
-    Typography} from '@material-ui/core';
-import ReactMarkdown from 'react-markdown';
-import {FormattedMessage} from "react-intl";
+import { Card, Box } from '@material-ui/core';
+import NewsPostContent from './NewsPostContent';
 
-const NewsEditCard = ({post}) => {
+const NewsPost = ({post}) => {
     return (
-        <Card>
-            <CardContent>
-                <Typography align="right" fontStyle="italic">
-                    <FormattedMessage id="campaigns.news.creationDate" />: 
-                    {post.creationDate}
-                </Typography>
-                <Typography align="right" fontStyle="italic">
-                    <FormattedMessage id="campaigns.news.lastUpdateDate" />: 
-                    {post.lastModificationDate}
-                </Typography>
-                <Typography variant="h5">
-                    {post.header}
-                </Typography>
-                <ReactMarkdown>{post.description}</ReactMarkdown>
-                {post.image ? 
-                    <CardMedia><img src={post.image.url} alt={post.image.filename}/></CardMedia> : <></>
-                }
-            </CardContent>
+        <Card component={Box} m={2} elevation="8">
+            <NewsPostContent post={post} />
         </Card>
     );
 }
 
-export default NewsEditCard;
+export default NewsPost;

@@ -1,7 +1,7 @@
 import React, {useCallback, useState, useEffect} from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import {FormattedMessage, FormattedDate} from "react-intl";
-import { Typography, Button, Box,
+import { Typography, Button, Box, Divider,
     CircularProgress, InputLabel } from '@material-ui/core';
 import ReactPlayer from 'react-player/youtube';
 import ReactMarkdown from 'react-markdown';
@@ -11,7 +11,7 @@ import PaymentDialog from "../shared/components/PaymentDialog";
 import RatingDialog from "../shared/components/RatingDialog";
 import ImagesGallery from "../shared/components/ImagesGallery";
 import NewsPost from "../shared/components/news/NewsPost";
-import CommentsField from "../shared/components/CommentsField";
+import CommentsField from "../shared/components/comments/CommentsField";
 import Tags from "@yaireo/tagify/dist/react.tagify";
 import "@yaireo/tagify/dist/tagify.css";
 import Rating from '@material-ui/lab/Rating';
@@ -84,9 +84,12 @@ const Campaign = (props) => {
         {isYouTubeLink ? <ReactPlayer
                 url={campaign.videoLink}
             /> : <></>}
-        <Typography>
-            <ReactMarkdown >{campaign.description}</ReactMarkdown>
-        </Typography>
+        <Box mt={6} mb={10}>
+            <Typography>
+                <ReactMarkdown >{campaign.description}</ReactMarkdown>
+            </Typography>            
+            <Divider />
+        </Box>
         <Typography >
             <FormattedMessage id="campaigns.money.summary" />:
             <ProgressBar now={campaign.currentMoney} target={campaign.targetMoney} />
@@ -113,10 +116,14 @@ const Campaign = (props) => {
                 readOnly
             />
         </Box>
-        <Typography><FormattedMessage id="campaigns.images" /></Typography>
-        <ImagesGallery images={campaign.images}/>
+        { campaign.images.length > 0 ?
+            <Box my={2}>
+                <Typography><FormattedMessage id="campaigns.images" /></Typography>
+                <ImagesGallery images={campaign.images}/>
+            </Box> : <></>
+        }
         
-        <Box my={2}>
+        <Box my={4}>
             <Typography>
                 <FormattedMessage id="campaigns.bonuses" />
             </Typography>
@@ -129,11 +136,13 @@ const Campaign = (props) => {
         </Box>
         
         <CommentsField campaignId={campaign.id}/> 
-        
-        <Box my={2}>
-            <Typography><FormattedMessage id="campaigns.news" /></Typography>
-            {news.map(post => <NewsPost post={post} />)}
-        </Box>
+
+        { campaign.images.length > 0 ?
+            <Box my={4}>
+                <Typography><FormattedMessage id="campaigns.news" /></Typography>
+                {news.map(post => <NewsPost post={post} />)}
+            </Box> : <></>
+        }
         <PaymentDialog campaign={campaign} 
             isOpen={isPaymentDialogOpen}
             onClose={(campaignCurrentMoney) => {

@@ -1,6 +1,6 @@
 import React, {useCallback, useState, useEffect} from "react";
 import { useAuth0 } from "@auth0/auth0-react";
-import { Typography, Breadcrumbs } from '@material-ui/core';
+import { Typography, Breadcrumbs, Box } from '@material-ui/core';
 import {FormattedMessage} from "react-intl";
 import {NavLink, Redirect} from "react-router-dom";
 import CampaignForm from "../shared/components/campaignForm/CampaignForm"
@@ -43,7 +43,7 @@ const CampaignsCreateMenu = () => {
 
     if(isAuthenticated) {
         return (
-        <>
+        <Box m={2}>
             <Breadcrumbs aria-label="breadcrumb">
                 <NavLink color="inherit" to="/profile" >
                     <FormattedMessage id="links.profile" />
@@ -60,7 +60,7 @@ const CampaignsCreateMenu = () => {
                 defaultCampaign={defaultCampaign}
                 categories={categories}
             />
-        </>
+        </Box>
         );
     }
     return <></>
