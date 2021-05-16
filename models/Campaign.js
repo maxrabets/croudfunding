@@ -98,18 +98,18 @@ Campaign.addFullTextIndex = function() {
   var vectorName = Campaign.getSearchVector();
   sequelize
     .query('ALTER TABLE "' + Campaign.tableName + '" ADD COLUMN "' + vectorName + '" TSVECTOR')
-    .success(function() {
+    .then(function() {
         return sequelize
                 .query('UPDATE "' + Campaign.tableName + '" SET "' + vectorName 
                   + '" = to_tsvector(\'english\', ' 
                   + searchFields.join(' || \' \' || ') + ')')
                 .error(console.log);
-    }).success(function() {
+    }).then(function() {
         return sequelize
                 .query('CREATE INDEX campaign_search_index ON "' + Campaign.tableName 
                 + '" USING gin("' + vectorName + '");')
                 .error(console.log);
-    }).success(function() {
+    }).then(function() {
         return sequelize
                 .query('CREATE TRIGGER campaign_vector_update BEFORE INSERT OR UPDATE ON "'
                   + Campaign.tableName + '" FOR EACH ROW EXECUTE PROCEDURE tsvector_update_trigger("'
