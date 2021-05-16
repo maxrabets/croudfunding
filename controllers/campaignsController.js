@@ -113,7 +113,7 @@ exports.getAllTags = async function (request, response) {
 };
 
 exports.search = async function (request, response) {
-    const count = request.query.count;
+    let count = request.query.count;
     if(count === "undefined") {
         count = null;
     }
