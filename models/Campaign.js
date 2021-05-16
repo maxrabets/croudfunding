@@ -103,19 +103,16 @@ Campaign.addFullTextIndex = function() {
                 .query('UPDATE "' + Campaign.tableName + '" SET "' + vectorName 
                   + '" = to_tsvector(\'english\', ' 
                   + searchFields.join(' || \' \' || ') + ')')
-                .error(console.log);
     }).then(function() {
         return sequelize
                 .query('CREATE INDEX campaign_search_index ON "' + Campaign.tableName 
                 + '" USING gin("' + vectorName + '");')
-                .error(console.log);
     }).then(function() {
         return sequelize
                 .query('CREATE TRIGGER campaign_vector_update BEFORE INSERT OR UPDATE ON "'
                   + Campaign.tableName + '" FOR EACH ROW EXECUTE PROCEDURE tsvector_update_trigger("'
                   + vectorName + '", \'pg_catalog.english\', ' + searchFields.join(', ') + ')')
-                .error(console.log);
-    }).error(console.log);
+    })
 
 }
 
