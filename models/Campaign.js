@@ -116,7 +116,7 @@ Campaign.addFullTextIndex = function() {
     })
 }
 
-Campaign.search = async function(query, count) {
+Campaign.search = async function(query, count = 3) {
   console.log("==============searching=========================")
   if(sequelize.options.dialect !== 'postgres') {
       console.log('Search is only implemented on POSTGRES database');

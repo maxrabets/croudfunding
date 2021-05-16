@@ -114,6 +114,9 @@ exports.getAllTags = async function (request, response) {
 
 exports.search = async function (request, response) {
     const count = request.query.count;
+    if(count === "undefined") {
+        count = null;
+    }
     const words = request.query.words;
     const campaigns = await campaignsService.search(words, count);
     response.json(campaigns);
