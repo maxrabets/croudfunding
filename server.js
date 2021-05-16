@@ -41,7 +41,7 @@ if(process.env.NODE_ENV === "production") {
   });  
 }
 
-sequelize.sync({force: true }).then(async (result)=>{
+sequelize.sync({force: false }).then(async (result)=>{
   Campaign.addFullTextIndex();
   await Category.findOrCreate({where: {name: "IT"}});
   await Category.findOrCreate({where: {name: "Education"}});

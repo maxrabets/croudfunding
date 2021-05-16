@@ -115,7 +115,7 @@ Campaign.addFullTextIndex = function() {
     })
 }
 
-Campaign.search = async function(query, count = 5) {
+Campaign.search = async function(query, count) {
   console.log("==============searching=========================")
   if(sequelize.options.dialect !== 'postgres') {
       console.log('Search is only implemented on POSTGRES database');
@@ -134,7 +134,7 @@ Campaign.search = async function(query, count = 5) {
           @@ plainto_tsquery(\'english\', :query) LIMIT :count`, {
             type:  Sequelize.QueryTypes.SELECT,
             model: Campaign,
-            replacements: {query, count}
+            replacements: {query, 5}
           });
   console.log(result)
   return result
