@@ -113,7 +113,6 @@ Campaign.addFullTextIndex = function() {
                   + Campaign.tableName + '" FOR EACH ROW EXECUTE PROCEDURE tsvector_update_trigger("'
                   + vectorName + '", \'pg_catalog.english\', ' + searchFields.join(', ') + ')')
     })
-
 }
 
 Campaign.search = function(query, count) {
@@ -127,14 +126,18 @@ Campaign.search = function(query, count) {
 
   var Campaign = this;
 
-  query = sequelize.getQueryInterface().escape(query);
-  count = sequelize.getQueryInterface().escape(count);
+  // query = sequelize.getQueryInterface().escape(query);
+  // count = sequelize.getQueryInterface().escape(count);
   console.log(query);
   
-  return sequelize
+  return await sequelize
           .query('SELECT * FROM "' + Campaign.tableName + '" WHERE "' 
           + Campaign.getSearchVector() + '" @@ plainto_tsquery(\'english\', ' 
-          + query + ') LIMIT ' + count, Campaign);
+          + query + ') LIMIT ' + count, {
+            type:  Sequelize.QueryTypes.SELECT,
+            model: Campaign,
+            replacments: {query, count}
+          });
 }
 
 // Campaign.belongsTo(User);
