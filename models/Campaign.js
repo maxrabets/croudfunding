@@ -132,8 +132,8 @@ Campaign.search = async function(query, count) {
   
   return await sequelize
           .query('SELECT * FROM "' + Campaign.tableName + '" WHERE "' 
-          + Campaign.getSearchVector() + '" @@ plainto_tsquery(\'english\', ' 
-          + query + ') LIMIT ' + count, {
+          + Campaign.getSearchVector() 
+          + '" @@ plainto_tsquery(\'english\', :query) LIMIT :count', {
             type:  Sequelize.QueryTypes.SELECT,
             model: Campaign,
             replacments: {query, count}
