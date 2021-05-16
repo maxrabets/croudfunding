@@ -24,12 +24,16 @@ News = sequelize.define("news", {
   creationDate: {
     type: Sequelize.DATE,
     allowNull: false,
-    defaultValue: Date.now(),
+    defaultValue: function() {
+      return Date.now()
+    }
   },
   lastModificationDate: {
     type: Sequelize.DATE,
     allowNull: false,
-    defaultValue: Date.now(),
+    defaultValue: function() {
+      return Date.now()
+    }
   }
 });
 

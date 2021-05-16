@@ -6,7 +6,7 @@ import NewsPostContent from './NewsPostContent';
 
 const NewsEditCard = ({post, onEdit, onClose}) => {
     return (
-        <Card component={Box} m={2} elevation="8">
+        <Card component={Box} m={2} elevation={8}>
             <IconButton 
                 edge="start"
                 color="inherit" aria-label="close"

@@ -21,7 +21,9 @@ Payment = sequelize.define("payment", {
   date: {
     type: Sequelize.DATE,
     allowNull: false,    
-    defaultValue: Date.now(),
+    defaultValue: function() {
+      return Date.now()
+    }
   }
 });
 

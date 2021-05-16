@@ -48,6 +48,7 @@
     "orders.lastModificationDate": "Last updated",
     "dialog.ok": "OK",
     "dialog.cancel": "Cancel",
+    "savingDialog.saved": "Saved",
     "paymentDialog.availableBonuses": "Available bonuses",
     "paymentDialog.paymentSum": "Payment sum",
     "validation.required": "This field can't be empty",

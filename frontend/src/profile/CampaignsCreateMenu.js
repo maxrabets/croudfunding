@@ -4,6 +4,7 @@ import { Typography, Breadcrumbs, Box } from '@material-ui/core';
 import {FormattedMessage} from "react-intl";
 import {NavLink, Redirect} from "react-router-dom";
 import CampaignForm from "../shared/components/campaigns/CampaignForm"
+import SavingDialog from "../shared/components/dialogs/SavingDialog"
 import {getCategories as getCategoriesFromApi} from "../shared/apis/categoriesApi"
 import {createCampaign} from "../shared/apis/campaignsApi"
 
@@ -12,6 +13,7 @@ const CampaignsCreateMenu = () => {
     const { getAccessTokenSilently } = useAuth0();
     const [isCreated, setIsCreated] = useState(false);
     const [categories, setCategories] = useState([]);
+    const [isSavingDialogOpen, setIsSavingDialogOpen] = useState(false);
     const tomorrow = new Date();
     tomorrow.setDate(new Date().getDate() + 1);
 
@@ -33,6 +35,7 @@ const CampaignsCreateMenu = () => {
 
     const onCreate = useCallback(async (formData) => {
         const token = await getAccessTokenSilently();
+        setIsSavingDialogOpen(true);
         createCampaign(formData, token).then(created => {
             setIsCreated(created);
         });
@@ -59,6 +62,10 @@ const CampaignsCreateMenu = () => {
             <CampaignForm onSave={onCreate}
                 defaultCampaign={defaultCampaign}
                 categories={categories}
+            />
+            <SavingDialog isOpen={isSavingDialogOpen} isSaved={isCreated}
+                result={<FormattedMessage id="savingDialog.saved" />}
+                onClose={() => setIsSavingDialogOpen(false)}
             />
         </Box>
         );

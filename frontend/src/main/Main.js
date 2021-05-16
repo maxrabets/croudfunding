@@ -126,7 +126,7 @@ export default function Main() {
                 />
             </Box>
             {campaigns.map(campaign => 
-                <CampaignPreviewCard campaign={campaign}/>
+                <CampaignPreviewCard key={campaign.id} campaign={campaign}/>
             )}
             <Pagination count={pagesCount} page={page} onChange={onPageChange} />
         </ Box>

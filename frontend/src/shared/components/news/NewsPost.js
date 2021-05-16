@@ -4,7 +4,7 @@ import NewsPostContent from './NewsPostContent';
 
 const NewsPost = ({post}) => {
     return (
-        <Card component={Box} m={2} elevation="8">
+        <Card component={Box} my={2} elevation={8}>
             <NewsPostContent post={post} />
         </Card>
     );

@@ -62,12 +62,16 @@ Campaign = sequelize.define("campaign", {
   creationDate: {
     type: Sequelize.DATE,
     allowNull: false,
-    defaultValue: Date.now(),
+    defaultValue: function() {
+      return Date.now()
+    }
   },
   lastModificationDate: {
     type: Sequelize.DATE,
     allowNull: false,
-    defaultValue: Date.now(),
+    defaultValue: function() {
+      return Date.now()
+    }
   },
   averageRating: {
     type: Sequelize.DECIMAL,

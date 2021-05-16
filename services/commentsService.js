@@ -6,7 +6,11 @@ async function getComments(campaignId) {
         where: {id: campaignId}});
     if(!campaign)
         return false;
-    let comments = await campaign.getComments();
+    let comments = await campaign.getComments({
+        order: [
+            ["creationDate", "ASC"]
+        ]
+    });
     return comments;
 }
 

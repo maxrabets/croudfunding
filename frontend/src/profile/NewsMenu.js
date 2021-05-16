@@ -16,7 +16,6 @@ const CampaignsCreateMenu = (props) => {
     const [ editFormOpen, setEditFormOpen] = useState(false);
     const [ currentPost, setCurrentPost] = useState();
     const [news, setNews] = useState([]);
-    console.log(props.match.params.id);
     const emptyPost = {header: "", description: ""};
 
     const getNews = useCallback(() => {
@@ -36,7 +35,7 @@ const CampaignsCreateMenu = (props) => {
         .then(addedPost => {
             setAddFormOpen(false);
             if(addedPost) {                 
-                    setNews(news.concat(addedPost));
+                    setNews([addedPost].concat(news));
             }
             else {
                 alert("error");
@@ -49,8 +48,9 @@ const CampaignsCreateMenu = (props) => {
         deletePost(props.match.params.id, id, token).then(deleted => {
             if(deleted){
                 console.log("delete");
-                const newsCopy = news.slice();
-                const index = newsCopy.find(post => post.id = id);
+                const newsCopy = news.slice();                
+                const index = newsCopy.findIndex(post => post.id === id);
+                console.log(index)
                 newsCopy.splice(index, 1);
                 setNews(newsCopy);
             }            

@@ -145,10 +145,10 @@ const Campaign = (props) => {
         
         <CommentsField campaignId={campaign.id}/> 
 
-        { campaign.images.length > 0 ?
+        { news.length > 0 ?
             <Box my={4}>
                 <Typography><FormattedMessage id="campaigns.news" /></Typography>
-                {news.map(post => <NewsPost post={post} />)}
+                {news.map(post => <NewsPost key={post.id} post={post} />)}
             </Box> : <></>
         }
         <PaymentDialog campaign={campaign} 

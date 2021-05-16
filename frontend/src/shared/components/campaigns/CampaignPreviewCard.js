@@ -8,7 +8,7 @@ import "@yaireo/tagify/dist/tagify.css";
 
 const CampaignPreviewCard = ({campaign}) => {
     return (
-        <Card component={Box} m={2} elevation="8">
+        <Card component={Box} my={2} elevation={8}>
             <MaterialUILink component={Link} to={`/campaigns/${campaign.id}`} color="inherit">
                 <CardActionArea>
                     <Typography variant="h5" color="secondary">

@@ -48,6 +48,7 @@
     "orders.lastModificationDate": "Последние обновленные",
     "dialog.ok": "ОК",
     "dialog.cancel": "Отмена",
+    "savingDialog.saved": "Сохранено",
     "paymentDialog.availableBonuses": "Доступные бонусы",
     "paymentDialog.paymentSum": "Сумма платежа",
     "validation.required": "Это поле не может быть пустым",

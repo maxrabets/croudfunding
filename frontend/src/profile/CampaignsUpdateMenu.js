@@ -6,6 +6,7 @@ import { Typography, Breadcrumbs, Button, Box,
     IconButton, CircularProgress } from '@material-ui/core';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import CampaignForm from "../shared/components/campaigns/CampaignForm";
+import SavingDialog from "../shared/components/dialogs/SavingDialog"
 import { changeCampaign,
     getCampaign as getCampaignFromApi} from "../shared/apis/campaignsApi"
 import { getCategories as getCategoriesFromApi,} from "../shared/apis/categoriesApi"
@@ -17,6 +18,7 @@ const CampaignsUpdateMenu = (props) => {
     const [isSaved, setIsSaved] = useState(false);
     const [categories, setCategories] = useState([]);
     const [campaign, setCamapign] = useState();
+    const [isSavingDialogOpen, setIsSavingDialogOpen] = useState(false);
     const tomorrow = new Date();
     tomorrow.setDate(new Date().getDate() + 1);
     console.log(props.match.params.id);
@@ -44,6 +46,7 @@ const CampaignsUpdateMenu = (props) => {
     useEffect(getCampaign, [props.match.params.id, setIsLoaded]);
 
     const onUpdate = useCallback(async (formData) => {
+        setIsSavingDialogOpen(true);
         const token = await getAccessTokenSilently();
         changeCampaign(props.match.params.id, formData, token).then(cheanged => {
             if(cheanged) {
@@ -58,8 +61,8 @@ const CampaignsUpdateMenu = (props) => {
     if(!isLoaded)
         return <CircularProgress />;
 
-    if(isSaved)
-        return <Redirect to="/profile/campaigns" ></Redirect>
+    // if(isSaved)
+    //     return <Redirect to="/profile/campaigns" ></Redirect>
 
     if(isAuthenticated) {
         return (
@@ -89,6 +92,13 @@ const CampaignsUpdateMenu = (props) => {
             <CampaignForm onSave={onUpdate}
                 defaultCampaign={campaign}
                 categories={categories}
+            />
+            <SavingDialog isOpen={isSavingDialogOpen} isSaved={isSaved}
+                result={<FormattedMessage id="savingDialog.saved" />}
+                onClose={() => {
+                    setIsSavingDialogOpen(false)
+                    setIsSaved(false);
+                }}
             />
         </Box>
         );
