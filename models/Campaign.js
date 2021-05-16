@@ -115,9 +115,7 @@ Campaign.addFullTextIndex = function() {
     })
 }
 
-Campaign.search = async function(query, count) {
-  if(!count)
-    count = 5;
+Campaign.search = async function(query, count = 5) {
   console.log("==============searching=========================")
   if(sequelize.options.dialect !== 'postgres') {
       console.log('Search is only implemented on POSTGRES database');
@@ -130,7 +128,7 @@ Campaign.search = async function(query, count) {
   // count = sequelize.getQueryInterface().escape(count);
   console.log(query);
   
-  return await sequelize
+  const result = await sequelize
           .query('SELECT * FROM "' + Campaign.tableName + '" WHERE "' 
           + Campaign.getSearchVector() 
           + '" @@ plainto_tsquery(\'english\', :query) LIMIT :count', {
@@ -138,6 +136,8 @@ Campaign.search = async function(query, count) {
             model: Campaign,
             replacements: {query, count}
           });
+  console.log(result)
+  return result
 }
 
 // Campaign.belongsTo(User);
