@@ -115,7 +115,7 @@ Campaign.addFullTextIndex = function() {
     })
 }
 
-Campaign.search = function(query, count) {
+Campaign.search = async function(query, count) {
   if(!count)
     count = 5;
   console.log("==============searching=========================")
