@@ -33,6 +33,8 @@ camapignsRouter.get("/page", campaignsControler.getPage);
 
 camapignsRouter.use("/categories", categoriesRouter);
 
+camapignsRouter.get("/search", campaignsControler.search)
+
 camapignsRouter.get("/:campaignId", campaignsControler.getCampaign);
 
 camapignsRouter.use("/:campaignId/payment", paymentsRouter);

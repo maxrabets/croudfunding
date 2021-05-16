@@ -6,6 +6,7 @@ const usersRouter = require("./routes/usersRouter");
 const cors = require('cors');
 const sequelize = require("./config/sequelize");
 const Category = require("./models/Category");
+const Campaign = require("./models/Campaign");
 const ReactionType = require("./models/ReactionType");
 require("./models/associations");
 require('dotenv').config();
@@ -40,7 +41,8 @@ if(process.env.NODE_ENV === "production") {
   });  
 }
 
-sequelize.sync({force: false }).then(async (result)=>{
+sequelize.sync({force: true }).then(async (result)=>{
+  Campaign.addFullTextIndex();
   await Category.findOrCreate({where: {name: "IT"}});
   await Category.findOrCreate({where: {name: "Education"}});
   await Category.findOrCreate({where: {name: "Fashion"}});

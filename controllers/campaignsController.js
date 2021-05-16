@@ -111,3 +111,10 @@ exports.getAllTags = async function (request, response) {
     const tags = await campaignsService.getAllTags();
     response.json(tags);
 };
+
+exports.search = async function (request, response) {
+    const count = request.query.count;
+    const words = request.query.words;
+    const campaigns = await campaignsService.search(words, count);
+    response.json(campaigns);
+};

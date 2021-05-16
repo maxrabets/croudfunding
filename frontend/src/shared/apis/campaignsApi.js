@@ -101,3 +101,17 @@ export async function getAllTags() {
         return false;
     }
 }
+
+export async function search(words, count) {
+    const params = new URLSearchParams({
+        words,
+        count
+    })
+    const response = await fetch(`/api/campaigns/search?${params}`);
+    if(response.ok)
+        return await response.json();
+    else {
+        console.log(response);
+        return false;
+    }
+}

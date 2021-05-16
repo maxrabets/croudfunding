@@ -192,6 +192,10 @@ async function getAllTags(){
     return await Tag.findAll();
 }
 
+async function search(words, count){
+    return await Campaign.search(words, count);
+}
+
 exports.getUserCampaigns = getUserCampaigns;
 exports.getCampaign = getCampaign;
 exports.deleteCampaign = deleteCampaign;
@@ -201,3 +205,4 @@ exports.rateCampaign = rateCampaign;
 exports.getCampaignsCount = getCampaignsCount;
 exports.getPage = getPage;
 exports.getAllTags = getAllTags;
+exports.search = search;
