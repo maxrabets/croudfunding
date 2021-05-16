@@ -9,7 +9,7 @@ import CampaignSearchItem from "./campaigns/CampaignSearchItem";
 
     const onChange = useCallback((e) => {
         setQuery(e.target.value);
-        search(e.target.value).then(campaigns => {
+        search(e.target.value, 3).then(campaigns => {
             if(campaigns) {
                 setCampaigns(campaigns);
             }
