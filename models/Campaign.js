@@ -136,7 +136,7 @@ Campaign.search = async function(query, count) {
           + '" @@ plainto_tsquery(\'english\', :query) LIMIT :count', {
             type:  Sequelize.QueryTypes.SELECT,
             model: Campaign,
-            replacments: {query, count}
+            replacements: {query, count}
           });
 }
 
