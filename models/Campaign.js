@@ -109,7 +109,8 @@ Campaign.addFullTextIndex = function() {
                  USING gin("${vectorName}");`)
     }).then(function() {
         return sequelize
-                .query(`CREATE TRIGGER campaign_vector_update BEFORE INSERT OR UPDATE ON 
+                .query(`CREATE TRIGGER campaign_vector_update 
+                  BEFORE INSERT OR UPDATE OF ${searchFields.join(', ')} ON 
                   "${Campaign.tableName}" FOR EACH ROW EXECUTE PROCEDURE tsvector_update_trigger(
                   "${vectorName}", \'pg_catalog.english\', ${searchFields.join(', ')})`)
     })
@@ -134,7 +135,7 @@ Campaign.search = async function(query, count) {
           @@ plainto_tsquery(\'english\', :query) LIMIT :count`, {
             type:  Sequelize.QueryTypes.SELECT,
             model: Campaign,
-            replacements: {query, count: 3}
+            replacements: {query, count}
           });
   console.log(result)
   return result
