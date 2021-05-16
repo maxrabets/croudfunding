@@ -97,21 +97,21 @@ Campaign.addFullTextIndex = function() {
 
   var vectorName = Campaign.getSearchVector();
   sequelize
-    .query('ALTER TABLE "' + Campaign.tableName + '" ADD COLUMN "' + vectorName + '" TSVECTOR')
+    .query(`ALTER TABLE "${Campaign.tableName}" ADD COLUMN "${vectorName}" TSVECTOR`)
+    //.query('ALTER TABLE "' + Campaign.tableName + '" ADD COLUMN "' + vectorName + '" TSVECTOR')
     .then(function() {
         return sequelize
-                .query('UPDATE "' + Campaign.tableName + '" SET "' + vectorName 
-                  + '" = to_tsvector(\'english\', ' 
-                  + searchFields.join(' || \' \' || ') + ')')
+                .query(`UPDATE "${Campaign.tableName}" SET "${vectorName}" 
+                = to_tsvector(\'english\', ${searchFields.join(' || \' \' || ')})`)
     }).then(function() {
         return sequelize
-                .query('CREATE INDEX campaign_search_index ON "' + Campaign.tableName 
-                + '" USING gin("' + vectorName + '");')
+                .query(`CREATE INDEX campaign_search_index ON "${Campaign.tableName}"
+                 USING gin("${vectorName}");`)
     }).then(function() {
         return sequelize
-                .query('CREATE TRIGGER campaign_vector_update BEFORE INSERT OR UPDATE ON "'
-                  + Campaign.tableName + '" FOR EACH ROW EXECUTE PROCEDURE tsvector_update_trigger("'
-                  + vectorName + '", \'pg_catalog.english\', ' + searchFields.join(', ') + ')')
+                .query(`CREATE TRIGGER campaign_vector_update BEFORE INSERT OR UPDATE ON 
+                  "${Campaign.tableName}" FOR EACH ROW EXECUTE PROCEDURE tsvector_update_trigger(
+                  "${vectorName}", \'pg_catalog.english\', ${searchFields.join(', ')})`)
     })
 }
 
@@ -127,11 +127,11 @@ Campaign.search = async function(query, count = 5) {
   // query = sequelize.getQueryInterface().escape(query);
   // count = sequelize.getQueryInterface().escape(count);
   console.log(query);
+  console.log(count)
   
   const result = await sequelize
-          .query('SELECT * FROM "' + Campaign.tableName + '" WHERE "' 
-          + Campaign.getSearchVector() 
-          + '" @@ plainto_tsquery(\'english\', :query) LIMIT :count', {
+          .query(`SELECT * FROM "${Campaign.tableName}" WHERE "${Campaign.getSearchVector()}" 
+          @@ plainto_tsquery(\'english\', :query) LIMIT :count`, {
             type:  Sequelize.QueryTypes.SELECT,
             model: Campaign,
             replacements: {query, count}
