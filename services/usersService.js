@@ -1,3 +1,4 @@
+const managmentClient = require("../auth/managmentClient");
 const User = require("../models/User");
 
 async function findOrCreate(userId) {
@@ -13,5 +14,18 @@ async function getUserBonuses(userId) {
     return bonuses;
 }
 
+async function getProfile(id) {
+    if(!id) 
+        return false;
+    const user = await managmentClient.getUser({ id });
+    console.log(user)
+    delete user.identities;
+    delete user.last_ip;
+    delete user.logins_count;
+    return(user)
+}
+
 exports.findOrCreate = findOrCreate;
 exports.getUserBonuses = getUserBonuses;
+exports.getUserBonuses = getUserBonuses;
+exports.getProfile = getProfile;

@@ -1,5 +1,5 @@
 import React from 'react';
-import { CardContent, CardMedia, Box, Typography} from '@material-ui/core';
+import { CardContent, CardMedia, Typography} from '@material-ui/core';
 import ReactMarkdown from 'react-markdown';
 import {FormattedMessage, FormattedDate} from "react-intl";
 

@@ -4,7 +4,6 @@ import { Card, CardActionArea, CardContent, CardMedia,
 import CloseIcon from '@material-ui/icons/Close';
 
 const MediaCard = ({filename, image, onClose}) => {
-    console.log(image);
     return (
         <Card>        
             <IconButton 

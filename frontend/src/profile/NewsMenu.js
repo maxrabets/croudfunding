@@ -2,7 +2,7 @@ import React, {useCallback, useState, useEffect} from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import {FormattedMessage} from "react-intl";
 import {NavLink} from "react-router-dom";
-import { Typography, Breadcrumbs, Button, Box,
+import { Typography, Breadcrumbs, Button, Box, Link as MaterialUILink,
     CircularProgress, DialogContent, Dialog } from '@material-ui/core';
 import NewsForm from "../shared/components/news/NewsPostForm";
 import NewsEditCard from "../shared/components/news/NewsEditCard";
@@ -85,17 +85,17 @@ const CampaignsCreateMenu = (props) => {
         return (
         <Box m={2}>
             <Breadcrumbs aria-label="breadcrumb">
-                <NavLink color="inherit" to="/profile" >
+                <MaterialUILink component={NavLink} to="/profile" color="secondary">
                     <FormattedMessage id="links.profile" />
-                </NavLink>
-                <NavLink color="inherit" to="/profile/campaigns">
+                </MaterialUILink>
+                <MaterialUILink component={NavLink} to="/profile/campaigns" color="secondary">
                     <FormattedMessage id="links.myCampaigns" />
-                </NavLink>
-                <NavLink color="inherit" 
+                </MaterialUILink>
+                <MaterialUILink color="secondary" component={NavLink}
                     to={`/profile/campaigns/${props.match.params.id}`}
                 >
                     <FormattedMessage id="links.updateCampaign" />
-                </NavLink>
+                </MaterialUILink>
                 <Typography color="textPrimary">
                     <FormattedMessage id="campaigns.news" />
                 </Typography>

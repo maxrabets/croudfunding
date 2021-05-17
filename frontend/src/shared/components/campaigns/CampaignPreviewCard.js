@@ -17,7 +17,7 @@ const CampaignPreviewCard = ({campaign}) => {
                     <Typography>
                         <FormattedMessage id="campaigns.category" />: 
                         {campaign.category.name}, <FormattedMessage id="campaigns.status" />: 
-                        {campaign.status}
+                        <FormattedMessage id={`campaigns.status.${campaign.status}`}/>
                     </Typography>  
                     <Rating value={campaign.averageRating} readOnly precision={0.1}/>
                     {campaign.tags !== [] ? <Tags

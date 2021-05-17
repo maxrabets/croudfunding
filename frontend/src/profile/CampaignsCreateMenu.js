@@ -1,6 +1,6 @@
 import React, {useCallback, useState, useEffect} from "react";
 import { useAuth0 } from "@auth0/auth0-react";
-import { Typography, Breadcrumbs, Box } from '@material-ui/core';
+import { Typography, Breadcrumbs, Box, Link as MaterialUILink } from '@material-ui/core';
 import {FormattedMessage} from "react-intl";
 import {NavLink, Redirect} from "react-router-dom";
 import CampaignForm from "../shared/components/campaigns/CampaignForm"
@@ -17,9 +17,9 @@ const CampaignsCreateMenu = () => {
     const tomorrow = new Date();
     tomorrow.setDate(new Date().getDate() + 1);
 
-    const defaultCampaign = {name: "MyCampaign", category:"IT", targetMoney: 100, 
-        defaultBonus: {name: "MyBonus", description: "BonusDescription", price: 10}, 
-        bonuses: [], description: "MyDescrition", endDate: tomorrow, tags: "tag1,tag2",
+    const defaultCampaign = {name: "", category:"IT", targetMoney: 100, 
+        defaultBonus: {name: "", description: "", price: 10}, 
+        bonuses: [], description: "", endDate: tomorrow, tags: "",
         images: [], videoLink: ""
     };    
 
@@ -48,12 +48,12 @@ const CampaignsCreateMenu = () => {
         return (
         <Box m={2}>
             <Breadcrumbs aria-label="breadcrumb">
-                <NavLink color="inherit" to="/profile" >
+                <MaterialUILink component={NavLink} to="/profile" color="secondary">
                     <FormattedMessage id="links.profile" />
-                </NavLink>
-                <NavLink color="inherit" to="/profile/campaigns">
+                </MaterialUILink>
+                <MaterialUILink component={NavLink} to="/profile/campaigns" color="secondary">
                     <FormattedMessage id="links.myCampaigns" />
-                </NavLink>
+                </MaterialUILink>
                 <Typography color="textPrimary">
                     <FormattedMessage id="links.createCampaign" />
                 </Typography>

@@ -45,7 +45,9 @@ const CampaignsMenu = ({campaigns, onDelete}) => {
                             }
                         </TableCell>
                         <TableCell><FormattedDate value={campaign.endDate}/></TableCell>
-                        <TableCell>{campaign.status}</TableCell>
+                        <TableCell>
+                            <FormattedMessage id={`campaigns.status.${campaign.status}`} />
+                        </TableCell>
                         <TableCell>
                             { campaign.status === "active" ?
                             <NavLink to={`campaigns/${campaign.id}`}>

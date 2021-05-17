@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import {NavLink} from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
-import {TextField, Button, Box} from '@material-ui/core';
+import {TextField, Button, Box, Typography} from '@material-ui/core';
 import {FormattedMessage} from "react-intl"
 import {getUserBonuses as getUserBonusesFromApi} from "../shared/apis/usersApi";
 import AvailableBonusesList from "../shared/components/bonuses/AvailableBonusesList";
@@ -34,18 +34,22 @@ const Profile = () => {
                     src={user.picture}
                     alt="Profile"
                 />
-                <Box my={2}>
-                    <NavLink to="profile/campaigns">
-                        <Button variant="contained" color="primary">                
-                                <FormattedMessage id="links.myCampaigns" />                
-                        </Button>
-                    </NavLink>
-                    {isAdmin ? 
-                        <NavLink to="/administration">
+                <Box my={2} >
+                    <Box mx={2} display="inline">
+                        <NavLink to="profile/campaigns">
                             <Button variant="contained" color="primary">                
-                                    <FormattedMessage id="links.administration" />                
+                                    <FormattedMessage id="links.myCampaigns" />                
                             </Button>
                         </NavLink>
+                    </Box>
+                    {isAdmin ?
+                        <Box mx={2} display="inline">
+                            <NavLink to="/administration">
+                                <Button variant="contained" color="primary">                
+                                        <FormattedMessage id="links.administration" />                
+                                </Button>
+                            </NavLink>
+                        </Box>
                         : <></>
                     }
                 </Box>
@@ -74,7 +78,10 @@ const Profile = () => {
                             disabled
                         />
                     </div>
-                </form>
+                </form>                
+                <Typography>
+                    <FormattedMessage id="campaigns.bonuses" />
+                </Typography>
                 <AvailableBonusesList bonuses={bonuses} />
             </ Box>
         );

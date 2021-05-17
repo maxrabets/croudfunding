@@ -28,7 +28,7 @@ import {getComments as getCommentsFromApi} from "../../apis/commentsApi";
                 </Typography>
             </AccordionSummary>
             <AccordionDetails>
-                <Box my={3} maxWidth="100%">
+                <Box my={3} width="100%">
                     {comments.map(comment => <Comment key={comment.id} comment={comment} />)}
                     <Box my={3}>
                         <NewComment campaignId={campaignId} 

@@ -1,8 +1,8 @@
 import React, {useCallback, useState, useEffect} from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import {FormattedMessage} from "react-intl";
-import {NavLink, Redirect} from "react-router-dom";
-import { Typography, Breadcrumbs, Button, Box,
+import {NavLink} from "react-router-dom";
+import { Typography, Breadcrumbs, Button, Box, Link as MaterialUILink,
     IconButton, CircularProgress } from '@material-ui/core';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import CampaignForm from "../shared/components/campaigns/CampaignForm";
@@ -67,13 +67,13 @@ const CampaignsUpdateMenu = (props) => {
     if(isAuthenticated) {
         return (
         <Box m={2}>
-            <Breadcrumbs aria-label="breadcrumb">
-                <NavLink color="inherit" to="/profile" >
+            <Breadcrumbs aria-label="breadcrumb">                
+                <MaterialUILink component={NavLink} to="/profile" color="secondary">
                     <FormattedMessage id="links.profile" />
-                </NavLink>
-                <NavLink color="inherit" to="/profile/campaigns">
+                </MaterialUILink>
+                <MaterialUILink component={NavLink} to="/profile/campaigns" color="secondary">
                     <FormattedMessage id="links.myCampaigns" />
-                </NavLink>
+                </MaterialUILink>
                 <Typography color="textPrimary">
                     <FormattedMessage id="links.updateCampaign" />
                 </Typography>

@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from "react";
-import {TextField, TableContainer, Table, Box,
+import {TextField, TableContainer, Table, Box, Typography,
     TableHead, TableRow, TableCell, TableBody, Paper, Button} from '@material-ui/core';
 import {FormattedMessage} from "react-intl";
 import validateBonus from "../../validators/BonusValidator";
@@ -30,7 +30,7 @@ const BonusesField = ({defaultBonus, defaultBonuses, onChange}) => {
 
     return(
         <Box>
-            <FormattedMessage id="campaigns.bonuses" />            
+            <Typography><FormattedMessage id="campaigns.bonuses" /></Typography>
             <TextField
                 required
                 value={bonusName}

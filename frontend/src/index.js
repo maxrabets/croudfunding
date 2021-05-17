@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
+import './index.css';
 import reportWebVitals from './reportWebVitals';
 import Auth0ProviderWithHistory from "./authentication/Auth0ProviderWithHistory"
 import { Provider } from 'react-redux';

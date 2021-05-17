@@ -84,7 +84,8 @@ const Campaign = (props) => {
         </Box>
         <Box my={2}>
             <Typography>
-                <FormattedMessage id="campaigns.status" />: {campaign.status}
+                <FormattedMessage id="campaigns.status" />: 
+                <FormattedMessage id={`campaigns.status.${campaign.status}`} />
             </Typography>
         </Box>
         {isYouTubeLink ? <ReactPlayer width="100%"

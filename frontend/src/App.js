@@ -22,6 +22,7 @@ import NewsMenu from './profile/NewsMenu'
 import CampaignsCreateMenu from './profile/CampaignsCreateMenu'
 import CampaignsUpdateMenu from './profile/CampaignsUpdateMenu'
 import Campaign from './campaign/Campaign'
+import User from './user/User'
 import Footer from './common/Footer';
 
 const messages = {
@@ -38,9 +39,11 @@ function App() {
         <ThemeProvider theme={createMuiTheme(theme)}>
           <Paper style={{minHeight: "100vh"}} square elevation={0}>
             <NavigationPanel/>
+
             <Switch>
               <Route path="/about" component={About} />
               <Route path="/campaigns/:id" component={Campaign} />
+              <Route path="/users/:id" component={User} />
               <ProtectedRoute exact path="/profile/campaigns/create" 
                 component={CampaignsCreateMenu} />
               <ProtectedRoute path="/profile/campaigns/:id/news"
@@ -56,6 +59,7 @@ function App() {
               />
               <Route path="/" component={Main} />
             </Switch>
+
             <Footer />
           </Paper> 
         </ThemeProvider>

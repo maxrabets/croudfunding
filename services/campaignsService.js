@@ -25,10 +25,9 @@ async function getCampaignRating(campaign) {
 async function getUserCampaigns(user) {
     if(!user)
         return false;
-    const userCampaigns = await user.getCampaigns({include: {
-        model: Category,
-        as: "category"
-    }});
+    const userCampaigns = await user.getCampaigns({include: [
+        Category, Rating, Tag
+    ]});
     return userCampaigns;
 }
 

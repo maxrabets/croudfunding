@@ -35,3 +35,12 @@ exports.getUserBonuses = async function(request, response){
     else
         response.sendStatus(400);
 };
+
+exports.getUser = async function(request, response){
+    const userId = request.params.userId;
+    const user = await usersService.getProfile(userId);
+    if(user)
+        response.json(user);
+    else
+        response.sendStatus(400);
+};

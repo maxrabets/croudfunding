@@ -1,6 +1,6 @@
 import React from 'react';
 import {Link} from 'react-router-dom'
-import { Card, Typography, CardActionArea, Box, Link as MaterialUILink} from '@material-ui/core';
+import { Card, Typography, CardActionArea,  Link as MaterialUILink} from '@material-ui/core';
 import Rating from '@material-ui/lab/Rating';
 
 const CampaignSearchItem = ({campaign}) => {

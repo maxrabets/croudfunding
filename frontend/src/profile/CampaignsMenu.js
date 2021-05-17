@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import {NavLink} from "react-router-dom";
-import {Button, Typography, Box, Breadcrumbs} from '@material-ui/core';
+import {Button, Typography, Box, Breadcrumbs, Link as MaterialUILink} from '@material-ui/core';
 import {FormattedMessage} from "react-intl"
 import {getUserCampaigns, deleteCampaign} from "../shared/apis/campaignsApi"
 import CampaignsManagmentTable from "../shared/components/campaigns/CampaignsManagmentTable"
@@ -39,9 +39,9 @@ const CampaignsMenu = () => {
             <Box m={2}>
                 <Box my={2}>
                     <Breadcrumbs aria-label="breadcrumb">
-                        <NavLink color="inherit" to="/profile" >
-                            <FormattedMessage id="links.profile" />
-                        </NavLink>
+                        <MaterialUILink component={NavLink} to="/profile" color="secondary">
+                                <FormattedMessage id="links.profile" />
+                        </MaterialUILink>
                         <Typography color="textPrimary">
                             <FormattedMessage id="links.myCampaigns" />
                         </Typography>

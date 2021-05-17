@@ -1,12 +1,12 @@
 import React from 'react';
 import { Card, CardContent, Typography, Box} from '@material-ui/core';
 import {FormattedMessage, FormattedDate} from "react-intl";
-import UserLink from "../UserLink";
+import UserLink from "../users/UserLink";
 import Reactions from "../Reactions";
 
 const Comment = ({comment}) => {
     return (
-        <Box maxWidth="100%" my={3}>
+        <Box width="100%" my={3}>
             <Card>
                 <CardContent>
                     <UserLink user={comment.user}/>
