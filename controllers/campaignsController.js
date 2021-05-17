@@ -115,7 +115,7 @@ exports.getAllTags = async function (request, response) {
 exports.search = async function (request, response) {
     let count = request.query.count;
     if(count === "undefined") {
-        count = null;
+        count = 3;
     }
     const words = request.query.words;
     const campaigns = await campaignsService.search(words, count);

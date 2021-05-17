@@ -5,11 +5,15 @@ import {TextField, Button, Box} from '@material-ui/core';
 import {FormattedMessage} from "react-intl"
 import {getUserBonuses as getUserBonusesFromApi} from "../shared/apis/usersApi";
 import AvailableBonusesList from "../shared/components/bonuses/AvailableBonusesList";
+import authConstants from "../shared/constants/authConstants"
 
 const Profile = () => {
     const { user, isAuthenticated } = useAuth0();
     const [bonuses, setBonuses] = useState([]);
     //const [user, setUser] = useState(false);
+    console.log(user[authConstants.NAMESPACE].roles);
+
+    const isAdmin = user[authConstants.NAMESPACE].roles.includes(authConstants.ADMIN);
 
     const getUserBonuses = () => {
         if(isAuthenticated) {
@@ -36,6 +40,14 @@ const Profile = () => {
                                 <FormattedMessage id="links.myCampaigns" />                
                         </Button>
                     </NavLink>
+                    {isAdmin ? 
+                        <NavLink to="/administration">
+                            <Button variant="contained" color="primary">                
+                                    <FormattedMessage id="links.administration" />                
+                            </Button>
+                        </NavLink>
+                        : <></>
+                    }
                 </Box>
                 <form  noValidate autoComplete="off">
                     <div>
@@ -54,7 +66,7 @@ const Profile = () => {
                             disabled                    
                         />
                     </div>
-                    <div>                    
+                    <div>
                         <TextField 
                             id="standard-email" 
                             label={<FormattedMessage id="profile.email" />}
@@ -64,9 +76,6 @@ const Profile = () => {
                     </div>
                 </form>
                 <AvailableBonusesList bonuses={bonuses} />
-                <pre>
-                    {JSON.stringify(user, null, 2)}
-                </pre>
             </ Box>
         );
     }

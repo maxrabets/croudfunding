@@ -49,6 +49,11 @@ function App() {
                 component={CampaignsUpdateMenu} />
               <ProtectedRoute path="/profile/campaigns" component={CampaignsMenu} />
               <ProtectedRoute path="/profile" component={Profile} />
+              <ProtectedRoute path="/administration" component={() => { 
+                  window.location.href = 'https://crowdfunding.eu12.webtask.io/auth0-delegated-admin'; 
+                  return null;
+                }} 
+              />
               <Route path="/" component={Main} />
             </Switch>
             <Footer />
